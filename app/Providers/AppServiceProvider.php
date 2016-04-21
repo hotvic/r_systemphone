@@ -13,7 +13,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('layouts.admin', function ($view) {
+            $view->with('user', \Auth::user());
+        });
+
+        \Bouncer::seeder(function () {
+            \Bouncer::allow('admin')->to(['edit-users', 'client']);
+            \Bouncer::allow('client')->to('client');
+        });
     }
 
     /**

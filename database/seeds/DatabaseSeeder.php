@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $owner = new \App\User();
+        $owner->name = 'System Owner';
+        $owner->email = 'system@localhost';
+        $owner->password = bcrypt('system');
+        $owner->save();
+        $owner->assign('admin');
     }
 }

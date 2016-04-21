@@ -1,2 +1,26 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "style";
 
+.i-w {
+    color: white;
+}
+
+.navbar-inverse .nav > li > a {
+    color: #999;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+}
+
+.navbar-inverse .nav > li > a:hover {
+    background-color: transparent;
+}
+
+.quick-actions-icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0 auto 5px;
+    font-size: 30px;
+}
+
+.delete-confirmation {
+    cursor: pointer;
+}
