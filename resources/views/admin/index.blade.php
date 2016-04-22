@@ -4,7 +4,7 @@
     <div class="quick-actions_homepage">
         <ul class="quick-actions">
             <li>
-                <a href="index.html">
+                <a href="{{ route('admin::index') }}">
                     <span class="glyphicon glyphicon-dashboard quick-actions-icon"></span>
                     Dashboard
                 </a>
