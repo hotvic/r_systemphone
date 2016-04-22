@@ -22,9 +22,24 @@
 
     <div id="user-nav" class="navbar navbar-inverse">
         <ul class="nav">
-            <li class="" ><a title="" href="{{ route('admin::update_user', ['id' => $user->id]) }}"><span class="i-w glyphicon glyphicon-user"></span> <span class="text">Perfil</span></a></li>
-            <li class=""><a title="" href="#"><span class="i-w glyphicon glyphicon-cog"></span> <span class="text">Configurações</span></a></li>
-            <li class=""><a title="" href="{{ url('/auth/logout') }}"><span class="i-w glyphicon glyphicon-share-alt"></span> <span class="text">Sair</span></a></li>
+            <li>
+                <a href="{{ route('admin::update_user', ['id' => $user->id]) }}">
+                    <span class="i-w glyphicon glyphicon-user"></span>
+                    <span class="text">Perfil</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/admin/settings') }}">
+                    <span class="i-w glyphicon glyphicon-cog"></span>
+                    <span class="text">Configurações</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/logout') }}">
+                    <span class="i-w glyphicon glyphicon-share-alt"></span>
+                    <span class="text">Sair</span>
+                </a>
+            </li>
         </ul>
     </div>
 
