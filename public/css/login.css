@@ -7,36 +7,26 @@ body {
   padding: 0;
   margin-top: 10%; }
 
-#logo, #loginbox {
+.basicbox {
   width: 32%;
   margin-left: auto;
   margin-right: auto;
-  position: relative; }
-
-#loginbox {
+  position: relative;
   overflow: hidden !important;
   text-align: left;
   position: relative; }
 
-#loginform {
+.centerform {
   width: 100%;
   background: #fff;
   position: relative;
   top: 0;
   left: 0; }
 
-#loginform {
-  z-index: 200;
-  display: block; }
-
-#recoverform {
-  z-index: 100;
-  display: none; }
-
-#loginform .form-group {
+.centerform .form-group {
   padding: 0 20px; }
 
-#loginbox .normal_text {
+.basicbox .normal_text {
   padding: 15px 10px;
   text-align: center;
   font-size: 14px;
@@ -59,9 +49,7 @@ body {
   text-align: right; }
 
 @media (max-width: 480px) {
-  #logo {
-    width: 40%; }
-  #loginbox {
+  .basicbox {
     width: 90%; } }
 
 .title {

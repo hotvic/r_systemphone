@@ -17,7 +17,7 @@ class DashboardController extends Controller
     public function users()
     {
         $data = array(
-            'user' => \App\User::find(2), // TODO: \Auth::user()
+            'user' => \Auth::user(),
             'users' => \App\User::all(),
         );
 

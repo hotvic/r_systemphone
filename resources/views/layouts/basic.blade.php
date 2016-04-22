@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}" />
 </head>
 <body>
-    <div id="loginbox">
+    <div class="basicbox">
     @yield('content')
     </div>
 </body>

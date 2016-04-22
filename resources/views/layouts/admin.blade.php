@@ -46,7 +46,8 @@
     <div id="content">
         <div id="content-header">
             <div id="breadcrumb">
-                <a href="{{ url('/admin') }}" title="Go to Home" class="tip-bottom"><i class="glyphicon glyphicon-home"></i> Home</a>
+                <a href="{{ url('/admin') }}" title="Go to Home" class="tip-bottom"><i class="glyphicon glyphicon-home"></i> Início</a>
+            @yield('breadcrumb')
             </div>
         </div>
         <div class="container-fluid">
