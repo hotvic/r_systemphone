@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+@extends('layouts.basic')
 
-    <title>Global Bet Brasil</title>
-
-    <link rel="stylesheet" href="{{ asset('css/vendor.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}" />
-</head>
-<body>
-    <div id="loginbox">            
+@section('content')          
         <form id="loginform" class="clearfix" method="POST" action="{{ url('/login') }}">
             {!! csrf_field() !!}
 
@@ -53,9 +43,7 @@
                 <span class="inline-align-right"><input type="submit" class="btn btn-success" value="Entrar" /></span>
             </div>
         </form>
-    </div>
-</body>
-</html>
+@endsection
 
 
 
