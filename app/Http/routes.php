@@ -24,12 +24,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
 
         Route::group(['prefix' => 'investments', 'as' => 'investments::'], function () {
             Route::get('/', 'FinancesController@investments')->name('index');
-            Route::get('/investments/new/{id?}', 'FinancesController@newInvestment')->name('new');
+            Route::get('/new/{id?}', 'FinancesController@newInvestment')->name('new');
         });
         
         Route::group(['prefix' => 'earnings', 'as' => 'earnings::'], function () {
             Route::get('/', 'FinancesController@earnings')->name('index');
-            Route::get('/earnings/new/{id?}', 'FinancesController@newEarning')->name('new');
+            Route::get('/new/{id?}', 'FinancesController@newEarning')->name('new');
         });
     });
     
