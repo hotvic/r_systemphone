@@ -8,11 +8,11 @@
                 <div class="widget-title">
                     <span class="icon"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
 
-                    <h5>Novo Investimento</h5>
+                    <h5>Novo Ganho</h5>
                 </div>
                 <div class="widget-content">
                     <div class="row">
-                        <form action="{{ route('admin::finances::investments::new') }}" method="POST">
+                        <form action="{{ route('admin::finances::earnings::new') }}" method="POST">
                             {!! csrf_field() !!}
                             
                             <div class="col-md-6">

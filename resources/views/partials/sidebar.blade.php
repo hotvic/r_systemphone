@@ -6,10 +6,10 @@
                     <label class="tree-toggle nav-header">Investimentos</label>
                     <ul class="nav tree">
                         <li>
-                            <a href="{{ route('admin::finances::investments_new') }}">Criar Novo</a>
+                            <a href="{{ route('admin::finances::investments::new') }}">Criar Novo</a>
                         </li>
                         <li>
-                            <a href="#">Investimentos</a>
+                            <a href="{{ route('admin::finances::investments::index') }}">Investimentos</a>
                         </li>
                     </ul>
                 </li>
@@ -18,10 +18,10 @@
                     <label class="tree-toggle nav-header">Ganhos</label>
                     <ul class="nav tree">
                         <li>
-                            <a href="#">Criar Novo</a>
+                            <a href="{{ route('admin::finances::earnings::new') }}">Criar Novo</a>
                         </li>
                         <li>
-                            <a href="#">Ganhos</a>
+                            <a href="{{ route('admin::finances::earnings::index') }}">Ganhos</a>
                         </li>
                     </ul>
                 </li>

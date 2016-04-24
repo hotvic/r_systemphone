@@ -21,8 +21,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
 
     Route::group(['prefix' => 'finances', 'as' => 'finances::'], function () {
         Route::get('/', 'FinancesController@index')->name('index');
-        Route::get('/investments', 'FinancesController@investments')->name('investments');
-        Route::get('/investments/new/{id?}', 'FinancesController@newInvestment')->name('investments_new');
+
+        Route::group(['prefix' => 'investments', 'as' => 'investments::'], function () {
+            Route::get('/', 'FinancesController@investments')->name('index');
+            Route::get('/investments/new/{id?}', 'FinancesController@newInvestment')->name('new');
+        });
+        
+        Route::group(['prefix' => 'earnings', 'as' => 'earnings::'], function () {
+            Route::get('/', 'FinancesController@earnings')->name('index');
+            Route::get('/earnings/new/{id?}', 'FinancesController@newEarning')->name('new');
+        });
     });
     
 
