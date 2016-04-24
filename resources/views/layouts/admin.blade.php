@@ -14,6 +14,13 @@
     <!-- Scripts -->
     <script type="text/javascript" src="{{ asset('js/vendor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
+    <style type="text/css">
+        *, html, body {
+            font-family: "Lato";
+            font-size: 12;
+        }
+    </style>
 </head>
 <body>
     <div id="header">

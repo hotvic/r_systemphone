@@ -16,6 +16,7 @@ elixir(function(mix) {
         .sass('login.scss')
         .coffee('app.coffee')
         .styles([
+            './bower_components/lato-webfont/css/lato-webfont.css',
             './bower_components/font-awesome/css/font-awesome.css',
             './bower_components/bootstrap/dist/css/bootstrap.css',
             './bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
@@ -29,5 +30,6 @@ elixir(function(mix) {
             './bower_components/bs-confirmation/bootstrap-confirmation.js'
         ], 'public/js/vendor.js')
         .copy('./bower_components/bootstrap/dist/fonts', 'public/fonts')
-        .copy('./bower_components/font-awesome/fonts', 'public/fonts');
+        .copy('./bower_components/font-awesome/fonts', 'public/fonts')
+        .copy('./bower_components/lato-webfont/fonts', 'public/fonts');
 });

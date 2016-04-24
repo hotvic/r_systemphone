@@ -8,6 +8,13 @@
 
     <link rel="stylesheet" href="{{ asset('css/vendor.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/login.css') }}" />
+    
+    <style type="text/css">
+        *, html, body {
+            font-family: "Lato";
+            font-size: 12;
+        }
+    </style>
 </head>
 <body>
     <div class="basicbox">
