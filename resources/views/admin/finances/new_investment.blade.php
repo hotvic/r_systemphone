@@ -18,7 +18,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">E-Mail</label>
-                                    <input type="email" name="email" value="{{-- $usr->email --}}" class="form-control" placeholder="E-Mail do Cliente">
+                                    <input type="email" name="email" value="{{ $usr != null ? $usr->email : '' }}" class="form-control" placeholder="E-Mail do Cliente">
                                 </div>
                             </div>
                             <div class="col-md-6">

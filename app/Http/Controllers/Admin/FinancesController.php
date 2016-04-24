@@ -22,7 +22,7 @@ class FinancesController extends Controller
     public function newInvestment(Request $request, $id=null)
     {
         $data = [
-            'usr' => \App\User::find($id) or null,
+            'usr' => $id != null ? \App\User::find($id) : null,
         ];
 
         return view('admin.finances.new_investment', $data);
