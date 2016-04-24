@@ -14,11 +14,24 @@ class DashboardController extends Controller
         return view('admin.index');
     }
 
-    public function users()
+    public function users(Request $request)
     {
+        $users = \App\User::orderBy('id', 'asc')
+            ->skip(15 * $request->input('page', 0))
+            ->take(15);
+
+        if ($request->has('s')) {
+            $users->where('name', 'LIKE', '%' . $request->input('s') . '%')
+                ->orWhere('email', 'LIKE', '%' . $request->input('s') . '%');
+        }
+
+        $users = $users->get();
+            
         $data = array(
             'user' => \Auth::user(),
-            'users' => \App\User::all(),
+            'users' => $users->all(),
+            'cur_page' => $request->input('page', 0) + 1,
+            'num_pages' => $users->count(),
         );
 
         return view('admin.users', $data);

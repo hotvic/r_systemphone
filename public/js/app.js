@@ -1,5 +1,8 @@
 (function() {
   $(document).ready(function() {
+    $('.tree-toggle').click(function() {
+      return $(this).parent().children('ul.tree').toggle(200);
+    });
     $('.delete-confirmation').confirmation({
       btnOkLabel: 'Apagar',
       btnCancelClass: 'Cancelar',

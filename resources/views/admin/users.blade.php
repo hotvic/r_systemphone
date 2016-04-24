@@ -13,6 +13,20 @@
                 <h5>Usuários</h5>
             </div>
             <div class="widget-content">
+                <div class="row-fluid clearfix">
+                    <div class="pull-right">
+                        <form role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="s" placeholder="Nome ou E-Mail">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="row-fluid">
                     <table class="table">
                         <thead>
@@ -40,6 +54,29 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="row-fluid">
+                    <div class="clearfix">
+                        <div class="pull-right">
+                            <nav>
+                                <ul class="pagination">
+                                    <li>
+                                        <a href="?page={{ $cur_page - 1 }}" aria-label="Anterior">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                @foreach (paginate($cur_page, $num_pages) as $page)
+                                    <li{{ $page == $cur_page ? ' class=active' : '' }}><a href="?page={{ $page - 1 }}">{{ $page }}</a></li>
+                                @endforeach
+                                    <li>
+                                        <a href="?page={{ ($cur_page - 1) + 1 }}" aria-label="Próximo">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                              </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

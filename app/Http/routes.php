@@ -18,6 +18,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
     Route::get('/users', 'DashboardController@users')->name('users');
     Route::get('/users/update/{id}', 'DashboardController@updateUser')->name('update_user');
     Route::get('/users/delete/{id}', 'DashboardController@deleteUser')->name('delete_user');
+    Route::get('/finances', 'FinancesController@index')->name('finances');
 
     Route::post('/users/update/{id}', 'DashboardController@postUpdateUser');
 });
