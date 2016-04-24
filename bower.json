@@ -21,6 +21,8 @@
     "peity": "^3.2.0",
     "Chart.js": "chartjs#^2.0.2",
     "bs-confirmation": "^1.0.5",
-    "awesome-bootstrap-checkbox": "^0.3.7"
+    "awesome-bootstrap-checkbox": "^0.3.7",
+    "jquerymy": "^1.2.4",
+    "sugar": "^1.4.1"
   }
 }

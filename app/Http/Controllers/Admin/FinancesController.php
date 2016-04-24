@@ -13,4 +13,18 @@ class FinancesController extends Controller
     {
         return view('admin.finances.index');
     }
+
+    public function investments()
+    {
+        // TODO: TODO
+    }
+
+    public function newInvestment(Request $request, $id=null)
+    {
+        $data = [
+            'usr' => \App\User::find($id) or null,
+        ];
+
+        return view('admin.finances.new_investment', $data);
+    }
 }

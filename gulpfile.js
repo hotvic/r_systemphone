@@ -21,7 +21,9 @@ elixir(function(mix) {
             './bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
         ], 'public/css/vendor.css')
         .scripts([
+            './bower_components/sugar/release/sugar-full.development.js',
             './bower_components/jquery/dist/jquery.js',
+            './bower_components/jquerymy/jquerymy.js',
             './bower_components/Chart.js/dist/Chart.js',
             './bower_components/bootstrap/dist/js/bootstrap.js',
             './bower_components/bs-confirmation/bootstrap-confirmation.js'

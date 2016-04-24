@@ -6,7 +6,7 @@
                     <label class="tree-toggle nav-header">Investimentos</label>
                     <ul class="nav tree">
                         <li>
-                            <a href="#">Criar Novo</a>
+                            <a href="{{ route('admin::finances::investments_new') }}">Criar Novo</a>
                         </li>
                         <li>
                             <a href="#">Investimentos</a>
