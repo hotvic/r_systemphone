@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin::finances') }}">
+                <a href="{{ route('admin::finances::index') }}">
                     <i class="fa fa-line-chart quick-actions-icon" aria-hidden="true"></i>
                     Gerenciar Finanças
                 </a>
