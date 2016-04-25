@@ -13,6 +13,12 @@
 
 Route::auth();
 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::resource('investments', 'FinancesInvestmentsController');
+    Route::resource('earnings', 'FinancesEarningsController');
+    Route::resource('withdrawals', 'FinancesWithdrawalsController');
+});
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web', 'auth', 'admin'], 'as' => 'admin::'], function () {
     Route::get('/', 'DashboardController@index')->name('index');
     Route::get('/users', 'DashboardController@users')->name('users');
@@ -21,16 +27,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
 
     Route::group(['prefix' => 'finances', 'as' => 'finances::'], function () {
         Route::get('/', 'FinancesController@index')->name('index');
-
-        Route::group(['prefix' => 'investments', 'as' => 'investments::'], function () {
-            Route::get('/', 'FinancesController@investments')->name('index');
-            Route::get('/new/{id?}', 'FinancesController@newInvestment')->name('new');
-        });
-        
-        Route::group(['prefix' => 'earnings', 'as' => 'earnings::'], function () {
-            Route::get('/', 'FinancesController@earnings')->name('index');
-            Route::get('/new/{id?}', 'FinancesController@newEarning')->name('new');
-        });
     });
     
 

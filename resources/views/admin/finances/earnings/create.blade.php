@@ -12,13 +12,13 @@
                 </div>
                 <div class="widget-content">
                     <div class="row">
-                        <form action="{{ route('admin::finances::earnings::new') }}" method="POST">
+                        <form action="{{ route('admin.earnings.store') }}" method="POST">
                             {!! csrf_field() !!}
                             
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">E-Mail</label>
-                                    <input type="email" name="email" value="{{ $usr != null ? $usr->email : '' }}" class="form-control" placeholder="E-Mail do Cliente">
+                                    <input type="email" name="email" value="{{ $client != null ? $client->email : '' }}" class="form-control" placeholder="E-Mail do Cliente">
                                 </div>
                             </div>
                             <div class="col-md-6">
