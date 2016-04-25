@@ -1,5 +1,15 @@
 <?php
 
+function psp($search)
+{
+    return sprintf('%%%s%%', $search);
+}
+
+function format_money($value)
+{
+    return sprintf('$ %s', number_format($value, 2, '.', ''));
+}
+
 function paginate($cur, $count, $pp=15)
 {
     $out = array();
