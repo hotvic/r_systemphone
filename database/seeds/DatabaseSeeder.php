@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $owner = new \App\User();
         $owner->name = 'System Owner';
-        $owner->email = 'system@localhost';
+        $owner->email = 'system@example.com';
         $owner->password = bcrypt('system');
         $owner->save();
         $owner->assign('admin');
