@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('\App\Withdrawal');
     }
+
+    public function last_earnings()
+    {
+        return $this->hasMany('\App\LastEarning');
+    }
 }

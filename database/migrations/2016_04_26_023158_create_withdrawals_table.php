@@ -18,6 +18,8 @@ class CreateWithdrawalsTable extends Migration
             $table->string('description');
             $table->double('amount');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
