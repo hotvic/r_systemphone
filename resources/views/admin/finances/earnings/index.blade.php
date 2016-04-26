@@ -36,7 +36,7 @@
                                 <th>Nome</th>
                                 <th>E-Mail</th>
                                 <th>Quantiade</th>
-                                <th>Investido Em</th>
+                                <th>Ganho Em</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>

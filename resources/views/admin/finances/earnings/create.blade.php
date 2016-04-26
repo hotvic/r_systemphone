@@ -16,19 +16,29 @@
                             {!! csrf_field() !!}
                             
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email">E-Mail</label>
                                     <input type="email" name="email" value="{{ $client != null ? $client->email : '' }}" class="form-control" placeholder="E-Mail do Cliente">
                                 </div>
+                            @if ($errors->has('email'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
                                     <label for="email">Quantidade</label>
                                     <div class="input-group">
                                         <input type="text" name="amount" id="amount" class="form-control" placeholder="Valor incluindo centavos">
                                         <span class="input-group-addon" id="amount-display">$ 0,00</span>
                                     </div>
                                 </div>
+                            @if ($errors->has('amount'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('amount') }}</strong>
+                                </span>
+                            @endif
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
