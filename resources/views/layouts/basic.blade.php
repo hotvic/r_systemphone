@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/vendor.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/login.css') }}" />
-    
+
     <style type="text/css">
         *, html, body {
             font-family: "Lato";
@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <div class="basicbox">
+    <div class="basicbox vertical-center">
     @yield('content')
     </div>
 </body>
