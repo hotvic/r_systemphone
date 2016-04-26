@@ -12,16 +12,29 @@ class FinancesWithdrawalsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $withdrawals = \App\Withdrawal::orderBy('id', 'ASC')->take(15);
+
+        if ($request->has('page'))
+            $withdrawals->skip(15 * $request->input('page'));
+
+        if ($request->has('s'))
+            $withdrawals->where('description', 'LIKE', psp($request->input('s')));
+
+        return view('admin.finances.withdrawals.index')
+            ->with('withdrawals', $withdrawals->get()->all())
+            ->with('withdrawals_count', \App\Withdrawal::get()->count())
+            ->with('cur_page', $request->input('page', 0) + 1);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
@@ -38,7 +51,19 @@ class FinancesWithdrawalsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'email' => 'required|email|exists:users,email',
+            'amount' => 'required|digits_between:3,15'
+        ]);
+
+        $user = \App\User::where('email', '=', $request->input('email'))->first();
+
+        $user->withdrawals()->create([
+            'amount' => $request->input('amount') / 100,
+            'description' => $request->input('description')
+        ]);
+
+        return redirect()->route('admin.withdrawals.index');
     }
 
     /**
