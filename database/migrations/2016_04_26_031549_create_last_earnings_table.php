@@ -31,6 +31,6 @@ class CreateLastEarningsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('last_earnings');
     }
 }
