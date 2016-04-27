@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Essas credenciais não correspondem aos nossos registos.',
+    'failed' => 'Essas credenciais não correspondem aos nossos registos e/ou Seu E-Mail precisa ser confirmado!',
     'throttle' => 'Muitas tentativas de login. Por favor, tente novamente em :seconds segundos.',
 
 ];

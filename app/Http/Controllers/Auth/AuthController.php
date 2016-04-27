@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Mailers\AppMailer;
+use Auth;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -56,6 +59,29 @@ class AuthController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request, AppMailer $mailer)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $user = $this->create($request->all());
+
+        $mailer->sendConfirmation($user);
+
+        return redirect()->route('/thankyou', ['id' => $user->id]);
+    }
+
+    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
@@ -67,6 +93,23 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'active' => false,
+            'confirmation_code' => str_random(30),
         ]);
+    }
+
+    public function confirm(AppMailer $mailer, $code)
+    {
+        $user = \App\User::where('confirmation_code', $code)->first();
+
+        if (!$user) return;
+
+        $user->confirmed = true;
+        $user->active = true;
+        $user->save();
+
+        Auth::guard($this->getGuard())->login($user);
+
+        return redirect('/');
     }
 }

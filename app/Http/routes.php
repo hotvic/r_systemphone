@@ -28,9 +28,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
     Route::group(['prefix' => 'finances', 'as' => 'finances::'], function () {
         Route::get('/', 'FinancesController@index')->name('index');
     });
-    
+
 
     Route::post('/users/update/{id}', 'DashboardController@postUpdateUser');
 });
 
 Route::get('/', function () { return redirect('/admin'); });
+Route::get('/thankyou/{id}', 'HomeController@thankyou')->name('thankyou');
+Route::get('/register/confirm/{code}', 'Auth\AuthController@confirm')->name('register.confirm');
+
+Route::group(['prefix' => 'emails', 'as' => 'email::'], function () {
+    Route::get('signup/{id}', 'EmailController@signup')->name('signup');
+});
