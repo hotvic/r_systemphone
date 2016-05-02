@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Editar Usuário - ')
+
 @section('breadcrumb')
     <a href="{{ route('admin::users') }}" class="tip-bottom"><i class="glyphicon glyphicon-user"></i> Usuários</a>
     <a class="tip-bottom">Editar Usuário</a>
@@ -17,7 +19,7 @@
                 <div class="row">
                     <form action="{{ route('admin::update_user', ['id' => $usr->id]) }}" method="POST">
                         {!! csrf_field() !!}
-                        
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">E-Mail</label>

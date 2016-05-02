@@ -35,6 +35,7 @@
                                 <th>#</th>
                                 <th>Nome</th>
                                 <th>E-Mail</th>
+                                <th>Para (E-Mail Neteller)</th>
                                 <th>Quantiade</th>
                                 <th>Sacado Em</th>
                                 <th>Ações</th>
@@ -46,6 +47,7 @@
                                 <td>{{ $withdrawal->id }}</td>
                                 <td>{{ $withdrawal->user->name }}</td>
                                 <td>{{ $withdrawal->user->email }}</td>
+                                <td>{{ $withdrawal->to }}</td>
                                 <td>{{ format_money($withdrawal->amount) }}</td>
                                 <td>{{ $withdrawal->created_at }}</td>
                                 <td>
@@ -53,7 +55,7 @@
                                         {!! csrf_field() !!}
 
                                         <input type="hidden" name="_method" value="DELETE">
-                                    
+
                                         <button type="submit" class="delete-form-confirmation nopadding btn btn-link">Apagar</button>
                                     </form>
                                 </td>

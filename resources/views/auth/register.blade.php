@@ -8,6 +8,21 @@
             <h2 class="title">Global Bet Brasil</h2>
         </div>
 
+        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
+                <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Nome de Usuário">
+            </div>
+
+        @if ($errors->has('username'))
+            <span class="help-block">
+                <strong>{{ $errors->first('username') }}</strong>
+            </span>
+        @endif
+        </div>
+
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <div class="input-group">
                 <span class="input-group-addon">
@@ -64,6 +79,21 @@
         @if ($errors->has('password_confirmation'))
             <span class="help-block">
                 <strong>{{ $errors->first('password_confirmation') }}</strong>
+            </span>
+        @endif
+        </div>
+
+        <div class="form-group{{ $errors->has('referred_by') ? ' has-error' : '' }}">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
+                <input type="text" class="form-control" name="referred_by" value="{{ old('referred_by') }}" placeholder="Indicado">
+            </div>
+
+        @if ($errors->has('referred_by'))
+            <span class="help-block">
+                <strong>{{ $errors->first('referred_by') }}</strong>
             </span>
         @endif
         </div>

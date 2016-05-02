@@ -52,6 +52,7 @@ class FinancesWithdrawalsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'to' => 'required|email',
             'email' => 'required|email|exists:users,email',
             'amount' => 'required|digits_between:3,15'
         ]);
@@ -59,6 +60,7 @@ class FinancesWithdrawalsController extends Controller
         $user = \App\User::where('email', '=', $request->input('email'))->first();
 
         $user->withdrawals()->create([
+            'to' => $request->input('to'),
             'amount' => $request->input('amount') / 100,
             'description' => $request->input('description')
         ]);

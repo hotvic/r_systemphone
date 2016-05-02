@@ -1,5 +1,13 @@
 @extends('layouts.admin')
 
+@section('title', 'Novo Saque - ')
+
+@section('breadcrumb')
+    <a href="{{ route('admin::finances::index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
+    <a href="{{ route('admin.withdrawals.index') }}" class="tip-bottom"><i class="glyphicon glyphicon-minus"></i> Saques</a>
+    <a class="tip-bottom">Novo</a>
+@endsection
+
 @section('content')
     <div class="row">
     @include('partials.sidebar')
@@ -14,7 +22,7 @@
                     <div class="row">
                         <form action="{{ route('admin.withdrawals.store') }}" method="POST">
                             {!! csrf_field() !!}
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email">E-Mail</label>
@@ -40,7 +48,18 @@
                                 </span>
                             @endif
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group{{ $errors->has('to') ? ' has-error' : '' }}">
+                                    <label for="to">E-Mail de Saque (Neteller)</label>
+                                    <input type="email" name="to" value="{{ $client != null ? $client->email : '' }}" class="form-control" placeholder="E-Mail do Neteller">
+                                </div>
+                            @if ($errors->has('to'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('to') }}</strong>
+                                </span>
+                            @endif
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="description">Descrição</label>
                                     <input type="text" name="description" class="form-control" placeholder="Descrição do Saque">

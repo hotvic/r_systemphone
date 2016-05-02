@@ -14,20 +14,8 @@ $(document).ready(() ->
     placement: 'top'
   })
 
-  $('[data-toggle=plot]').each(() ->
-    $self = $(this)
-
-    if $self.data('plot-type') == 'line-neutral'
-      ctx = $self.get(0).getContext('2d')
-
-      chart = new Chart(ctx).Line({
-        datasets: [
-          {
-            fillColor: '#CCCCCC',
-            strokeColor: '#757575',
-            data: $self.data('plot-data')
-          }
-        ]
-      })
+  $(document).delegate('*[data-toggle=lightbox]', 'click', (event) ->
+    event.preventDefault()
+    $(this).ekkoLightbox()
   )
 )

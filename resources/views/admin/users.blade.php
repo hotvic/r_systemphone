@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Usuários - ')
+
 @section('breadcrumb')
     <a href="{{ route('admin::users') }}" class="tip-bottom"><i class="glyphicon glyphicon-user"></i> Usuários</a>
 @endsection
@@ -49,6 +51,13 @@
                                     <a href="{{ route('admin::update_user', ['id' => $usr->id]) }}">Editar</a>
                                     |
                                     <a data-href="{{ route('admin::delete_user', ['id' => $usr->id]) }}" class="delete-confirmation">Apagar</a>
+                                    <br>
+                                    <span>Novo:</span>
+                                    <a href="{{ route('admin.investments.create', ['user_id' => $usr->id]) }}">Investimento</a>
+                                    |
+                                    <a href="{{ route('admin.earnings.create', ['user_id' => $usr->id]) }}">Ganho</a>
+                                    |
+                                    <a href="{{ route('admin.withdrawals.create', ['user_id' => $usr->id]) }}">Saque</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Painel - ')
+
 @section('content')
     <div class="quick-actions_homepage">
         <ul class="quick-actions">
@@ -21,15 +23,9 @@
                     Gerenciar Usuários
                 </a>
             </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-calendar quick-actions-icon" aria-hidden="true"></i>
-                    Pagamentos da Semana
-                </a>
-            </li>
         </ul>
     </div>
-   
+
     <div class="row-fluid">
         <div class="widget-box">
             <div class="widget-title">
@@ -42,50 +38,57 @@
                 </div>
             </div>
             <div class="widget-content">
-                <div class="row-fluid">
+                <div class="row">
                     <div class="col-md-8">
-                        <div class="chart"></div>
+                        <canvas id="siteChart"></canvas>
+                        <script type="text/javascript">
+                            var ctx = $('#siteChart');
+
+                            var chart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Total'],
+                                    datasets: [{
+                                        label: 'Usuários',
+                                        data: [{{ $total_users }}]
+                                    }, {
+                                        label: 'Investimentos',
+                                        data: [{{ $total_investments }}]
+                                    }, {
+                                        label: 'Saques',
+                                        data: [{{ $total_earnings }}]
+                                    }, {
+                                        label: 'Pagamentos',
+                                        data: [{{ $total_withdrawals }}]
+                                    }]
+                                }
+                            });
+                        </script>
                     </div>
                     <div class="col-md-4">
                         <ul class="stat-boxes2">
                             <li>
-                                <div class="left">
-                                    <canvas data-toggle="plot" data-plot-type="line-neutral" data-plot-data="[2,4,9,7,12,10,12]" width="50" height="24"></canvas>
-                                    +10%
-                                </div>
                                 <div class="right">
-                                    <strong>15.598</strong>
-                                    Visítas
+                                    <strong>{{ $total_users }}</strong>
+                                    Usuários
                                 </div>
                             </li>
                             <li>
-                                <div class="left">
-                                    <span class="peity_line_neutral">10,15,8,14,13,10,10,15</span>
-                                    10%
-                                </div>
                                 <div class="right">
-                                    <strong>150</strong>
-                                    Novos Usuários
+                                    <strong>{{ $total_investments }}</strong>
+                                    Investimentos
                                 </div>
                             </li>
                             <li>
-                                <div class="left">
-                                    <span class="peity_bar_bad">3,5,6,16,8,10,6</span>
-                                    -40%
-                                </div>
                                 <div class="right">
-                                    <strong>$ 13.572,13</strong>
-                                    Faturamento do Dia
+                                    <strong>{{ $total_earnings }}</strong>
+                                    Saques
                                 </div>
                             </li>
                             <li>
-                                <div class="left">
-                                    <span class="peity_line_good">12,6,9,13,14,10,17</span>
-                                    +60%
-                                </div>
                                 <div class="right">
-                                    <strong>$ 172.768,94</strong>
-                                    Fatruramento do Mês
+                                    <strong>{{ $total_withdrawals }}</strong>
+                                    Pagamentos
                                 </div>
                             </li>
                         </ul>

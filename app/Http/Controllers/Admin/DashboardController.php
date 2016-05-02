@@ -11,7 +11,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $total_users       = \App\User::all()->count();
+        $total_investments = \App\Investment::all()->count();
+        $total_earnings    = \App\Earning::all()->count();
+        $total_withdrawals = \App\Withdrawal::all()->count();
+
+        return view('admin.index')
+            ->with('total_users', $total_users)
+            ->with('total_investments', $total_investments)
+            ->with('total_earnings', $total_earnings)
+            ->with('total_withdrawals', $total_withdrawals);
     }
 
     public function users(Request $request)
@@ -26,7 +35,7 @@ class DashboardController extends Controller
         }
 
         $users = $users->get();
-            
+
         $data = array(
             'user' => \Auth::user(),
             'users' => $users->all(),

@@ -1,5 +1,13 @@
 @extends('layouts.admin')
 
+@section('title', 'Novo Investimento - ')
+
+@section('breadcrumb')
+    <a href="{{ route('admin::finances::index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
+    <a href="{{ route('admin.investments.index') }}" class="tip-bottom"><i class="glyphicon glyphicon-share"></i> Investimentos</a>
+    <a class="tip-bottom">Novo</a>
+@endsection
+
 @section('content')
     <div class="row">
     @include('partials.sidebar')
@@ -14,7 +22,7 @@
                     <div class="row">
                         <form action="{{ route('admin.investments.store') }}" method="POST">
                             {!! csrf_field() !!}
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email">E-Mail</label>

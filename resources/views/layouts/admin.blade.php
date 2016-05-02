@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>@yield('title')Global Bet Brasil</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/vendor.css') }}" rel="stylesheet">

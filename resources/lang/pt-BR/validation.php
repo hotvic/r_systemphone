@@ -32,13 +32,13 @@ return [
     'date'                 => 'The :attribute is not a valid date.',
     'date_format'          => 'The :attribute does not match the format :format.',
     'different'            => 'The :attribute and :other must be different.',
-    'digits'               => 'The :attribute must be :digits digits.',
-    'digits_between'       => 'The :attribute must be between :min and :max digits.',
+    'digits'               => 'A :attribute precisa ser :digits dígitos.',
+    'digits_between'       => 'A :attribute precisa ser entre :min e :max dígitos.',
     'distinct'             => 'The :attribute field has a duplicate value.',
     'email'                => 'O :attribute precisa ser um endereço de email válido.',
-    'exists'               => 'The selected :attribute is invalid.',
+    'exists'               => 'O :attribute selecionado é invalido.',
     'filled'               => 'The :attribute field is required.',
-    'image'                => 'The :attribute must be an image.',
+    'image'                => 'O :attribute precisa ser uma imagem.',
     'in'                   => 'The selected :attribute is invalid.',
     'in_array'             => 'The :attribute field does not exist in :other.',
     'integer'              => 'The :attribute must be an integer.',
@@ -50,7 +50,7 @@ return [
         'string'  => 'The :attribute may not be greater than :max characters.',
         'array'   => 'The :attribute may not have more than :max items.',
     ],
-    'mimes'                => 'The :attribute must be a file of type: :values.',
+    'mimes'                => 'O :attribute precisar ser um arquivo do tipo: :values.',
     'min'                  => [
         'numeric' => 'The :attribute must be at least :min.',
         'file'    => 'The :attribute must be at least :min kilobytes.',
@@ -77,7 +77,7 @@ return [
     ],
     'string'               => 'The :attribute must be a string.',
     'timezone'             => 'The :attribute must be a valid zone.',
-    'unique'               => 'The :attribute has already been taken.',
+    'unique'               => 'O :attribute já foi utilizado.',
     'url'                  => 'The :attribute format is invalid.',
 
     /*
@@ -112,6 +112,11 @@ return [
         'name' => 'Nome Completo',
         'email' => 'E-Mail',
         'password' => 'Senha',
+        'to' => 'E-Mail Neteller',
+        'amount' => 'Quantidade',
+        'receipt' => 'Comprovante',
+        'username' => 'Nome de Usuário',
+        'referred_by' => 'Indicado',
     ],
 
 ];
