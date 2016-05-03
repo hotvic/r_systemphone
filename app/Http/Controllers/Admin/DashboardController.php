@@ -37,7 +37,6 @@ class DashboardController extends Controller
         $users = $users->get();
 
         $data = array(
-            'user' => \Auth::user(),
             'users' => $users->all(),
             'cur_page' => $request->input('page', 0) + 1,
             'num_pages' => $users->count(),

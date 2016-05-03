@@ -34,9 +34,12 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Nome de Usuário</th>
                                 <th>Nome</th>
                                 <th>E-Mail</th>
                                 <th>Registrado</th>
+                                <th>Investimentos</th>
+                                <th>Total @26w</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -44,9 +47,12 @@
                         @foreach ($users as $usr)
                             <tr>
                                 <td>{{ $usr->id }}</td>
+                                <td>{{ $usr->username }}</td>
                                 <td>{{ $usr->name }}</td>
                                 <td>{{ $usr->email }}</td>
                                 <td>{{ $usr->created_at }}</td>
+                                <td>{{ format_money($usr->investments()->sum('amount')) }}</td>
+                                <td>{{ format_money($usr->investments()->sum('amount') + (($usr->investments()->sum('amount') * 0.18)  * 26)) }}</td>
                                 <td>
                                     <a href="{{ route('admin::update_user', ['id' => $usr->id]) }}">Editar</a>
                                     |
