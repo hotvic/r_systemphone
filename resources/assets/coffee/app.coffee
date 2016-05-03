@@ -18,4 +18,6 @@ $(document).ready(() ->
     event.preventDefault()
     $(this).ekkoLightbox()
   )
+
+  $('[data-toggle=switch]').bootstrapSwitch()
 )

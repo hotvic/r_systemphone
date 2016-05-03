@@ -22,15 +22,37 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="username">Nome de Usuário</label>
+                                <input type="text" name="username" value="{{ $usr->username }}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label for="email">E-Mail</label>
                                 <input type="email" name="email" value="{{ $usr->email }}" class="form-control">
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Nome</label>
                                 <input type="text" name="name" value="{{ $usr->name }}" class="form-control">
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="referred_by">Referência</label>
+                                <input type="text" name="referred_by" value="{{ $usr->referred_by }}" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input type="checkbox" id="active" name="active" data-toggle="switch"{{ $usr->active == true ? ' checked' : '' }}>
+                            <label for="active">Ativo</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="checkbox" id="confirmed" name="confirmed" data-toggle="switch"{{ $usr->confirmed == true ? ' checked' : '' }}>
+                            <label for="confirmed">Confirmado</label>
                         </div>
 
                         <div class="col-md-8 col-md-offset-2">

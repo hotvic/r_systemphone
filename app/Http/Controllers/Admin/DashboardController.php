@@ -67,8 +67,14 @@ class DashboardController extends Controller
     {
         $user = \App\User::find($id);
 
-        $user->email = $request->input('email');
-        $user->name  = $request->input('name');
+        // TODO: Validate!
+
+        $user->username    = $request->input('username');
+        $user->email       = $request->input('email');
+        $user->name        = $request->input('name');
+        $user->referred_by = $request->input('referred_by');
+        $user->active      = $request->has('active') ? true : false;
+        $user->confirmed   = $request->has('confirmed') ? true : false;
 
         $user->save();
 

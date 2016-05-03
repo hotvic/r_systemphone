@@ -11,10 +11,11 @@
       title: 'Você tem Certeza?',
       placement: 'top'
     });
-    return $(document).delegate('*[data-toggle=lightbox]', 'click', function(event) {
+    $(document).delegate('*[data-toggle=lightbox]', 'click', function(event) {
       event.preventDefault();
       return $(this).ekkoLightbox();
     });
+    return $('[data-toggle=switch]').bootstrapSwitch();
   });
 
 }).call(this);
