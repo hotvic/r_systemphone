@@ -51,7 +51,7 @@
                                 <td>{{ format_money($withdrawal->amount) }}</td>
                                 <td>{{ $withdrawal->created_at }}</td>
                                 <td>
-                                    <form method="POST" action="{{ route('admin.earnings.destroy', ['id' => $withdrawal->id]) }}" class="form-horizontal" style="display: inline;">
+                                    <form method="POST" action="{{ route('admin.withdrawals.destroy', ['id' => $withdrawal->id]) }}" class="form-horizontal" style="display: inline;">
                                         {!! csrf_field() !!}
 
                                         <input type="hidden" name="_method" value="DELETE">

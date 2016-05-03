@@ -110,6 +110,8 @@ class FinancesWithdrawalsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        \App\Withdrawal::destroy($id);
+
+        return redirect()->route('admin.withdrawals.index');
     }
 }
