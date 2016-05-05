@@ -8,9 +8,9 @@ use App\Http\Requests;
 
 class HomeController extends Controller
 {
-    public function thankyou($id)
+    public function thankyou($username)
     {
         return view('thankyou')
-            ->with('user', \App\User::find($id));
+            ->with('user', \App\User::where('username', $username)->first());
     }
 }

@@ -80,7 +80,7 @@ class AuthController extends Controller
 
         $mailer->sendConfirmation($user);
 
-        return redirect()->route('/thankyou', ['id' => $user->id]);
+        return redirect()->route('thankyou', ['username' => $user->username]);
     }
 
     /**

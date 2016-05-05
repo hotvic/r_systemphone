@@ -61,7 +61,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth',
 });
 
 Route::get('/', function () { return redirect('/admin'); });
-Route::get('/thankyou/{id}', 'HomeController@thankyou')->name('thankyou');
+Route::get('/thankyou/{username}', 'HomeController@thankyou')->name('thankyou');
 Route::get('/register/confirm/{code}', 'Auth\AuthController@confirm')->name('register.confirm');
 
 Route::group(['prefix' => 'emails', 'as' => 'email::'], function () {
