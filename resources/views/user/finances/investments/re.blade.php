@@ -1,38 +1,29 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
-@section('title', 'Novo Ganho - ')
-
-@section('breadcrumb')
-    <a href="{{ route('admin::finances::index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
-    <a href="{{ route('admin.earnings.index') }}" class="tip-bottom"><i class="glyphicon glyphicon-plus"></i> Ganhos</a>
-    <a class="tip-bottom">Novo</a>
-@endsection
+@section('title', 'Re-Investir - Global Bet Brasil')
 
 @section('content')
     <div class="row">
-    @include('partials.sidebar')
+    @include('partials.user.sidebar')
         <div class="col-md-9">
             <div class="widget-box">
                 <div class="widget-title">
                     <span class="icon"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
 
-                    <h5>Novo Ganho</h5>
+                    <h5>Re-Investimento</h5>
                 </div>
                 <div class="widget-content">
                     <div class="row">
-                        <form action="{{ route('admin.earnings.store') }}" method="POST">
+                        <form action="{{ route('user.investments.re') }}" method="POST">
                             {!! csrf_field() !!}
 
+                            <input type="hidden" name="description" value="{{ $description }}">
+
                             <div class="col-md-6">
-                                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                    <label for="email">E-Mail</label>
-                                    <input type="email" name="email" value="{{ $client != null ? $client->email : '' }}" class="form-control" placeholder="E-Mail do Cliente">
+                                <div class="form-group">
+                                    <label for="balance">Saldo</label>
+                                    <p class="form-control-static">{{ format_money($balance) }}</p>
                                 </div>
-                            @if ($errors->has('email'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
@@ -51,7 +42,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Descrição</label>
-                                    <input type="text" name="description" class="form-control" placeholder="Descrição do Ganho">
+                                    <p class="form-control-static">{{ $description }}</p>
                                 </div>
                             </div>
 

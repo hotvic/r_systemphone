@@ -1,10 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Investimentos - Global Bet Brasil')
+@section('title', 'Ganhos - Global Bet Brasil')
 
 @section('breadcrumb')
     <a href="{{ route('user.irequests.index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
-    <a class="tip-bottom"><i class="glyphicon glyphicon-minus"></i> Saques</a>
+    <a class="tip-bottom"><i class="glyphicon glyphicon-plus"></i> Ganhos</a>
 @endsection
 
 @section('content')
@@ -13,9 +13,9 @@
         <div class="col-md-9">
             <div class="widget-box">
                 <div class="widget-title">
-                    <span class="icon"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
+                    <span class="icon"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
 
-                    <h5>Saques</h5>
+                    <h5>Ganhos</h5>
                 </div>
                 <div class="widget-content">
                     <div class="row-fluid clearfix">
@@ -37,22 +37,18 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Nome</th>
-                                    <th>Para</th>
+                                    <th>Tipo</th>
                                     <th>Quantiade</th>
-                                    <th>Descrição</th>
-                                    <th>Sacado Em</th>
+                                    <th>Ganhado Em</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($withdrawals as $withdrawal)
+                            @foreach ($earnings as $earning)
                                 <tr>
-                                    <td>{{ $withdrawal->id }}</td>
-                                    <td>{{ $withdrawal->user->name }}</td>
-                                    <td>{{ $withdrawal->to }}</td>
-                                    <td>{{ format_money($withdrawal->amount) }}</td>
-                                    <td>{{ $withdrawal->description }}</td>
-                                    <td>{{ $withdrawal->created_at }}</td>
+                                    <td>{{ $earning->id }}</td>
+                                    <td>{{ $earning->type }}</td>
+                                    <td>{{ format_money($earning->amount) }}</td>
+                                    <td>{{ $earning->created_at }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -62,7 +58,7 @@
                         <div class="clearfix">
                             <div class="pull-right">
                                 <nav>
-                                    {!! $withdrawals->links(); !!}
+                                    {!! $earnings->links(); !!}
                                 </nav>
                             </div>
                         </div>

@@ -17,20 +17,8 @@ class FinancesInvestmentsController extends Controller
      */
     public function index(Request $request)
     {
-        $investments = \App\Investment::orderBy('id', 'ASC')->take(15);
-
-        if ($request->has('page'))
-            $investments->skip(15 * $request->input('page'));
-
-        if ($request->has('s'))
-            $investments->where('description', 'LIKE', psp($request->input('s')));
-
-        $investments = $investments->get();
-
         return view('user.finances.investments.index')
-            ->with('investments', $investments->all())
-            ->with('investments_count', \App\Investment::get()->count())
-            ->with('cur_page', $request->input('page', 0) + 1);
+            ->with('investments', $investments = \Auth::user()->investments()->paginate(15));
     }
 
     /**
@@ -51,19 +39,38 @@ class FinancesInvestmentsController extends Controller
      */
     public function store(Request $request)
     {
+        //
+    }
+
+    public function re(Request $request)
+    {
+        $description = sprintf('Investimento %s', \Auth::user()->investment_requests->count() + 1);
+        $balance     = \Auth::user()->getBalance();
+
+        return view('user.finances.investments.re')
+            ->with('description', $description)
+            ->with('balance', $balance);
+    }
+
+    public function postRe(Request $request)
+    {
         $this->validate($request, [
-            'email' => 'required|email|exists:users,email',
-            'amount' => 'required|digits_between:3,15'
+            'amount'  => 'required|digits_between:3,15|balance',
         ]);
 
-        $user = \App\User::where('email', '=', $request->input('email'))->first();
-
-        $user->investments()->create([
+        \Auth::user()->withdrawals()->create([
+            'to' => \App\User::admin()->email,
             'amount' => $request->input('amount') / 100,
-            'description' => $request->input('description')
+            'description' => 'Re-Investimento'
         ]);
 
-        return redirect()->route('admin.investments.index');
+        \Auth::user()->investments()->create([
+            'type' => 're',
+            'amount' => $request->input('amount') / 100,
+            'description' => 'Re-Investimento'
+        ]);
+
+        return redirect()->route('user.investments.index');
     }
 
     /**

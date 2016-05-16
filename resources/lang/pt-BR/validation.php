@@ -119,4 +119,5 @@ return [
         'referred_by' => 'Indicado',
     ],
 
+    'balance' => 'Você não tem saldo suficiente.',
 ];

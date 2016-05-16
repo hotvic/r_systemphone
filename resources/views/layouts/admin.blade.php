@@ -36,12 +36,6 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('/admin/settings') }}">
-                    <span class="i-w glyphicon glyphicon-cog"></span>
-                    <span class="text">Configurações</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ url('/logout') }}">
                     <span class="i-w glyphicon glyphicon-share-alt"></span>
                     <span class="text">Sair</span>

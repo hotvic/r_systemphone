@@ -1,10 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Investimentos - Global Bet Brasil')
+@section('title', 'Pendentes - Saques - Global Bet Brasil')
 
 @section('breadcrumb')
     <a href="{{ route('user.irequests.index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
-    <a class="tip-bottom"><i class="glyphicon glyphicon-share"></i> Investimentos</a>
+    <a class="tip-bottom"><i class="glyphicon glyphicon-minus"></i>  Saques Pendentes</a>
 @endsection
 
 @section('content')
@@ -13,9 +13,9 @@
         <div class="col-md-9">
             <div class="widget-box">
                 <div class="widget-title">
-                    <span class="icon"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></span>
+                    <span class="icon"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
 
-                    <h5>Investimentos</h5>
+                    <h5>Saques Pendentes</h5>
                 </div>
                 <div class="widget-content">
                     <div class="row-fluid">
@@ -23,20 +23,18 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Nome</th>
-                                    <th>E-Mail</th>
                                     <th>Quantiade</th>
-                                    <th>Investido Em</th>
+                                    <th>Requerido Em</th>
+                                    <th>Para</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($investments as $investment)
+                            @foreach ($requests as $request)
                                 <tr>
-                                    <td>{{ $investment->id }}</td>
-                                    <td>{{ $investment->user->name }}</td>
-                                    <td>{{ $investment->user->email }}</td>
-                                    <td>{{ format_money($investment->amount) }}</td>
-                                    <td>{{ $investment->created_at }}</td>
+                                    <td>{{ $request->id }}</td>
+                                    <td>{{ format_money($request->amount) }}</td>
+                                    <td>{{ $request->created_at }}</td>
+                                    <td>{{ $request->to }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -46,7 +44,7 @@
                         <div class="clearfix">
                             <div class="pull-right">
                                 <nav>
-                                    {{ $investments->links() }}
+                                    {!! $requests->links(); !!}
                                 </nav>
                             </div>
                         </div>

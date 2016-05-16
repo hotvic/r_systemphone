@@ -41,6 +41,10 @@
                                 <td>{{ $request->created_at }}</td>
                                 <td>{{ $request->status == 0 ? 'Pendente' : ($request->status == 1 ? 'Aprovado' : 'Rejeitado') }}</td>
                                 <td>
+                                    <a href="{{ route('admin.irequests.accept', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Aceitar">Aceitar</a>
+                                    |
+                                    <a href="{{ route('admin.irequests.reject', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Rejeitar">Rejeitar</a>
+                                    |
                                     <form method="POST" action="{{ route('admin.investments.destroy', ['id' => $request->id]) }}" class="form-horizontal" style="display: inline;">
                                         {!! csrf_field() !!}
 

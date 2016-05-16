@@ -70,7 +70,8 @@ class FinancesInvestmentsController extends Controller
 
         $user->investments()->create([
             'amount' => $request->input('amount') / 100,
-            'description' => $request->input('description')
+            'description' => $request->input('description'),
+            'type' => 'manual'
         ]);
 
         return redirect()->route('admin.investments.index');

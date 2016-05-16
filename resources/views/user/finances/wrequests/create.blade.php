@@ -8,9 +8,15 @@
         <div class="col-md-9">
             <div class="widget-box">
                 <div class="widget-title">
-                    <span class="icon"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+                    <span class="icon">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </span>
 
                     <h5>Novo Saque</h5>
+
+                    <span class="pull-right">
+                        Saldo disponível: {{ format_money($balance) }}
+                    </span>
                 </div>
                 <div class="widget-content">
                     <div class="row">

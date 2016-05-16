@@ -37,6 +37,7 @@
                                 <th>E-Mail</th>
                                 <th>Para (E-Mail Neteller)</th>
                                 <th>Quantiade</th>
+                                <th>Descrição</th>
                                 <th>Sacado Em</th>
                                 <th>Ações</th>
                             </tr>
@@ -49,6 +50,7 @@
                                 <td>{{ $withdrawal->user->email }}</td>
                                 <td>{{ $withdrawal->to }}</td>
                                 <td>{{ format_money($withdrawal->amount) }}</td>
+                                <td>{{ $withdrawal->description }}</td>
                                 <td>{{ $withdrawal->created_at }}</td>
                                 <td>
                                     <form method="POST" action="{{ route('admin.withdrawals.destroy', ['id' => $withdrawal->id]) }}" class="form-horizontal" style="display: inline;">

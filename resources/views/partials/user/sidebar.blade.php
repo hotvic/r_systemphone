@@ -11,6 +11,9 @@
                         <li>
                             <a href="{{ route('user.investments.index') }}">Investimentos</a>
                         </li>
+                        <li>
+                            <a href="{{ route('user.irequests.index') }}">Pendentes</a>
+                        </li>
                     </ul>
                 </li>
                 <li role="separator" class="divider"></li>
@@ -31,6 +34,9 @@
                         </li>
                         <li>
                             <a href="{{ route('user.withdrawals.index') }}">Saques</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('user.wrequests.index') }}">Pendentes</a>
                         </li>
                     </ul>
                 </li>

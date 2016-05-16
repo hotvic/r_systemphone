@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Validator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
         \Bouncer::seeder(function () {
             \Bouncer::allow('admin')->to(['edit-users', 'client']);
             \Bouncer::allow('client')->to('client');
+        });
+
+        Validator::extend('balance', function($attribute, $value, $parameters, $validator) {
+            return ($value / 100) <= \Auth::user()->getBalance();
         });
     }
 

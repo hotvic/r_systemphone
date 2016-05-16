@@ -80,4 +80,18 @@ class DashboardController extends Controller
 
         return redirect()->route('admin::users');
     }
+
+    public function total_26w($id)
+    {
+        $user = \App\User::find($id);
+
+        $iTotal = $user->investments()->where('type', 'paid')->orWhere('type', 'manual')->sum('amount');
+        $wTotal = $user->withdrawals()->sum('amount');
+
+        /* Total without any withdrawal */
+        $nwTotal = $iTotal * pow((1 + 0.18), 26);
+
+        return view('admin.total_26w')
+            ->with('nwTotal', $nwTotal);
+    }
 }

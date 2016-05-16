@@ -17,20 +17,8 @@ class FinancesWithdrawalRequestsController extends Controller
      */
     public function index(Request $request)
     {
-        /*$investments = \App\Investment::orderBy('id', 'ASC')->take(15);
-
-        if ($request->has('page'))
-            $investments->skip(15 * $request->input('page'));
-
-        if ($request->has('s'))
-            $investments->where('description', 'LIKE', psp($request->input('s')));
-
-        $investments = $investments->get();
-
-        return view('user.finances.investments.index')
-            ->with('investments', $investments->all())
-            ->with('investments_count', \App\Investment::get()->count())
-            ->with('cur_page', $request->input('page', 0) + 1);*/
+        return view('user.finances.wrequests.index')
+            ->with('requests', \App\WithdrawalRequest::paginate(15));
     }
 
     /**
@@ -41,10 +29,12 @@ class FinancesWithdrawalRequestsController extends Controller
     public function create()
     {
         $description = sprintf('Saque %s', \Auth::user()->withdrawals->count() + 1);
+        $balance = \Auth::user()->earnings()->sum('amount') - \Auth::user()->withdrawals()->sum('amount');
 
         return view('user.finances.wrequests.create')
             ->with('user', \Auth::user())
-            ->with('description', $description);
+            ->with('description', $description)
+            ->with('balance', $balance);
     }
 
     /**
@@ -57,7 +47,7 @@ class FinancesWithdrawalRequestsController extends Controller
     {
         $this->validate($request, [
             'to' => 'required|email',
-            'amount' => 'required|digits_between:3,15'
+            'amount' => 'required|digits_between:3,15|balance'
         ]);
 
         \Auth::user()->withdrawal_requests()->create([
@@ -66,7 +56,7 @@ class FinancesWithdrawalRequestsController extends Controller
             'description' => $request->input('description')
         ]);
 
-        return redirect()->route('user.withdrawals.index');
+        return redirect()->route('user.wrequests.index');
     }
 
     /**

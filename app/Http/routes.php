@@ -25,6 +25,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
 });
 
 Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth'], function () {
+    Route::get('investments/re', 'FinancesInvestmentsController@re')->name('user.investments.re');
+    Route::post('investments/re', 'FinancesInvestmentsController@postRe');
     Route::resource('investments', 'FinancesInvestmentsController');
     Route::resource('earnings', 'FinancesEarningsController');
     Route::resource('withdrawals', 'FinancesWithdrawalsController');
@@ -37,6 +39,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
     Route::get('/users', 'DashboardController@users')->name('users');
     Route::get('/users/update/{id}', 'DashboardController@updateUser')->name('update_user');
     Route::get('/users/delete/{id}', 'DashboardController@deleteUser')->name('delete_user');
+    Route::get('/user/total/{id}', 'DashboardController@total_26w');
 
     Route::group(['prefix' => 'finances', 'as' => 'finances::'], function () {
         Route::get('/', 'FinancesController@index')->name('index');
@@ -57,7 +60,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth',
     });
 
 
-    Route::post('/users/update/{id}', 'DashboardController@postUpdateUser');
+    Route::post('/profile', 'DashboardController@postProfile');
 });
 
 Route::get('/', function () { return redirect('/admin'); });

@@ -30,17 +30,17 @@
     <div id="user-nav" class="navbar navbar-inverse">
         <ul class="nav">
             <li>
-                <a href="{{ route('admin::update_user', ['id' => $user->id]) }}">
+                <a href="{{ route('user::profile') }}">
                     <span class="i-w glyphicon glyphicon-user"></span>
                     <span class="text">Perfil</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ url('/admin/settings') }}">
                     <span class="i-w glyphicon glyphicon-cog"></span>
                     <span class="text">Configurações</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ url('/logout') }}">
                     <span class="i-w glyphicon glyphicon-share-alt"></span>
@@ -53,7 +53,7 @@
     <div id="content">
         <div id="content-header">
             <div id="breadcrumb">
-                <a href="{{ url('/admin') }}" title="Go to Home" class="tip-bottom"><i class="glyphicon glyphicon-home"></i> Início</a>
+                <a href="{{ url('/user') }}" title="Go to Home" class="tip-bottom"><i class="glyphicon glyphicon-home"></i> Início</a>
             @yield('breadcrumb')
             </div>
         </div>

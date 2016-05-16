@@ -27,6 +27,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public static function admin()
+    {
+        return self::whereHas('roles', function ($query) {
+            $query->where('role_id', 1);
+        })->first();
+    }
+
     public function investments()
     {
         return $this->hasMany('\App\Investment');
@@ -55,5 +62,10 @@ class User extends Authenticatable
     public function last_earnings()
     {
         return $this->hasMany('\App\LastEarning');
+    }
+
+    public function getBalance()
+    {
+        return $this->earnings()->sum('amount') - $this->withdrawals()->sum('amount');
     }
 }

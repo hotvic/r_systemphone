@@ -16,6 +16,7 @@ class CreateInvestmentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('description');
+            $table->string('type');
             $table->double('amount');
             $table->timestamps();
 
