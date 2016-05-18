@@ -12,13 +12,14 @@ class FinancesWithdrawalRequestsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
+        $requests = \Auth::user()->withdrawal_requests()->where('status', 0)->paginate(15);
+
         return view('user.finances.wrequests.index')
-            ->with('requests', \App\WithdrawalRequest::paginate(15));
+            ->with('requests', $requests);
     }
 
     /**

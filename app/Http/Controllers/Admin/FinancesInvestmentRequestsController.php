@@ -22,7 +22,7 @@ class FinancesInvestmentRequestsController extends Controller
      */
     public function index()
     {
-        $requests = \App\InvestmentRequest::paginate(15);
+        $requests = \App\InvestmentRequest::where('status', '0')->paginate(15);
 
         return view('admin.finances.irequests.index')
             ->with('requests', $requests);
@@ -36,12 +36,35 @@ class FinancesInvestmentRequestsController extends Controller
 
     public function reject($id)
     {
-
+        return view('admin.finances.irequests.reject')
+            ->with('request', \App\InvestmentRequest::find($id));
     }
 
-    public function postStatus($id)
+    public function postStatus(Request $request, $id)
     {
+        $this->validate($request, [
+            'response' => 'present|string',
+            'status' => 'required|integer'
+        ]);
 
+        $irequest = \App\InvestmentRequest::find($id);
+        $irequest->response = $request->input('response');
+        $irequest->status   = $request->input('status');
+
+        if ($request->input('status') == 1)
+        {
+            $investment = $irequest->user->investments()->create([
+                'description' => $irequest->description,
+                'amount' => $irequest->amount,
+                'type' => 'byrequest'
+            ]);
+
+            $irequest->investment_id = $investment->id;
+        }
+
+        $irequest->save();
+
+        return response()->json(['success' => true]);
     }
 
     /**

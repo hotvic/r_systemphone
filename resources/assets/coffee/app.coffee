@@ -16,7 +16,14 @@ $(document).ready(() ->
 
   $(document).delegate('*[data-toggle=lightbox]', 'click', (event) ->
     event.preventDefault()
-    $(this).ekkoLightbox()
+    $(this).ekkoLightbox({
+      onShown: () ->
+        lightbox = this
+
+        document.addEventListener('serverResponse', () ->
+          lightbox.close()
+        )
+    })
   )
 
   $('[data-toggle=switch]').bootstrapSwitch()

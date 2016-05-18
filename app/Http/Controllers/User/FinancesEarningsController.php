@@ -20,9 +20,9 @@ class FinancesEarningsController extends Controller
         $earnings = null;
 
         if ($request->has('s'))
-            $earnings = \App\Earning::where('description', 'LIKE', psp($request->input('s')));
+            $earnings = \Auth::user()->earnings()->where('description', 'LIKE', psp($request->input('s')));
 
-        $earnings = $earnings === null ? \App\Earning::paginate(15) : $earnings->paginate(15);
+        $earnings = $earnings === null ? \Auth::user()->earnings()->paginate(15) : $earnings->paginate(15);
 
         return view('user.finances.earnings.index')
             ->with('earnings', $earnings);

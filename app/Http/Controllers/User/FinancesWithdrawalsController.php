@@ -16,8 +16,10 @@ class FinancesWithdrawalsController extends Controller
      */
     public function index()
     {
+        $requests = \Auth::user()->withdrawals()->paginate(15);
+
         return view('user.finances.withdrawals.index')
-            ->with('withdrawals', \App\Withdrawal::paginate(15));
+            ->with('withdrawals', $requests);
     }
 
     /**

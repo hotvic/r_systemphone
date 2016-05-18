@@ -22,6 +22,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::get('irequests/reject/{id}', 'FinancesInvestmentRequestsController@reject')->name('admin.irequests.reject');
     Route::post('irequests/accept/{id}', 'FinancesInvestmentRequestsController@postStatus')->name('admin.irequests.setstatus');
     Route::resource('irequests', 'FinancesInvestmentRequestsController');
+
+    Route::get('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@accept')->name('admin.wrequests.accept');
+    Route::get('wrequests/reject/{id}', 'FinancesWithdrawalRequestsController@reject')->name('admin.wrequests.reject');
+    Route::post('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@postStatus')->name('admin.wrequests.setstatus');
+    Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
 });
 
 Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth'], function () {

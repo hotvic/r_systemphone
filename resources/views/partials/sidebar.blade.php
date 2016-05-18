@@ -11,6 +11,9 @@
                         <li>
                             <a href="{{ route('admin.investments.index') }}">Investimentos</a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.irequests.index') }}">Pedidos Pendentes</a>
+                        </li>
                     </ul>
                 </li>
                 <li role="separator" class="divider"></li>
@@ -34,6 +37,9 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.withdrawals.index') }}">Saques</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.wrequests.index') }}">Pedidos Pendentes</a>
                         </li>
                     </ul>
                 </li>

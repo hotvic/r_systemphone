@@ -13,7 +13,15 @@
     });
     $(document).delegate('*[data-toggle=lightbox]', 'click', function(event) {
       event.preventDefault();
-      return $(this).ekkoLightbox();
+      return $(this).ekkoLightbox({
+        onShown: function() {
+          var lightbox;
+          lightbox = this;
+          return document.addEventListener('serverResponse', function() {
+            return lightbox.close();
+          });
+        }
+      });
     });
     return $('[data-toggle=switch]').bootstrapSwitch();
   });

@@ -27,12 +27,7 @@ class FinancesInvestmentRequestsController extends Controller
      */
     public function index(Request $request)
     {
-        $requests = null;
-
-        if ($request->has('s'))
-            $requests = \App\InvestmentRequest::where('description', 'LIKE', psp($request->input('s')));
-
-        $requests = $requests === null ? \App\InvestmentRequest::paginate(15) : $requests->paginate(15);
+        $requests = \Auth::user()->investment_requests()->where('status', '0')->paginate(15);
 
         return view('user.finances.irequests.index')
             ->with('requests', $requests);
