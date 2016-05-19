@@ -52,7 +52,7 @@
                                 <td>{{ $usr->email }}</td>
                                 <td>{{ $usr->created_at }}</td>
                                 <td>{{ format_money($usr->investments()->sum('amount')) }}</td>
-                                <td>{{ format_money($usr->investments()->sum('amount') + (($usr->investments()->sum('amount') * 0.18)  * 26)) }}</td>
+                                <td><a href="{{ route('admin::total_at', ['id' => $usr->id]) }}" data-toggle="lightbox">{{ format_money($usr->investments()->whereIn('type', ['byrequest', 'manual'])->sum('amount') * pow((1 + .18), 26)) }}</a></td>
                                 <td>
                                     <a href="{{ route('admin::update_user', ['id' => $usr->id]) }}">Editar</a>
                                     |

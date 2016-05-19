@@ -85,13 +85,24 @@ class DashboardController extends Controller
     {
         $user = \App\User::find($id);
 
-        $iTotal = $user->investments()->where('type', 'paid')->orWhere('type', 'manual')->sum('amount');
+        $iTotal = $user->investments()->whereIn('type', ['byrequest', 'manual'])->sum('amount');
         $wTotal = $user->withdrawals()->sum('amount');
 
-        /* Total without any withdrawal */
+        // Total without any withdrawal (Compound)
         $nwTotal = $iTotal * pow((1 + 0.18), 26);
 
+        // Apporx with withdrawal (Compound)
+        $one = $iTotal * .18;
+        $num = floor($wTotal / $one);
+        $wwTotal = $iTotal * pow((1 + 0.18), 26 - $num);
+
+        // Total not compound
+        $byw = $iTotal * .18;
+        $ncTotal = $iTotal + (26 * $byw);
+
         return view('admin.total_26w')
-            ->with('nwTotal', $nwTotal);
+            ->with('nwTotal', $nwTotal)
+            ->with('wwTotal', $wwTotal)
+            ->with('ncTotal', $ncTotal);
     }
 }

@@ -44,7 +44,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
     Route::get('/users', 'DashboardController@users')->name('users');
     Route::get('/users/update/{id}', 'DashboardController@updateUser')->name('update_user');
     Route::get('/users/delete/{id}', 'DashboardController@deleteUser')->name('delete_user');
-    Route::get('/user/total/{id}', 'DashboardController@total_26w');
+    Route::get('/user/total/{id}', 'DashboardController@total_26w')->name('total_at');
 
     Route::group(['prefix' => 'finances', 'as' => 'finances::'], function () {
         Route::get('/', 'FinancesController@index')->name('index');
