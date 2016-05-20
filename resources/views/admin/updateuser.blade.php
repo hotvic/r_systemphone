@@ -46,6 +46,20 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password">Senha</label>
+                            <input type="password" name="password" class="form-control">
+                        @if ($errors->has('password'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
+                        </div>
+                        <div class="col-md-6">
+                            <label for="password_confirmation">Confirmar Senha</label>
+                            <input type="password" name="password_confirmation" class="form-control">
+                        </div>
+
                         <div class="col-md-12">
                             <input type="checkbox" id="active" name="active" data-toggle="switch"{{ $usr->active == true ? ' checked' : '' }}>
                             <label for="active">Ativo</label>

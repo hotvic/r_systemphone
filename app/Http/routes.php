@@ -39,7 +39,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth']
     Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
 });
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web', 'auth', 'admin'], 'as' => 'admin::'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin'], 'as' => 'admin::'], function () {
     Route::get('/', 'DashboardController@index')->name('index');
     Route::get('/users', 'DashboardController@users')->name('users');
     Route::get('/users/update/{id}', 'DashboardController@updateUser')->name('update_user');

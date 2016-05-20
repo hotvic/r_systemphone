@@ -68,6 +68,10 @@ class DashboardController extends Controller
         $user = \App\User::find($id);
 
         // TODO: Validate!
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'confirmed'
+        ]);
 
         $user->username    = $request->input('username');
         $user->email       = $request->input('email');
@@ -75,6 +79,11 @@ class DashboardController extends Controller
         $user->referred_by = $request->input('referred_by');
         $user->active      = $request->has('active') ? true : false;
         $user->confirmed   = $request->has('confirmed') ? true : false;
+
+        if ($request->input('password') != '')
+        {
+            $user->password = bcrypt($request->input('password'));
+        }
 
         $user->save();
 
