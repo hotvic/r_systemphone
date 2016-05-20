@@ -29,6 +29,7 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
+        $this->subject = 'Redefinição de Senha';
         $this->middleware('guest');
     }
 }
