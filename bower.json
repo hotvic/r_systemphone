@@ -24,8 +24,8 @@
     "awesome-bootstrap-checkbox": "^0.3.7",
     "jquerymy": "^1.2.4",
     "sugar": "^1.4.1",
-    "lato-webfont": "^1.1.2",
     "ekko-lightbox": "^4.0.1",
-    "bootstrap-switch": "^3.3.2"
+    "bootstrap-switch": "^3.3.2",
+    "animate.css": "^3.5.1"
   }
 }

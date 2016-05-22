@@ -1,46 +1,62 @@
 @extends('layouts.basic')
 
+@section('title', 'Login')
+
 @section('content')
-    <form class="clearfix centerform" method="POST" action="{{ url('/login') }}">
-        {!! csrf_field() !!}
-
-        <div class="form-group normal_text">
-            <h2 class="title">Global Bet Brasil</h2>
+    <section id="content_wrapper">
+        <div id="canvas-wrapper">
+            <canvas id="demo-canvas"></canvas>
         </div>
+        <section id="content">
+            <div class="allcp-form theme-primary mw320" id="login">
+                <div class="bg-primary mw600 text-center mb20 br3 pt15 pb10">
+                    <img src="/images/logo.png" alt=""/>
+                </div>
+                <div class="panel mw320">
 
-        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-            <div class="input-group" >
-                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                <input type="email" class="form-control" name="email" placeholder="E-Mail" value="{{ old('email') }}" />
+                    <form method="POST" action="{{ url('/login') }}" id="form-login">
+                        {!! csrf_field(); !!}
+
+                        <div class="panel-body pn mv10">
+
+                            <div class="section{{ $errors->has('email') ? ' has-error' : '' }}">
+                                <label for="email" class="field prepend-icon">
+                                    <input type="email" name="email" id="email" class="gui-input" placeholder="E-Mail" value="{{ old('email') }}">
+                                    <span class="field-icon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="section{{ $errors->has('password') ? ' has-error' : '' }}">
+                                <label for="password" class="field prepend-icon">
+                                    <input type="text" name="password" id="password" class="gui-input"
+                                           placeholder="Senha">
+                                    <span class="field-icon">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </label>
+                            @if ($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                            </div>
+
+                            <div class="section">
+                                <div class="bs-component pull-left pt5">
+                                    <div class="radio-custom radio-primary mb5 lh25">
+                                        <input type="radio" id="remember" name="remember">
+                                        <label for="remember">Lembrar</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-bordered btn-primary pull-right">Log in</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
             </div>
-        @if ($errors->has('email'))
-            <span class="help-block">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
-        @endif
-        </div>
-        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-            <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                <input type="password" class="form-control" name="password" placeholder="Senha" />
-            </div>
-        @if ($errors->has('password'))
-            <span class="help-block">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
-        @endif
-        </div>
-
-        <div class="form-group">
-            <div class="checkbox">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Lembrar</label>
-            </div>
-        </div>
-
-        <div class="form-group inline-align">
-            <span class="inline-align-left"><a href="{{ url('/password/reset') }}" class="btn btn-inverse btn-link" id="to-recover">Esqueceu a senha?</a></span>
-            <span class="inline-align-right"><input type="submit" class="btn btn-success" value="Entrar" /></span>
-        </div>
-    </form>
+        </section>
+    </section>
 @endsection
