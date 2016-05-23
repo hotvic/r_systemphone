@@ -34,14 +34,14 @@ class User extends Authenticatable
         })->first();
     }
 
-    public function investments()
+    public function quotas()
     {
-        return $this->hasMany('\App\Investment');
+        return $this->belongsToMany('\App\Quota');
     }
 
-    public function investment_requests()
+    public function quota_requests()
     {
-        return $this->hasMany('\App\InvestmentRequest');
+        return $this->hasMany('\App\QuotaRequest');
     }
 
     public function earnings()
@@ -64,8 +64,25 @@ class User extends Authenticatable
         return $this->hasMany('\App\LastEarning');
     }
 
+    public function referrer()
+    {
+        return self::where('username', $this->referred_by)->first();
+    }
+
     public function getBalance()
     {
         return $this->earnings()->sum('amount') - $this->withdrawals()->sum('amount');
+    }
+
+    public function payBonusToReferrer($quota)
+    {
+        if ($this->username === 'system') return;
+
+        $value = ($quota->amount * .10);
+
+        $this->referrer()->earnings()->create([
+            'amount' => $value,
+            'description' => 'Indicado Direto Comprou Cota',
+        ]);
     }
 }

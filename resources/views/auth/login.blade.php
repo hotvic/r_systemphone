@@ -15,7 +15,7 @@
                 <div class="panel mw320">
 
                     <form method="POST" action="{{ url('/login') }}" id="form-login">
-                        {!! csrf_field(); !!}
+                        {!! csrf_field() !!}
 
                         <div class="panel-body pn mv10">
 
@@ -26,11 +26,16 @@
                                         <i class="fa fa-user"></i>
                                     </span>
                                 </label>
+                            @if ($errors->has('email'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                             </div>
 
                             <div class="section{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password" class="field prepend-icon">
-                                    <input type="text" name="password" id="password" class="gui-input"
+                                    <input type="password" name="password" id="password" class="gui-input"
                                            placeholder="Senha">
                                     <span class="field-icon">
                                         <i class="fa fa-lock"></i>

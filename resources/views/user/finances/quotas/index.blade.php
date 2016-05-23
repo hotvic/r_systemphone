@@ -1,49 +1,49 @@
 @extends('layouts.user')
 
-@section('title', 'Ganhos')
+@section('title', 'Cotas')
 
 @section('breadcrumb')
     <li class="breadcrumb-link">
         <a href="{{ route('user.finance.qrequests.index') }}">Finanças</a>
     </li>
-    <li class="breadcrumb-current-item">Ganhos</li>
+    <li class="breadcrumb-current-item">Cotas</li>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="panel">
             <div class="panel-heading">
-                <span class="panel-icon glyphicon glyphicon-plus"></span>
-                <span class="panel-title">Ganhos</span>
+                <span class="panel-icon glyphicon glyphicon-share"></span>
+                <span class="panel-title">Cotas</span>
             </div>
-            <div class="panel-body">
-                <div class="row">
+            <div class="widget-content">
+                <div class="row-fluid">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Descrição</th>
+                                <th>Texto</th>
                                 <th>Quantiade</th>
-                                <th>Ganhado Em</th>
+                                <th>Comprada Em</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($earnings as $earning)
+                        @foreach ($quotas as $quota)
                             <tr>
-                                <td>{{ $earning->id }}</td>
-                                <td>{{ $earning->description }}</td>
-                                <td>{{ format_money($earning->amount) }}</td>
-                                <td>{{ $earning->created_at }}</td>
+                                <td>{{ $quota->id }}</td>
+                                <td>{{ $quota->text }}</td>
+                                <td>{{ format_money($quota->amount) }}</td>
+                                <td>{{ $quota->created_at }}</td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
+                <div class="row-fluid">
                     <div class="clearfix">
                         <div class="pull-right">
                             <nav>
-                                {!! $earnings->links(); !!}
+                                {!! $quotas->links() !!}
                             </nav>
                         </div>
                     </div>

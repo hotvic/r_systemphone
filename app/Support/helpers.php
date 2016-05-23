@@ -10,36 +10,22 @@ function format_money($value)
     return sprintf('$ %s', number_format($value, 2, '.', ''));
 }
 
-function paginate($cur, $count, $pp=15)
+/* Navigation helpers */
+function class_active()
 {
-    $out = array();
+    return ' class="active"';
+}
 
-    if ($count <= $pp)
-    {
-        return ['1'];
-    }
+function is_finance()
+{
+    $is = Request::is('user/finance*') or Request::is('admin/finance*');
 
-    $num_pages = ceil($count / $pp);
+    if ($is) return class_active();
+}
 
-    if ($cur == 1 || $cur == 2)
-    {
-        for ($i = 1; $i <= $num_pages && $i <= 5; $i++)
-        {
-            $out[] = strval($i);
-        }
-    }
+function is_profile()
+{
+    $is = Request::is('user/profile*');
 
-    if ($cur > 2)
-    {
-        $out[] = strval($cur - 2);
-        $out[] = strval($cur - 1);
-        $out[] = strval($cur);
-
-        for ($i = 4, $num = 1; $i <= $num_pages && $i <= 5; $i++, $num++)
-        {
-            $out[] = strval($cur + $num);
-        }
-    }
-
-    return $out;
+    if ($is) return class_active();
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Painel - ')
+@section('title', 'Painel')
 
 @section('content')
     <div class="quick-actions_homepage">
@@ -42,7 +42,7 @@
                     <div class="col-md-8">
                         <canvas id="siteChart"></canvas>
                         <script type="text/javascript">
-                            var ctx = $('#siteChart');
+                            {{-- var ctx = $('#siteChart');
 
                             var chart = new Chart(ctx, {
                                 type: 'bar',
@@ -62,32 +62,32 @@
                                         data: [{{ $total_withdrawals }}]
                                     }]
                                 }
-                            });
+                            }); --}}
                         </script>
                     </div>
                     <div class="col-md-4">
                         <ul class="stat-boxes2">
                             <li>
                                 <div class="right">
-                                    <strong>{{ $total_users }}</strong>
+                                    <strong>{{-- $total_users --}}</strong>
                                     Usuários
                                 </div>
                             </li>
                             <li>
                                 <div class="right">
-                                    <strong>{{ $total_investments }}</strong>
+                                    <strong>{{-- $total_investments --}}</strong>
                                     Investimentos
                                 </div>
                             </li>
                             <li>
                                 <div class="right">
-                                    <strong>{{ $total_earnings }}</strong>
+                                    <strong>{{-- $total_earnings --}}</strong>
                                     Saques
                                 </div>
                             </li>
                             <li>
                                 <div class="right">
-                                    <strong>{{ $total_withdrawals }}</strong>
+                                    <strong>{{-- $total_withdrawals --}}</strong>
                                     Pagamentos
                                 </div>
                             </li>

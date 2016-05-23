@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Quota;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class FinancesInvestmentsController extends Controller
+class QuotasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +19,8 @@ class FinancesInvestmentsController extends Controller
      */
     public function index(Request $request)
     {
-        return view('user.finances.investments.index')
-            ->with('investments', $investments = \Auth::user()->investments()->paginate(15));
+        return view('user.finances.quotas.index')
+            ->with('quotas', \Auth::user()->quotas()->paginate(15));
     }
 
     /**
@@ -115,8 +117,8 @@ class FinancesInvestmentsController extends Controller
      */
     public function destroy($id)
     {
-        \App\Investment::destroy($id);
+        Quota::destroy($id);
 
-        return redirect()->route('admin.investments.index');
+        return redirect()->route('admin.finance.quotas.index');
     }
 }

@@ -1,20 +1,23 @@
 @extends('layouts.user')
 
-@section('title', 'Ganhos')
+@section('title', 'Pendentes - Cotas')
 
 @section('breadcrumb')
     <li class="breadcrumb-link">
         <a href="{{ route('user.finance.qrequests.index') }}">Finanças</a>
     </li>
-    <li class="breadcrumb-current-item">Ganhos</li>
+    <li class="breadcrumb-link">
+        <a href="{{ route('user.finance.quotas.index') }}">Cotas</a>
+    </li>
+    <li class="breadcrumb-current-item">Pendentes</li>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="panel">
             <div class="panel-heading">
-                <span class="panel-icon glyphicon glyphicon-plus"></span>
-                <span class="panel-title">Ganhos</span>
+                <span class="panel-icon glyphicon glyphicon-share"></span>
+                <span class="panel-title">Cotas Pendentes</span>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -22,28 +25,30 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Descrição</th>
                                 <th>Quantiade</th>
-                                <th>Ganhado Em</th>
+                                <th>Requerido Em</th>
+                                <th>Comprovante</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($earnings as $earning)
+                        @foreach ($requests as $request)
                             <tr>
-                                <td>{{ $earning->id }}</td>
-                                <td>{{ $earning->description }}</td>
-                                <td>{{ format_money($earning->amount) }}</td>
-                                <td>{{ $earning->created_at }}</td>
+                                <td>{{ $request->id }}</td>
+                                <td>{{ $request->howmuch }}</td>
+                                <td>{{ $request->created_at }}</td>
+                                <td>
+                                    <a href="{{ route('user.finance.qrequests.show', ['id' => $request->id]) }}#ext=.png" data-toggle="lightbox" data-title="Comprovante">Comprovante</a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
+                <div class="row-fluid">
                     <div class="clearfix">
                         <div class="pull-right">
                             <nav>
-                                {!! $earnings->links(); !!}
+                                {!! $requests->links(); !!}
                             </nav>
                         </div>
                     </div>

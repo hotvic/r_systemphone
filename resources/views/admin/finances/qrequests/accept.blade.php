@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="col-md-10 col-md-offset-1">
-        <form action="{{ route('admin.irequests.setstatus', ['id' => $request->id]) }}" method="POST" id="acceptform">
+        <form action="{{ route('admin.finance.qrequests.setstatus', ['id' => $request->id]) }}" method="POST" id="acceptform">
             {!! csrf_field() !!}
 
             <input type="hidden" name="status" value="1">

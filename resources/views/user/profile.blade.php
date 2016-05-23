@@ -1,20 +1,19 @@
 @extends('layouts.user')
 
-@section('title', 'Perfil - ')
+@section('title', 'Perfil')
 
 @section('breadcrumb')
-    <a class="tip-bottom">Perfil</a>
+    <li class="breadcrumb-current-item">Perfil</li>
 @endsection
 
 @section('content')
-    <div class="row-fluid">
-        <div class="widget-box">
-            <div class="widget-title">
-                <span class="icon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-
-                <h5>Perfil</h5>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-icon glyphicon glyphicon-user"></span>
+                <span class="panel-title">Perfil</span>
             </div>
-            <div class="widget-content">
+            <div class="panel-body">
                 <div class="row">
                     <form action="{{ route('user::profile') }}" method="POST">
                         {!! csrf_field() !!}

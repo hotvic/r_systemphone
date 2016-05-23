@@ -117,6 +117,8 @@ return [
         'receipt' => 'Comprovante',
         'username' => 'Nome de Usuário',
         'referred_by' => 'Indicado',
+        'howmuch' => 'Quantidade',
+        'text' => 'Texto',
     ],
 
     'balance' => 'Você não tem saldo suficiente.',

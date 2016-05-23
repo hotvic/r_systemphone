@@ -14,29 +14,23 @@
 Route::auth();
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
-    Route::resource('investments', 'FinancesInvestmentsController');
-    Route::resource('earnings', 'FinancesEarningsController');
-    Route::resource('withdrawals', 'FinancesWithdrawalsController');
 
-    Route::get('irequests/accept/{id}', 'FinancesInvestmentRequestsController@accept')->name('admin.irequests.accept');
-    Route::get('irequests/reject/{id}', 'FinancesInvestmentRequestsController@reject')->name('admin.irequests.reject');
-    Route::post('irequests/accept/{id}', 'FinancesInvestmentRequestsController@postStatus')->name('admin.irequests.setstatus');
-    Route::resource('irequests', 'FinancesInvestmentRequestsController');
+    /* Finance Routes */
+    Route::group(['prefix' => 'finance'], function () {
+        Route::resource('quotas', 'QuotasController');
+        Route::resource('earnings', 'FinancesEarningsController');
+        Route::resource('withdrawals', 'FinancesWithdrawalsController');
 
-    Route::get('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@accept')->name('admin.wrequests.accept');
-    Route::get('wrequests/reject/{id}', 'FinancesWithdrawalRequestsController@reject')->name('admin.wrequests.reject');
-    Route::post('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@postStatus')->name('admin.wrequests.setstatus');
-    Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
-});
+        Route::get('qrequests/accept/{id}', 'QuotaRequestsController@accept')->name('admin.finance.qrequests.accept');
+        Route::get('qrequests/reject/{id}', 'QuotaRequestsController@reject')->name('admin.finance.qrequests.reject');
+        Route::post('qrequests/accept/{id}', 'QuotaRequestsController@postStatus')->name('admin.finance.qrequests.setstatus');
+        Route::resource('qrequests', 'QuotaRequestsController');
 
-Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth'], function () {
-    Route::get('investments/re', 'FinancesInvestmentsController@re')->name('user.investments.re');
-    Route::post('investments/re', 'FinancesInvestmentsController@postRe');
-    Route::resource('investments', 'FinancesInvestmentsController');
-    Route::resource('earnings', 'FinancesEarningsController');
-    Route::resource('withdrawals', 'FinancesWithdrawalsController');
-    Route::resource('irequests', 'FinancesInvestmentRequestsController');
-    Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
+        Route::get('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@accept')->name('admin.wrequests.accept');
+        Route::get('wrequests/reject/{id}', 'FinancesWithdrawalRequestsController@reject')->name('admin.wrequests.reject');
+        Route::post('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@postStatus')->name('admin.wrequests.setstatus');
+        Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
+    });
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin'], 'as' => 'admin::'], function () {
@@ -52,6 +46,21 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
 
 
     Route::post('/users/update/{id}', 'DashboardController@postUpdateUser');
+});
+
+/* User Routes */
+Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth'], function () {
+
+    /* Finance Routes */
+    Route::group(['prefix' => 'finance'], function () {
+        // Route::get('quotas/re', 'FinancesInvestmentsController@re')->name('user.investments.re');
+        // Route::post('quotas/re', 'FinancesInvestmentsController@postRe');
+        Route::resource('quotas', 'QuotasController');
+        Route::resource('earnings', 'FinancesEarningsController');
+        Route::resource('withdrawals', 'FinancesWithdrawalsController');
+        Route::resource('qrequests', 'QuotaRequestsController');
+        Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
+    });
 });
 
 Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth', 'as' => 'user::'], function () {

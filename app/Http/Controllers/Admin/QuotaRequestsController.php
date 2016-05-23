@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class FinancesInvestmentRequestsController extends Controller
+class QuotaRequestsController extends Controller
 {
     protected function get_receipt_path($user, $db_path)
     {
@@ -22,22 +22,22 @@ class FinancesInvestmentRequestsController extends Controller
      */
     public function index()
     {
-        $requests = \App\InvestmentRequest::where('status', '0')->paginate(15);
+        $requests = \App\QuotaRequest::where('status', '0')->paginate(15);
 
-        return view('admin.finances.irequests.index')
+        return view('admin.finances.qrequests.index')
             ->with('requests', $requests);
     }
 
     public function accept($id)
     {
-        return view('admin.finances.irequests.accept')
-            ->with('request', \App\InvestmentRequest::find($id));
+        return view('admin.finances.qrequests.accept')
+            ->with('request', \App\QuotaRequest::find($id));
     }
 
     public function reject($id)
     {
-        return view('admin.finances.irequests.reject')
-            ->with('request', \App\InvestmentRequest::find($id));
+        return view('admin.finances.qrequests.reject')
+            ->with('request', \App\QuotaRequest::find($id));
     }
 
     public function postStatus(Request $request, $id)
@@ -47,22 +47,21 @@ class FinancesInvestmentRequestsController extends Controller
             'status' => 'required|integer'
         ]);
 
-        $irequest = \App\InvestmentRequest::find($id);
-        $irequest->response = $request->input('response');
-        $irequest->status   = $request->input('status');
+        $qrequest = \App\QuotaRequest::find($id);
+        $qrequest->response = $request->input('response');
+        $qrequest->status   = $request->input('status');
 
         if ($request->input('status') == 1)
         {
-            $investment = $irequest->user->investments()->create([
-                'description' => $irequest->description,
-                'amount' => $irequest->amount,
-                'type' => 'byrequest'
-            ]);
+            for ($i = 0; $i < $qrequest->howmuch; $i++)
+            {
+                $qrequest->user->quotas()->attach($qrequest->quota->id);
 
-            $irequest->investment_id = $investment->id;
+                $qrequest->user->payBonusToReferrer($qrequest->quota);
+            }
         }
 
-        $irequest->save();
+        $qrequest->save();
 
         return response()->json(['success' => true]);
     }
@@ -97,10 +96,10 @@ class FinancesInvestmentRequestsController extends Controller
      */
     public function show($id)
     {
-        $irequest = \App\InvestmentRequest::find($id);
+        $qrequest = \App\QuotaRequest::find($id);
 
-        return response(file_get_contents($this->get_receipt_path($irequest->user, $irequest->receipt_path)))
-            ->header('Content-Type', mime_content_type($this->get_receipt_path($irequest->user, $irequest->receipt_path)));
+        return response(file_get_contents($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)))
+            ->header('Content-Type', mime_content_type($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)));
     }
 
     /**
@@ -134,8 +133,8 @@ class FinancesInvestmentRequestsController extends Controller
      */
     public function destroy($id)
     {
-        \App\InvestmentRequest::destroy($id);
+        \App\QuotaRequest::destroy($id);
 
-        return redirect()->route('admin.irequests.index');
+        return redirect()->route('admin.qrequests.index');
     }
 }

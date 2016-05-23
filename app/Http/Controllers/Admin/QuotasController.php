@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Quota;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class FinancesInvestmentsController extends Controller
+class QuotasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,20 +19,8 @@ class FinancesInvestmentsController extends Controller
      */
     public function index(Request $request)
     {
-        $investments = \App\Investment::orderBy('id', 'ASC')->take(15);
-
-        if ($request->has('page'))
-            $investments->skip(15 * $request->input('page'));
-
-        if ($request->has('s'))
-            $investments->where('description', 'LIKE', psp($request->input('s')));
-
-        $investments = $investments->get();
-
-        return view('admin.finances.investments.index')
-            ->with('investments', $investments->all())
-            ->with('investments_count', \App\Investment::get()->count())
-            ->with('cur_page', $request->input('page', 0) + 1);
+        return view('admin.finances.quotas.index')
+            ->with('quotas', Quota::paginate(15));
     }
 
     /**
@@ -41,16 +31,7 @@ class FinancesInvestmentsController extends Controller
      */
     public function create(Request $request)
     {
-        $description = '';
-
-        if ($request->has('user_id') && $user = \App\User::find($request->input('user_id')))
-        {
-            $description = sprintf('Investimento %s', $user->investments->count() + 1);
-        }
-
-        return view('admin.finances.investments.create')
-            ->with('client', $request->has('user_id') ? \App\User::find($request->input('user_id')) : null)
-            ->with('description', $description);
+        return view('admin.finances.quotas.create');
     }
 
     /**
@@ -62,19 +43,16 @@ class FinancesInvestmentsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|exists:users,email',
+            'text' => 'required|string',
             'amount' => 'required|digits_between:3,15'
         ]);
 
-        $user = \App\User::where('email', '=', $request->input('email'))->first();
-
-        $user->investments()->create([
+        \App\Quota::create([
             'amount' => $request->input('amount') / 100,
-            'description' => $request->input('description'),
-            'type' => 'manual'
+            'text' => $request->input('text')
         ]);
 
-        return redirect()->route('admin.investments.index');
+        return redirect()->route('admin.finance.quotas.index');
     }
 
     /**
@@ -119,8 +97,8 @@ class FinancesInvestmentsController extends Controller
      */
     public function destroy($id)
     {
-        \App\Investment::destroy($id);
+        \App\Quota::destroy($id);
 
-        return redirect()->route('admin.investments.index');
+        return redirect()->route('admin.finance.quotas.index');
     }
 }

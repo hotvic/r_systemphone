@@ -1,20 +1,24 @@
 @extends('layouts.admin')
 
 @section('breadcrumb')
-    <a href="{{ route('admin::finances::index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
-    <a class="tip-bottom"><i class="glyphicon glyphicon-share"></i> Pedidos de Investimento</a>
+    <li class="breadcrumb-link">
+        <a href="{{ route('admin::finances::index') }}">Finanças</a>
+    </li>
+    <li class="breadcrumb-link">
+        <a href="{{ route('admin.finance.quotas.index') }}">Cotas</a>
+    </li>
+    <li class="breadcrumb-current-item">Pedidos de Cota</li>
 @endsection
 
 @section('content')
-    <div class="row-fluid">
-        <div class="widget-box">
-            <div class="widget-title">
-                <span class="icon"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></span>
-
-                <h5>Pedidos de Investimento</h5>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-icon glyphicon glyphicon-share"></span>
+                <span class="panel-title">Pedidos de Cota</span>
             </div>
-            <div class="widget-content">
-                <div class="row-fluid">
+            <div class="panel-body">
+                <div class="row">
                     <table class="table">
                         <thead>
                             <tr>
@@ -22,8 +26,7 @@
                                 <th>Nome</th>
                                 <th>E-Mail</th>
                                 <th>Quantiade</th>
-                                <th>Comprovante</th>
-                                <th>Investido Em</th>
+                                <th>Comprado Em</th>
                                 <th>Status</th>
                                 <th>Ações</th>
                             </tr>
@@ -34,18 +37,17 @@
                                 <td>{{ $request->id }}</td>
                                 <td>{{ $request->user->name }}</td>
                                 <td>{{ $request->user->email }}</td>
-                                <td>{{ format_money($request->amount) }}</td>
-                                <td>
-                                    <a href="{{ route('admin.irequests.show', ['id' => $request->id]) }}#ext=.png" data-toggle="lightbox" data-title="Comprovante">Comprovante</a>
-                                </td>
+                                <td>{{ $request->howmuch }}</td>
                                 <td>{{ $request->created_at }}</td>
                                 <td>{{ $request->status == 0 ? 'Pendente' : ($request->status == 1 ? 'Aprovado' : 'Rejeitado') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.irequests.accept', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Aceitar">Aceitar</a>
-                                    |
-                                    <a href="{{ route('admin.irequests.reject', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Rejeitar">Rejeitar</a>
-                                    |
-                                    <form method="POST" action="{{ route('admin.irequests.destroy', ['id' => $request->id]) }}" class="form-horizontal" style="display: inline;">
+                                    <a href="{{ route('admin.finance.qrequests.show', ['id' => $request->id]) }}#ext=.png" data-toggle="lightbox" data-title="Comprovante">Comprovante</a>
+                                    <br>
+                                    <a href="{{ route('admin.finance.qrequests.accept', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Aceitar">Aceitar</a>
+                                    <br>
+                                    <a href="{{ route('admin.finance.qrequests.reject', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Rejeitar">Rejeitar</a>
+                                    <br>
+                                    <form method="POST" action="{{ route('admin.finance.qrequests.destroy', ['id' => $request->id]) }}" class="form-horizontal" style="display: inline;">
                                         {!! csrf_field() !!}
 
                                         <input type="hidden" name="_method" value="DELETE">
