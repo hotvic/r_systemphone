@@ -20,7 +20,7 @@
                 <span class="panel-title">Pedidos de Saque</span>
             </div>
             <div class="panel-body">
-                <div class="row-fluid">
+                <div class="row">
                     <table class="table">
                         <thead>
                             <tr>
@@ -62,7 +62,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row-fluid">
+                <div class="row">
                     <div class="clearfix">
                         <div class="pull-right">
                             {!! $requests->links() !!}
