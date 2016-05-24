@@ -17,18 +17,13 @@ class FinancesWithdrawalsController extends Controller
      */
     public function index(Request $request)
     {
-        $withdrawals = \App\Withdrawal::orderBy('id', 'ASC')->take(15);
-
-        if ($request->has('page'))
-            $withdrawals->skip(15 * $request->input('page'));
+        $withdrawals = \App\Withdrawal::orderBy('id', 'ASC');
 
         if ($request->has('s'))
             $withdrawals->where('description', 'LIKE', psp($request->input('s')));
 
         return view('admin.finances.withdrawals.index')
-            ->with('withdrawals', $withdrawals->get()->all())
-            ->with('withdrawals_count', \App\Withdrawal::get()->count())
-            ->with('cur_page', $request->input('page', 0) + 1);
+            ->with('withdrawals', $withdrawals->paginate(15));
     }
 
     /**
@@ -65,7 +60,7 @@ class FinancesWithdrawalsController extends Controller
             'description' => $request->input('description')
         ]);
 
-        return redirect()->route('admin.withdrawals.index');
+        return redirect()->route('admin.finance.withdrawals.index');
     }
 
     /**
@@ -112,6 +107,6 @@ class FinancesWithdrawalsController extends Controller
     {
         \App\Withdrawal::destroy($id);
 
-        return redirect()->route('admin.withdrawals.index');
+        return redirect()->route('admin.finance.withdrawals.index');
     }
 }

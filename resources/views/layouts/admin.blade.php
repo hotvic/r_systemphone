@@ -98,21 +98,27 @@
                             <span class="sb-menu-icon fa fa-line-chart"></span>
                         </a>
                         <ul class="nav sub-nav">
-                            <li>
+                            <li{!! Request::is('admin/finance/quotas') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.quotas.index') }}">Cotas</a>
                             </li>
                             <li{!! Request::is('admin/finance/quotas/create') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.quotas.create') }}">Criar Cota</a>
                             </li>
-                            <li>
+                            <li{!! Request::is('admin/finance/earnings') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.earnings.index') }}">Ganhos</a>
                             </li>
-                            {{-- <li>
-                                <a href="{{ route('user.wrequests.create') }}">Fazer Saque</a>
+                            <li{!! Request::is('admin/finance/earnings/create') ? class_active() : '' !!}>
+                                <a href="{{ route('admin.finance.earnings.create') }}">Criar Ganhos</a>
                             </li>
-                            <li>
-                                <a href="{{ route('user.withdrawals.index') }}">Saques</a>
-                            </li> --}}
+                            <li{!! Request::is('admin/finance/withdrawals') ? class_active() : '' !!}>
+                                <a href="{{ route('admin.finance.withdrawals.index') }}">Saques</a>
+                            </li>
+                            <li{!! Request::is('admin/finance/withdrawals/create') ? class_active() : '' !!}>
+                                <a href="{{ route('admin.finance.withdrawals.create') }}">Criar Saque</a>
+                            </li>
+                            <li{!! Request::is('admin/finance/wrequests') ? class_active() : '' !!}>
+                                <a href="{{ route('admin.finance.wrequests.index') }}">Saques Pendentes</a>
+                            </li>
                         </ul>
                     </li>
                     <li{!! is_users() !!}>

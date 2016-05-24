@@ -17,18 +17,13 @@ class FinancesEarningsController extends Controller
      */
     public function index(Request $request)
     {
-        $earnings = \App\Earning::orderBy('id', 'ASC')->take(15);
-
-        if ($request->has('page'))
-            $earnings->skip(15 * $request->input('page'));
+        $earnings = \App\Earning::orderBy('id', 'ASC');
 
         if ($request->has('s'))
             $earnings->where('description', 'LIKE', psp($request->input('s')));
 
         return view('admin.finances.earnings.index')
-            ->with('earnings', $earnings->get()->all())
-            ->with('earnings_count', \App\Earning::get()->count())
-            ->with('cur_page', $request->input('page', 0) + 1);
+            ->with('earnings', $earnings->paginate(15));
     }
 
     /**
@@ -63,7 +58,7 @@ class FinancesEarningsController extends Controller
             'description' => $request->input('description')
         ]);
 
-        return redirect()->route('admin.earnings.index');
+        return redirect()->route('admin.finance.earnings.index');
     }
 
     /**
@@ -110,6 +105,6 @@ class FinancesEarningsController extends Controller
     {
         \App\Earning::destroy($id);
 
-        return redirect()->route('admin.earnings.index');
+        return redirect()->route('admin.finance.earnings.index');
     }
 }

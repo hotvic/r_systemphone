@@ -1,19 +1,25 @@
 @extends('layouts.admin')
 
+@section('title', 'Pendentes - Saques')
+
 @section('breadcrumb')
-    <a href="{{ route('admin::finances::index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
-    <a class="tip-bottom"><i class="glyphicon glyphicon-minus"></i> Pedidos de Saque</a>
+    <li class="breadcrumb-link">
+        <a href="{{ route('admin::finances::index') }}">Finanças</a>
+    </li>
+    <li class="breadcrumb-link">
+        <a href="{{ route('admin.finance.withdrawals.index') }}">Saques</a>
+    </li>
+    <li class="breadcrumb-current-item">Pendentes</li>
 @endsection
 
 @section('content')
-    <div class="row-fluid">
-        <div class="widget-box">
-            <div class="widget-title">
-                <span class="icon"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
-
-                <h5>Pedidos de Saque</h5>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-icon glyphicon glyphicon-minus"></span>
+                <span class="panel-title">Pedidos de Saque</span>
             </div>
-            <div class="widget-content">
+            <div class="panel-body">
                 <div class="row-fluid">
                     <table class="table">
                         <thead>
