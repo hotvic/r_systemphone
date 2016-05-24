@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Symfony\Component\HttpFoundation\ParameterBag;
+
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('user.index');
+        return view('user.index')
+            ->with('stats', (new \App\UserStatsManager(\Auth::user()))->getStatsBag());
     }
 
     public function profile()
