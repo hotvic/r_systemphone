@@ -435,9 +435,6 @@ Core = (options) ->
           chuteScroll.scroller()
       )
 
-      # Scroll lock for fixed content overflow
-      $('#content').scrollLock('on', 'div')
-
     # Debounced resize handler
     rescale = () ->
        if $(window).width() < 1281

@@ -23415,4 +23415,24 @@ body.basic-timeline .panel-clone {
 .delete-confirmation {
   cursor: pointer; }
 
+.stat-boxes {
+  width: 100%;
+  border: 1px solid #d4d5d1;
+  list-style: none;
+  padding: 0; }
+  .stat-boxes > li {
+    height: 75px;
+    border-bottom: 1px solid #d4d5d1;
+    width: 100%; }
+    .stat-boxes > li > div.right {
+      position: relative;
+      height: 75px;
+      left: 75px;
+      padding: 5px;
+      border-left: 1px solid #d4d5d1;
+      line-height: 65px;
+      /* height (75px) - top padding (5px) - bottom padding (5px) */ }
+  .stat-boxes :last-child {
+    border-bottom: none; }
+
 /*# sourceMappingURL=app.css.map */

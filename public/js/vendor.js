@@ -11899,6 +11899,983 @@ return jQuery;
 
 }));
 
+/*! nanoScrollerJS - v0.8.7 - 2015
+* http://jamesflorentino.github.com/nanoScrollerJS/
+* Copyright (c) 2015 James Florentino; Licensed MIT */
+(function(factory) {
+  if (typeof define === 'function' && define.amd) {
+    return define(['jquery'], function($) {
+      return factory($, window, document);
+    });
+  } else if (typeof exports === 'object') {
+    return module.exports = factory(require('jquery'), window, document);
+  } else {
+    return factory(jQuery, window, document);
+  }
+})(function($, window, document) {
+  "use strict";
+  var BROWSER_IS_IE7, BROWSER_SCROLLBAR_WIDTH, DOMSCROLL, DOWN, DRAG, ENTER, KEYDOWN, KEYUP, MOUSEDOWN, MOUSEENTER, MOUSEMOVE, MOUSEUP, MOUSEWHEEL, NanoScroll, PANEDOWN, RESIZE, SCROLL, SCROLLBAR, TOUCHMOVE, UP, WHEEL, cAF, defaults, getBrowserScrollbarWidth, hasTransform, isFFWithBuggyScrollbar, rAF, transform, _elementStyle, _prefixStyle, _vendor;
+  defaults = {
+
+    /**
+      a classname for the pane element.
+      @property paneClass
+      @type String
+      @default 'nano-pane'
+     */
+    paneClass: 'nano-pane',
+
+    /**
+      a classname for the slider element.
+      @property sliderClass
+      @type String
+      @default 'nano-slider'
+     */
+    sliderClass: 'nano-slider',
+
+    /**
+      a classname for the content element.
+      @property contentClass
+      @type String
+      @default 'nano-content'
+     */
+    contentClass: 'nano-content',
+
+    /**
+      a setting to enable native scrolling in iOS devices.
+      @property iOSNativeScrolling
+      @type Boolean
+      @default false
+     */
+    iOSNativeScrolling: false,
+
+    /**
+      a setting to prevent the rest of the page being
+      scrolled when user scrolls the `.content` element.
+      @property preventPageScrolling
+      @type Boolean
+      @default false
+     */
+    preventPageScrolling: false,
+
+    /**
+      a setting to disable binding to the resize event.
+      @property disableResize
+      @type Boolean
+      @default false
+     */
+    disableResize: false,
+
+    /**
+      a setting to make the scrollbar always visible.
+      @property alwaysVisible
+      @type Boolean
+      @default false
+     */
+    alwaysVisible: false,
+
+    /**
+      a default timeout for the `flash()` method.
+      @property flashDelay
+      @type Number
+      @default 1500
+     */
+    flashDelay: 1500,
+
+    /**
+      a minimum height for the `.slider` element.
+      @property sliderMinHeight
+      @type Number
+      @default 20
+     */
+    sliderMinHeight: 20,
+
+    /**
+      a maximum height for the `.slider` element.
+      @property sliderMaxHeight
+      @type Number
+      @default null
+     */
+    sliderMaxHeight: null,
+
+    /**
+      an alternate document context.
+      @property documentContext
+      @type Document
+      @default null
+     */
+    documentContext: null,
+
+    /**
+      an alternate window context.
+      @property windowContext
+      @type Window
+      @default null
+     */
+    windowContext: null
+  };
+
+  /**
+    @property SCROLLBAR
+    @type String
+    @static
+    @final
+    @private
+   */
+  SCROLLBAR = 'scrollbar';
+
+  /**
+    @property SCROLL
+    @type String
+    @static
+    @final
+    @private
+   */
+  SCROLL = 'scroll';
+
+  /**
+    @property MOUSEDOWN
+    @type String
+    @final
+    @private
+   */
+  MOUSEDOWN = 'mousedown';
+
+  /**
+    @property MOUSEENTER
+    @type String
+    @final
+    @private
+   */
+  MOUSEENTER = 'mouseenter';
+
+  /**
+    @property MOUSEMOVE
+    @type String
+    @static
+    @final
+    @private
+   */
+  MOUSEMOVE = 'mousemove';
+
+  /**
+    @property MOUSEWHEEL
+    @type String
+    @final
+    @private
+   */
+  MOUSEWHEEL = 'mousewheel';
+
+  /**
+    @property MOUSEUP
+    @type String
+    @static
+    @final
+    @private
+   */
+  MOUSEUP = 'mouseup';
+
+  /**
+    @property RESIZE
+    @type String
+    @final
+    @private
+   */
+  RESIZE = 'resize';
+
+  /**
+    @property DRAG
+    @type String
+    @static
+    @final
+    @private
+   */
+  DRAG = 'drag';
+
+  /**
+    @property ENTER
+    @type String
+    @static
+    @final
+    @private
+   */
+  ENTER = 'enter';
+
+  /**
+    @property UP
+    @type String
+    @static
+    @final
+    @private
+   */
+  UP = 'up';
+
+  /**
+    @property PANEDOWN
+    @type String
+    @static
+    @final
+    @private
+   */
+  PANEDOWN = 'panedown';
+
+  /**
+    @property DOMSCROLL
+    @type String
+    @static
+    @final
+    @private
+   */
+  DOMSCROLL = 'DOMMouseScroll';
+
+  /**
+    @property DOWN
+    @type String
+    @static
+    @final
+    @private
+   */
+  DOWN = 'down';
+
+  /**
+    @property WHEEL
+    @type String
+    @static
+    @final
+    @private
+   */
+  WHEEL = 'wheel';
+
+  /**
+    @property KEYDOWN
+    @type String
+    @static
+    @final
+    @private
+   */
+  KEYDOWN = 'keydown';
+
+  /**
+    @property KEYUP
+    @type String
+    @static
+    @final
+    @private
+   */
+  KEYUP = 'keyup';
+
+  /**
+    @property TOUCHMOVE
+    @type String
+    @static
+    @final
+    @private
+   */
+  TOUCHMOVE = 'touchmove';
+
+  /**
+    @property BROWSER_IS_IE7
+    @type Boolean
+    @static
+    @final
+    @private
+   */
+  BROWSER_IS_IE7 = window.navigator.appName === 'Microsoft Internet Explorer' && /msie 7./i.test(window.navigator.appVersion) && window.ActiveXObject;
+
+  /**
+    @property BROWSER_SCROLLBAR_WIDTH
+    @type Number
+    @static
+    @default null
+    @private
+   */
+  BROWSER_SCROLLBAR_WIDTH = null;
+  rAF = window.requestAnimationFrame;
+  cAF = window.cancelAnimationFrame;
+  _elementStyle = document.createElement('div').style;
+  _vendor = (function() {
+    var i, transform, vendor, vendors, _i, _len;
+    vendors = ['t', 'webkitT', 'MozT', 'msT', 'OT'];
+    for (i = _i = 0, _len = vendors.length; _i < _len; i = ++_i) {
+      vendor = vendors[i];
+      transform = vendors[i] + 'ransform';
+      if (transform in _elementStyle) {
+        return vendors[i].substr(0, vendors[i].length - 1);
+      }
+    }
+    return false;
+  })();
+  _prefixStyle = function(style) {
+    if (_vendor === false) {
+      return false;
+    }
+    if (_vendor === '') {
+      return style;
+    }
+    return _vendor + style.charAt(0).toUpperCase() + style.substr(1);
+  };
+  transform = _prefixStyle('transform');
+  hasTransform = transform !== false;
+
+  /**
+    Returns browser's native scrollbar width
+    @method getBrowserScrollbarWidth
+    @return {Number} the scrollbar width in pixels
+    @static
+    @private
+   */
+  getBrowserScrollbarWidth = function() {
+    var outer, outerStyle, scrollbarWidth;
+    outer = document.createElement('div');
+    outerStyle = outer.style;
+    outerStyle.position = 'absolute';
+    outerStyle.width = '100px';
+    outerStyle.height = '100px';
+    outerStyle.overflow = SCROLL;
+    outerStyle.top = '-9999px';
+    document.body.appendChild(outer);
+    scrollbarWidth = outer.offsetWidth - outer.clientWidth;
+    document.body.removeChild(outer);
+    return scrollbarWidth;
+  };
+  isFFWithBuggyScrollbar = function() {
+    var isOSXFF, ua, version;
+    ua = window.navigator.userAgent;
+    isOSXFF = /(?=.+Mac OS X)(?=.+Firefox)/.test(ua);
+    if (!isOSXFF) {
+      return false;
+    }
+    version = /Firefox\/\d{2}\./.exec(ua);
+    if (version) {
+      version = version[0].replace(/\D+/g, '');
+    }
+    return isOSXFF && +version > 23;
+  };
+
+  /**
+    @class NanoScroll
+    @param element {HTMLElement|Node} the main element
+    @param options {Object} nanoScroller's options
+    @constructor
+   */
+  NanoScroll = (function() {
+    function NanoScroll(el, options) {
+      this.el = el;
+      this.options = options;
+      BROWSER_SCROLLBAR_WIDTH || (BROWSER_SCROLLBAR_WIDTH = getBrowserScrollbarWidth());
+      this.$el = $(this.el);
+      this.doc = $(this.options.documentContext || document);
+      this.win = $(this.options.windowContext || window);
+      this.body = this.doc.find('body');
+      this.$content = this.$el.children("." + this.options.contentClass);
+      this.$content.attr('tabindex', this.options.tabIndex || 0);
+      this.content = this.$content[0];
+      this.previousPosition = 0;
+      if (this.options.iOSNativeScrolling && (this.el.style.WebkitOverflowScrolling != null)) {
+        this.nativeScrolling();
+      } else {
+        this.generate();
+      }
+      this.createEvents();
+      this.addEvents();
+      this.reset();
+    }
+
+
+    /**
+      Prevents the rest of the page being scrolled
+      when user scrolls the `.nano-content` element.
+      @method preventScrolling
+      @param event {Event}
+      @param direction {String} Scroll direction (up or down)
+      @private
+     */
+
+    NanoScroll.prototype.preventScrolling = function(e, direction) {
+      if (!this.isActive) {
+        return;
+      }
+      if (e.type === DOMSCROLL) {
+        if (direction === DOWN && e.originalEvent.detail > 0 || direction === UP && e.originalEvent.detail < 0) {
+          e.preventDefault();
+        }
+      } else if (e.type === MOUSEWHEEL) {
+        if (!e.originalEvent || !e.originalEvent.wheelDelta) {
+          return;
+        }
+        if (direction === DOWN && e.originalEvent.wheelDelta < 0 || direction === UP && e.originalEvent.wheelDelta > 0) {
+          e.preventDefault();
+        }
+      }
+    };
+
+
+    /**
+      Enable iOS native scrolling
+      @method nativeScrolling
+      @private
+     */
+
+    NanoScroll.prototype.nativeScrolling = function() {
+      this.$content.css({
+        WebkitOverflowScrolling: 'touch'
+      });
+      this.iOSNativeScrolling = true;
+      this.isActive = true;
+    };
+
+
+    /**
+      Updates those nanoScroller properties that
+      are related to current scrollbar position.
+      @method updateScrollValues
+      @private
+     */
+
+    NanoScroll.prototype.updateScrollValues = function() {
+      var content, direction;
+      content = this.content;
+      this.maxScrollTop = content.scrollHeight - content.clientHeight;
+      this.prevScrollTop = this.contentScrollTop || 0;
+      this.contentScrollTop = content.scrollTop;
+      direction = this.contentScrollTop > this.previousPosition ? "down" : this.contentScrollTop < this.previousPosition ? "up" : "same";
+      this.previousPosition = this.contentScrollTop;
+      if (direction !== "same") {
+        this.$el.trigger('update', {
+          position: this.contentScrollTop,
+          maximum: this.maxScrollTop,
+          direction: direction
+        });
+      }
+      if (!this.iOSNativeScrolling) {
+        this.maxSliderTop = this.paneHeight - this.sliderHeight;
+        this.sliderTop = this.maxScrollTop === 0 ? 0 : this.contentScrollTop * this.maxSliderTop / this.maxScrollTop;
+      }
+    };
+
+
+    /**
+      Updates CSS styles for current scroll position.
+      Uses CSS 2d transfroms and `window.requestAnimationFrame` if available.
+      @method setOnScrollStyles
+      @private
+     */
+
+    NanoScroll.prototype.setOnScrollStyles = function() {
+      var cssValue;
+      if (hasTransform) {
+        cssValue = {};
+        cssValue[transform] = "translate(0, " + this.sliderTop + "px)";
+      } else {
+        cssValue = {
+          top: this.sliderTop
+        };
+      }
+      if (rAF) {
+        if (cAF && this.scrollRAF) {
+          cAF(this.scrollRAF);
+        }
+        this.scrollRAF = rAF((function(_this) {
+          return function() {
+            _this.scrollRAF = null;
+            return _this.slider.css(cssValue);
+          };
+        })(this));
+      } else {
+        this.slider.css(cssValue);
+      }
+    };
+
+
+    /**
+      Creates event related methods
+      @method createEvents
+      @private
+     */
+
+    NanoScroll.prototype.createEvents = function() {
+      this.events = {
+        down: (function(_this) {
+          return function(e) {
+            _this.isBeingDragged = true;
+            _this.offsetY = e.pageY - _this.slider.offset().top;
+            if (!_this.slider.is(e.target)) {
+              _this.offsetY = 0;
+            }
+            _this.pane.addClass('active');
+            _this.doc.bind(MOUSEMOVE, _this.events[DRAG]).bind(MOUSEUP, _this.events[UP]);
+            _this.body.bind(MOUSEENTER, _this.events[ENTER]);
+            return false;
+          };
+        })(this),
+        drag: (function(_this) {
+          return function(e) {
+            _this.sliderY = e.pageY - _this.$el.offset().top - _this.paneTop - (_this.offsetY || _this.sliderHeight * 0.5);
+            _this.scroll();
+            if (_this.contentScrollTop >= _this.maxScrollTop && _this.prevScrollTop !== _this.maxScrollTop) {
+              _this.$el.trigger('scrollend');
+            } else if (_this.contentScrollTop === 0 && _this.prevScrollTop !== 0) {
+              _this.$el.trigger('scrolltop');
+            }
+            return false;
+          };
+        })(this),
+        up: (function(_this) {
+          return function(e) {
+            _this.isBeingDragged = false;
+            _this.pane.removeClass('active');
+            _this.doc.unbind(MOUSEMOVE, _this.events[DRAG]).unbind(MOUSEUP, _this.events[UP]);
+            _this.body.unbind(MOUSEENTER, _this.events[ENTER]);
+            return false;
+          };
+        })(this),
+        resize: (function(_this) {
+          return function(e) {
+            _this.reset();
+          };
+        })(this),
+        panedown: (function(_this) {
+          return function(e) {
+            _this.sliderY = (e.offsetY || e.originalEvent.layerY) - (_this.sliderHeight * 0.5);
+            _this.scroll();
+            _this.events.down(e);
+            return false;
+          };
+        })(this),
+        scroll: (function(_this) {
+          return function(e) {
+            _this.updateScrollValues();
+            if (_this.isBeingDragged) {
+              return;
+            }
+            if (!_this.iOSNativeScrolling) {
+              _this.sliderY = _this.sliderTop;
+              _this.setOnScrollStyles();
+            }
+            if (e == null) {
+              return;
+            }
+            if (_this.contentScrollTop >= _this.maxScrollTop) {
+              if (_this.options.preventPageScrolling) {
+                _this.preventScrolling(e, DOWN);
+              }
+              if (_this.prevScrollTop !== _this.maxScrollTop) {
+                _this.$el.trigger('scrollend');
+              }
+            } else if (_this.contentScrollTop === 0) {
+              if (_this.options.preventPageScrolling) {
+                _this.preventScrolling(e, UP);
+              }
+              if (_this.prevScrollTop !== 0) {
+                _this.$el.trigger('scrolltop');
+              }
+            }
+          };
+        })(this),
+        wheel: (function(_this) {
+          return function(e) {
+            var delta;
+            if (e == null) {
+              return;
+            }
+            delta = e.delta || e.wheelDelta || (e.originalEvent && e.originalEvent.wheelDelta) || -e.detail || (e.originalEvent && -e.originalEvent.detail);
+            if (delta) {
+              _this.sliderY += -delta / 3;
+            }
+            _this.scroll();
+            return false;
+          };
+        })(this),
+        enter: (function(_this) {
+          return function(e) {
+            var _ref;
+            if (!_this.isBeingDragged) {
+              return;
+            }
+            if ((e.buttons || e.which) !== 1) {
+              return (_ref = _this.events)[UP].apply(_ref, arguments);
+            }
+          };
+        })(this)
+      };
+    };
+
+
+    /**
+      Adds event listeners with jQuery.
+      @method addEvents
+      @private
+     */
+
+    NanoScroll.prototype.addEvents = function() {
+      var events;
+      this.removeEvents();
+      events = this.events;
+      if (!this.options.disableResize) {
+        this.win.bind(RESIZE, events[RESIZE]);
+      }
+      if (!this.iOSNativeScrolling) {
+        this.slider.bind(MOUSEDOWN, events[DOWN]);
+        this.pane.bind(MOUSEDOWN, events[PANEDOWN]).bind("" + MOUSEWHEEL + " " + DOMSCROLL, events[WHEEL]);
+      }
+      this.$content.bind("" + SCROLL + " " + MOUSEWHEEL + " " + DOMSCROLL + " " + TOUCHMOVE, events[SCROLL]);
+    };
+
+
+    /**
+      Removes event listeners with jQuery.
+      @method removeEvents
+      @private
+     */
+
+    NanoScroll.prototype.removeEvents = function() {
+      var events;
+      events = this.events;
+      this.win.unbind(RESIZE, events[RESIZE]);
+      if (!this.iOSNativeScrolling) {
+        this.slider.unbind();
+        this.pane.unbind();
+      }
+      this.$content.unbind("" + SCROLL + " " + MOUSEWHEEL + " " + DOMSCROLL + " " + TOUCHMOVE, events[SCROLL]);
+    };
+
+
+    /**
+      Generates nanoScroller's scrollbar and elements for it.
+      @method generate
+      @chainable
+      @private
+     */
+
+    NanoScroll.prototype.generate = function() {
+      var contentClass, cssRule, currentPadding, options, pane, paneClass, sliderClass;
+      options = this.options;
+      paneClass = options.paneClass, sliderClass = options.sliderClass, contentClass = options.contentClass;
+      if (!(pane = this.$el.children("." + paneClass)).length && !pane.children("." + sliderClass).length) {
+        this.$el.append("<div class=\"" + paneClass + "\"><div class=\"" + sliderClass + "\" /></div>");
+      }
+      this.pane = this.$el.children("." + paneClass);
+      this.slider = this.pane.find("." + sliderClass);
+      if (BROWSER_SCROLLBAR_WIDTH === 0 && isFFWithBuggyScrollbar()) {
+        currentPadding = window.getComputedStyle(this.content, null).getPropertyValue('padding-right').replace(/[^0-9.]+/g, '');
+        cssRule = {
+          right: -14,
+          paddingRight: +currentPadding + 14
+        };
+      } else if (BROWSER_SCROLLBAR_WIDTH) {
+        cssRule = {
+          right: -BROWSER_SCROLLBAR_WIDTH
+        };
+        this.$el.addClass('has-scrollbar');
+      }
+      if (cssRule != null) {
+        this.$content.css(cssRule);
+      }
+      return this;
+    };
+
+
+    /**
+      @method restore
+      @private
+     */
+
+    NanoScroll.prototype.restore = function() {
+      this.stopped = false;
+      if (!this.iOSNativeScrolling) {
+        this.pane.show();
+      }
+      this.addEvents();
+    };
+
+
+    /**
+      Resets nanoScroller's scrollbar.
+      @method reset
+      @chainable
+      @example
+          $(".nano").nanoScroller();
+     */
+
+    NanoScroll.prototype.reset = function() {
+      var content, contentHeight, contentPosition, contentStyle, contentStyleOverflowY, paneBottom, paneHeight, paneOuterHeight, paneTop, parentMaxHeight, right, sliderHeight;
+      if (this.iOSNativeScrolling) {
+        this.contentHeight = this.content.scrollHeight;
+        return;
+      }
+      if (!this.$el.find("." + this.options.paneClass).length) {
+        this.generate().stop();
+      }
+      if (this.stopped) {
+        this.restore();
+      }
+      content = this.content;
+      contentStyle = content.style;
+      contentStyleOverflowY = contentStyle.overflowY;
+      if (BROWSER_IS_IE7) {
+        this.$content.css({
+          height: this.$content.height()
+        });
+      }
+      contentHeight = content.scrollHeight + BROWSER_SCROLLBAR_WIDTH;
+      parentMaxHeight = parseInt(this.$el.css("max-height"), 10);
+      if (parentMaxHeight > 0) {
+        this.$el.height("");
+        this.$el.height(content.scrollHeight > parentMaxHeight ? parentMaxHeight : content.scrollHeight);
+      }
+      paneHeight = this.pane.outerHeight(false);
+      paneTop = parseInt(this.pane.css('top'), 10);
+      paneBottom = parseInt(this.pane.css('bottom'), 10);
+      paneOuterHeight = paneHeight + paneTop + paneBottom;
+      sliderHeight = Math.round(paneOuterHeight / contentHeight * paneHeight);
+      if (sliderHeight < this.options.sliderMinHeight) {
+        sliderHeight = this.options.sliderMinHeight;
+      } else if ((this.options.sliderMaxHeight != null) && sliderHeight > this.options.sliderMaxHeight) {
+        sliderHeight = this.options.sliderMaxHeight;
+      }
+      if (contentStyleOverflowY === SCROLL && contentStyle.overflowX !== SCROLL) {
+        sliderHeight += BROWSER_SCROLLBAR_WIDTH;
+      }
+      this.maxSliderTop = paneOuterHeight - sliderHeight;
+      this.contentHeight = contentHeight;
+      this.paneHeight = paneHeight;
+      this.paneOuterHeight = paneOuterHeight;
+      this.sliderHeight = sliderHeight;
+      this.paneTop = paneTop;
+      this.slider.height(sliderHeight);
+      this.events.scroll();
+      this.pane.show();
+      this.isActive = true;
+      if ((content.scrollHeight === content.clientHeight) || (this.pane.outerHeight(true) >= content.scrollHeight && contentStyleOverflowY !== SCROLL)) {
+        this.pane.hide();
+        this.isActive = false;
+      } else if (this.el.clientHeight === content.scrollHeight && contentStyleOverflowY === SCROLL) {
+        this.slider.hide();
+      } else {
+        this.slider.show();
+      }
+      this.pane.css({
+        opacity: (this.options.alwaysVisible ? 1 : ''),
+        visibility: (this.options.alwaysVisible ? 'visible' : '')
+      });
+      contentPosition = this.$content.css('position');
+      if (contentPosition === 'static' || contentPosition === 'relative') {
+        right = parseInt(this.$content.css('right'), 10);
+        if (right) {
+          this.$content.css({
+            right: '',
+            marginRight: right
+          });
+        }
+      }
+      return this;
+    };
+
+
+    /**
+      @method scroll
+      @private
+      @example
+          $(".nano").nanoScroller({ scroll: 'top' });
+     */
+
+    NanoScroll.prototype.scroll = function() {
+      if (!this.isActive) {
+        return;
+      }
+      this.sliderY = Math.max(0, this.sliderY);
+      this.sliderY = Math.min(this.maxSliderTop, this.sliderY);
+      this.$content.scrollTop(this.maxScrollTop * this.sliderY / this.maxSliderTop);
+      if (!this.iOSNativeScrolling) {
+        this.updateScrollValues();
+        this.setOnScrollStyles();
+      }
+      return this;
+    };
+
+
+    /**
+      Scroll at the bottom with an offset value
+      @method scrollBottom
+      @param offsetY {Number}
+      @chainable
+      @example
+          $(".nano").nanoScroller({ scrollBottom: value });
+     */
+
+    NanoScroll.prototype.scrollBottom = function(offsetY) {
+      if (!this.isActive) {
+        return;
+      }
+      this.$content.scrollTop(this.contentHeight - this.$content.height() - offsetY).trigger(MOUSEWHEEL);
+      this.stop().restore();
+      return this;
+    };
+
+
+    /**
+      Scroll at the top with an offset value
+      @method scrollTop
+      @param offsetY {Number}
+      @chainable
+      @example
+          $(".nano").nanoScroller({ scrollTop: value });
+     */
+
+    NanoScroll.prototype.scrollTop = function(offsetY) {
+      if (!this.isActive) {
+        return;
+      }
+      this.$content.scrollTop(+offsetY).trigger(MOUSEWHEEL);
+      this.stop().restore();
+      return this;
+    };
+
+
+    /**
+      Scroll to an element
+      @method scrollTo
+      @param node {Node} A node to scroll to.
+      @chainable
+      @example
+          $(".nano").nanoScroller({ scrollTo: $('#a_node') });
+     */
+
+    NanoScroll.prototype.scrollTo = function(node) {
+      if (!this.isActive) {
+        return;
+      }
+      this.scrollTop(this.$el.find(node).get(0).offsetTop);
+      return this;
+    };
+
+
+    /**
+      To stop the operation.
+      This option will tell the plugin to disable all event bindings and hide the gadget scrollbar from the UI.
+      @method stop
+      @chainable
+      @example
+          $(".nano").nanoScroller({ stop: true });
+     */
+
+    NanoScroll.prototype.stop = function() {
+      if (cAF && this.scrollRAF) {
+        cAF(this.scrollRAF);
+        this.scrollRAF = null;
+      }
+      this.stopped = true;
+      this.removeEvents();
+      if (!this.iOSNativeScrolling) {
+        this.pane.hide();
+      }
+      return this;
+    };
+
+
+    /**
+      Destroys nanoScroller and restores browser's native scrollbar.
+      @method destroy
+      @chainable
+      @example
+          $(".nano").nanoScroller({ destroy: true });
+     */
+
+    NanoScroll.prototype.destroy = function() {
+      if (!this.stopped) {
+        this.stop();
+      }
+      if (!this.iOSNativeScrolling && this.pane.length) {
+        this.pane.remove();
+      }
+      if (BROWSER_IS_IE7) {
+        this.$content.height('');
+      }
+      this.$content.removeAttr('tabindex');
+      if (this.$el.hasClass('has-scrollbar')) {
+        this.$el.removeClass('has-scrollbar');
+        this.$content.css({
+          right: ''
+        });
+      }
+      return this;
+    };
+
+
+    /**
+      To flash the scrollbar gadget for an amount of time defined in plugin settings (defaults to 1,5s).
+      Useful if you want to show the user (e.g. on pageload) that there is more content waiting for him.
+      @method flash
+      @chainable
+      @example
+          $(".nano").nanoScroller({ flash: true });
+     */
+
+    NanoScroll.prototype.flash = function() {
+      if (this.iOSNativeScrolling) {
+        return;
+      }
+      if (!this.isActive) {
+        return;
+      }
+      this.reset();
+      this.pane.addClass('flashed');
+      setTimeout((function(_this) {
+        return function() {
+          _this.pane.removeClass('flashed');
+        };
+      })(this), this.options.flashDelay);
+      return this;
+    };
+
+    return NanoScroll;
+
+  })();
+  $.fn.nanoScroller = function(settings) {
+    return this.each(function() {
+      var options, scrollbar;
+      if (!(scrollbar = this.nanoscroller)) {
+        options = $.extend({}, defaults, settings);
+        this.nanoscroller = scrollbar = new NanoScroll(this, options);
+      }
+      if (settings && typeof settings === "object") {
+        $.extend(scrollbar.options, settings);
+        if (settings.scrollBottom != null) {
+          return scrollbar.scrollBottom(settings.scrollBottom);
+        }
+        if (settings.scrollTop != null) {
+          return scrollbar.scrollTop(settings.scrollTop);
+        }
+        if (settings.scrollTo) {
+          return scrollbar.scrollTo(settings.scrollTo);
+        }
+        if (settings.scroll === 'bottom') {
+          return scrollbar.scrollBottom(0);
+        }
+        if (settings.scroll === 'top') {
+          return scrollbar.scrollTop(0);
+        }
+        if (settings.scroll && settings.scroll instanceof $) {
+          return scrollbar.scrollTo(settings.scroll);
+        }
+        if (settings.stop) {
+          return scrollbar.stop();
+        }
+        if (settings.destroy) {
+          return scrollbar.destroy();
+        }
+        if (settings.flash) {
+          return scrollbar.flash();
+        }
+      }
+      return scrollbar.reset();
+    });
+  };
+  $.fn.nanoScroller.Constructor = NanoScroll;
+});
+
+//# sourceMappingURL=jquery.nanoscroller.js.map
+
 
 /*
 Lightbox for Bootstrap 3 by @ashleydw
@@ -24775,1693 +25752,5 @@ if (typeof jQuery === 'undefined') {
 		return this;
 	}
 }(jQuery);
-
-/* ========================================================================
- * bootstrap-switch - v3.3.2
- * http://www.bootstrap-switch.org
- * ========================================================================
- * Copyright 2012-2013 Mattia Larentis
- *
- * ========================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ========================================================================
- */
-
-(function() {
-  var __slice = [].slice;
-
-  (function($, window) {
-    "use strict";
-    var BootstrapSwitch;
-    BootstrapSwitch = (function() {
-      function BootstrapSwitch(element, options) {
-        if (options == null) {
-          options = {};
-        }
-        this.$element = $(element);
-        this.options = $.extend({}, $.fn.bootstrapSwitch.defaults, {
-          state: this.$element.is(":checked"),
-          size: this.$element.data("size"),
-          animate: this.$element.data("animate"),
-          disabled: this.$element.is(":disabled"),
-          readonly: this.$element.is("[readonly]"),
-          indeterminate: this.$element.data("indeterminate"),
-          inverse: this.$element.data("inverse"),
-          radioAllOff: this.$element.data("radio-all-off"),
-          onColor: this.$element.data("on-color"),
-          offColor: this.$element.data("off-color"),
-          onText: this.$element.data("on-text"),
-          offText: this.$element.data("off-text"),
-          labelText: this.$element.data("label-text"),
-          handleWidth: this.$element.data("handle-width"),
-          labelWidth: this.$element.data("label-width"),
-          baseClass: this.$element.data("base-class"),
-          wrapperClass: this.$element.data("wrapper-class")
-        }, options);
-        this.$wrapper = $("<div>", {
-          "class": (function(_this) {
-            return function() {
-              var classes;
-              classes = ["" + _this.options.baseClass].concat(_this._getClasses(_this.options.wrapperClass));
-              classes.push(_this.options.state ? "" + _this.options.baseClass + "-on" : "" + _this.options.baseClass + "-off");
-              if (_this.options.size != null) {
-                classes.push("" + _this.options.baseClass + "-" + _this.options.size);
-              }
-              if (_this.options.disabled) {
-                classes.push("" + _this.options.baseClass + "-disabled");
-              }
-              if (_this.options.readonly) {
-                classes.push("" + _this.options.baseClass + "-readonly");
-              }
-              if (_this.options.indeterminate) {
-                classes.push("" + _this.options.baseClass + "-indeterminate");
-              }
-              if (_this.options.inverse) {
-                classes.push("" + _this.options.baseClass + "-inverse");
-              }
-              if (_this.$element.attr("id")) {
-                classes.push("" + _this.options.baseClass + "-id-" + (_this.$element.attr("id")));
-              }
-              return classes.join(" ");
-            };
-          })(this)()
-        });
-        this.$container = $("<div>", {
-          "class": "" + this.options.baseClass + "-container"
-        });
-        this.$on = $("<span>", {
-          html: this.options.onText,
-          "class": "" + this.options.baseClass + "-handle-on " + this.options.baseClass + "-" + this.options.onColor
-        });
-        this.$off = $("<span>", {
-          html: this.options.offText,
-          "class": "" + this.options.baseClass + "-handle-off " + this.options.baseClass + "-" + this.options.offColor
-        });
-        this.$label = $("<span>", {
-          html: this.options.labelText,
-          "class": "" + this.options.baseClass + "-label"
-        });
-        this.$element.on("init.bootstrapSwitch", (function(_this) {
-          return function() {
-            return _this.options.onInit.apply(element, arguments);
-          };
-        })(this));
-        this.$element.on("switchChange.bootstrapSwitch", (function(_this) {
-          return function() {
-            return _this.options.onSwitchChange.apply(element, arguments);
-          };
-        })(this));
-        this.$container = this.$element.wrap(this.$container).parent();
-        this.$wrapper = this.$container.wrap(this.$wrapper).parent();
-        this.$element.before(this.options.inverse ? this.$off : this.$on).before(this.$label).before(this.options.inverse ? this.$on : this.$off);
-        if (this.options.indeterminate) {
-          this.$element.prop("indeterminate", true);
-        }
-        this._init();
-        this._elementHandlers();
-        this._handleHandlers();
-        this._labelHandlers();
-        this._formHandler();
-        this._externalLabelHandler();
-        this.$element.trigger("init.bootstrapSwitch");
-      }
-
-      BootstrapSwitch.prototype._constructor = BootstrapSwitch;
-
-      BootstrapSwitch.prototype.state = function(value, skip) {
-        if (typeof value === "undefined") {
-          return this.options.state;
-        }
-        if (this.options.disabled || this.options.readonly) {
-          return this.$element;
-        }
-        if (this.options.state && !this.options.radioAllOff && this.$element.is(":radio")) {
-          return this.$element;
-        }
-        if (this.options.indeterminate) {
-          this.indeterminate(false);
-        }
-        value = !!value;
-        this.$element.prop("checked", value).trigger("change.bootstrapSwitch", skip);
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.toggleState = function(skip) {
-        if (this.options.disabled || this.options.readonly) {
-          return this.$element;
-        }
-        if (this.options.indeterminate) {
-          this.indeterminate(false);
-          return this.state(true);
-        } else {
-          return this.$element.prop("checked", !this.options.state).trigger("change.bootstrapSwitch", skip);
-        }
-      };
-
-      BootstrapSwitch.prototype.size = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.size;
-        }
-        if (this.options.size != null) {
-          this.$wrapper.removeClass("" + this.options.baseClass + "-" + this.options.size);
-        }
-        if (value) {
-          this.$wrapper.addClass("" + this.options.baseClass + "-" + value);
-        }
-        this._width();
-        this._containerPosition();
-        this.options.size = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.animate = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.animate;
-        }
-        value = !!value;
-        if (value === this.options.animate) {
-          return this.$element;
-        }
-        return this.toggleAnimate();
-      };
-
-      BootstrapSwitch.prototype.toggleAnimate = function() {
-        this.options.animate = !this.options.animate;
-        this.$wrapper.toggleClass("" + this.options.baseClass + "-animate");
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.disabled = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.disabled;
-        }
-        value = !!value;
-        if (value === this.options.disabled) {
-          return this.$element;
-        }
-        return this.toggleDisabled();
-      };
-
-      BootstrapSwitch.prototype.toggleDisabled = function() {
-        this.options.disabled = !this.options.disabled;
-        this.$element.prop("disabled", this.options.disabled);
-        this.$wrapper.toggleClass("" + this.options.baseClass + "-disabled");
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.readonly = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.readonly;
-        }
-        value = !!value;
-        if (value === this.options.readonly) {
-          return this.$element;
-        }
-        return this.toggleReadonly();
-      };
-
-      BootstrapSwitch.prototype.toggleReadonly = function() {
-        this.options.readonly = !this.options.readonly;
-        this.$element.prop("readonly", this.options.readonly);
-        this.$wrapper.toggleClass("" + this.options.baseClass + "-readonly");
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.indeterminate = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.indeterminate;
-        }
-        value = !!value;
-        if (value === this.options.indeterminate) {
-          return this.$element;
-        }
-        return this.toggleIndeterminate();
-      };
-
-      BootstrapSwitch.prototype.toggleIndeterminate = function() {
-        this.options.indeterminate = !this.options.indeterminate;
-        this.$element.prop("indeterminate", this.options.indeterminate);
-        this.$wrapper.toggleClass("" + this.options.baseClass + "-indeterminate");
-        this._containerPosition();
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.inverse = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.inverse;
-        }
-        value = !!value;
-        if (value === this.options.inverse) {
-          return this.$element;
-        }
-        return this.toggleInverse();
-      };
-
-      BootstrapSwitch.prototype.toggleInverse = function() {
-        var $off, $on;
-        this.$wrapper.toggleClass("" + this.options.baseClass + "-inverse");
-        $on = this.$on.clone(true);
-        $off = this.$off.clone(true);
-        this.$on.replaceWith($off);
-        this.$off.replaceWith($on);
-        this.$on = $off;
-        this.$off = $on;
-        this.options.inverse = !this.options.inverse;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.onColor = function(value) {
-        var color;
-        color = this.options.onColor;
-        if (typeof value === "undefined") {
-          return color;
-        }
-        if (color != null) {
-          this.$on.removeClass("" + this.options.baseClass + "-" + color);
-        }
-        this.$on.addClass("" + this.options.baseClass + "-" + value);
-        this.options.onColor = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.offColor = function(value) {
-        var color;
-        color = this.options.offColor;
-        if (typeof value === "undefined") {
-          return color;
-        }
-        if (color != null) {
-          this.$off.removeClass("" + this.options.baseClass + "-" + color);
-        }
-        this.$off.addClass("" + this.options.baseClass + "-" + value);
-        this.options.offColor = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.onText = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.onText;
-        }
-        this.$on.html(value);
-        this._width();
-        this._containerPosition();
-        this.options.onText = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.offText = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.offText;
-        }
-        this.$off.html(value);
-        this._width();
-        this._containerPosition();
-        this.options.offText = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.labelText = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.labelText;
-        }
-        this.$label.html(value);
-        this._width();
-        this.options.labelText = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.handleWidth = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.handleWidth;
-        }
-        this.options.handleWidth = value;
-        this._width();
-        this._containerPosition();
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.labelWidth = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.labelWidth;
-        }
-        this.options.labelWidth = value;
-        this._width();
-        this._containerPosition();
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.baseClass = function(value) {
-        return this.options.baseClass;
-      };
-
-      BootstrapSwitch.prototype.wrapperClass = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.wrapperClass;
-        }
-        if (!value) {
-          value = $.fn.bootstrapSwitch.defaults.wrapperClass;
-        }
-        this.$wrapper.removeClass(this._getClasses(this.options.wrapperClass).join(" "));
-        this.$wrapper.addClass(this._getClasses(value).join(" "));
-        this.options.wrapperClass = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.radioAllOff = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.radioAllOff;
-        }
-        value = !!value;
-        if (value === this.options.radioAllOff) {
-          return this.$element;
-        }
-        this.options.radioAllOff = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.onInit = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.onInit;
-        }
-        if (!value) {
-          value = $.fn.bootstrapSwitch.defaults.onInit;
-        }
-        this.options.onInit = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.onSwitchChange = function(value) {
-        if (typeof value === "undefined") {
-          return this.options.onSwitchChange;
-        }
-        if (!value) {
-          value = $.fn.bootstrapSwitch.defaults.onSwitchChange;
-        }
-        this.options.onSwitchChange = value;
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype.destroy = function() {
-        var $form;
-        $form = this.$element.closest("form");
-        if ($form.length) {
-          $form.off("reset.bootstrapSwitch").removeData("bootstrap-switch");
-        }
-        this.$container.children().not(this.$element).remove();
-        this.$element.unwrap().unwrap().off(".bootstrapSwitch").removeData("bootstrap-switch");
-        return this.$element;
-      };
-
-      BootstrapSwitch.prototype._width = function() {
-        var $handles, handleWidth;
-        $handles = this.$on.add(this.$off);
-        $handles.add(this.$label).css("width", "");
-        handleWidth = this.options.handleWidth === "auto" ? Math.max(this.$on.width(), this.$off.width()) : this.options.handleWidth;
-        $handles.width(handleWidth);
-        this.$label.width((function(_this) {
-          return function(index, width) {
-            if (_this.options.labelWidth !== "auto") {
-              return _this.options.labelWidth;
-            }
-            if (width < handleWidth) {
-              return handleWidth;
-            } else {
-              return width;
-            }
-          };
-        })(this));
-        this._handleWidth = this.$on.outerWidth();
-        this._labelWidth = this.$label.outerWidth();
-        this.$container.width((this._handleWidth * 2) + this._labelWidth);
-        return this.$wrapper.width(this._handleWidth + this._labelWidth);
-      };
-
-      BootstrapSwitch.prototype._containerPosition = function(state, callback) {
-        if (state == null) {
-          state = this.options.state;
-        }
-        this.$container.css("margin-left", (function(_this) {
-          return function() {
-            var values;
-            values = [0, "-" + _this._handleWidth + "px"];
-            if (_this.options.indeterminate) {
-              return "-" + (_this._handleWidth / 2) + "px";
-            }
-            if (state) {
-              if (_this.options.inverse) {
-                return values[1];
-              } else {
-                return values[0];
-              }
-            } else {
-              if (_this.options.inverse) {
-                return values[0];
-              } else {
-                return values[1];
-              }
-            }
-          };
-        })(this));
-        if (!callback) {
-          return;
-        }
-        return setTimeout(function() {
-          return callback();
-        }, 50);
-      };
-
-      BootstrapSwitch.prototype._init = function() {
-        var init, initInterval;
-        init = (function(_this) {
-          return function() {
-            _this._width();
-            return _this._containerPosition(null, function() {
-              if (_this.options.animate) {
-                return _this.$wrapper.addClass("" + _this.options.baseClass + "-animate");
-              }
-            });
-          };
-        })(this);
-        if (this.$wrapper.is(":visible")) {
-          return init();
-        }
-        return initInterval = window.setInterval((function(_this) {
-          return function() {
-            if (_this.$wrapper.is(":visible")) {
-              init();
-              return window.clearInterval(initInterval);
-            }
-          };
-        })(this), 50);
-      };
-
-      BootstrapSwitch.prototype._elementHandlers = function() {
-        return this.$element.on({
-          "change.bootstrapSwitch": (function(_this) {
-            return function(e, skip) {
-              var state;
-              e.preventDefault();
-              e.stopImmediatePropagation();
-              state = _this.$element.is(":checked");
-              _this._containerPosition(state);
-              if (state === _this.options.state) {
-                return;
-              }
-              _this.options.state = state;
-              _this.$wrapper.toggleClass("" + _this.options.baseClass + "-off").toggleClass("" + _this.options.baseClass + "-on");
-              if (!skip) {
-                if (_this.$element.is(":radio")) {
-                  $("[name='" + (_this.$element.attr('name')) + "']").not(_this.$element).prop("checked", false).trigger("change.bootstrapSwitch", true);
-                }
-                return _this.$element.trigger("switchChange.bootstrapSwitch", [state]);
-              }
-            };
-          })(this),
-          "focus.bootstrapSwitch": (function(_this) {
-            return function(e) {
-              e.preventDefault();
-              return _this.$wrapper.addClass("" + _this.options.baseClass + "-focused");
-            };
-          })(this),
-          "blur.bootstrapSwitch": (function(_this) {
-            return function(e) {
-              e.preventDefault();
-              return _this.$wrapper.removeClass("" + _this.options.baseClass + "-focused");
-            };
-          })(this),
-          "keydown.bootstrapSwitch": (function(_this) {
-            return function(e) {
-              if (!e.which || _this.options.disabled || _this.options.readonly) {
-                return;
-              }
-              switch (e.which) {
-                case 37:
-                  e.preventDefault();
-                  e.stopImmediatePropagation();
-                  return _this.state(false);
-                case 39:
-                  e.preventDefault();
-                  e.stopImmediatePropagation();
-                  return _this.state(true);
-              }
-            };
-          })(this)
-        });
-      };
-
-      BootstrapSwitch.prototype._handleHandlers = function() {
-        this.$on.on("click.bootstrapSwitch", (function(_this) {
-          return function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            _this.state(false);
-            return _this.$element.trigger("focus.bootstrapSwitch");
-          };
-        })(this));
-        return this.$off.on("click.bootstrapSwitch", (function(_this) {
-          return function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            _this.state(true);
-            return _this.$element.trigger("focus.bootstrapSwitch");
-          };
-        })(this));
-      };
-
-      BootstrapSwitch.prototype._labelHandlers = function() {
-        return this.$label.on({
-          "mousedown.bootstrapSwitch touchstart.bootstrapSwitch": (function(_this) {
-            return function(e) {
-              if (_this._dragStart || _this.options.disabled || _this.options.readonly) {
-                return;
-              }
-              e.preventDefault();
-              e.stopPropagation();
-              _this._dragStart = (e.pageX || e.originalEvent.touches[0].pageX) - parseInt(_this.$container.css("margin-left"), 10);
-              if (_this.options.animate) {
-                _this.$wrapper.removeClass("" + _this.options.baseClass + "-animate");
-              }
-              return _this.$element.trigger("focus.bootstrapSwitch");
-            };
-          })(this),
-          "mousemove.bootstrapSwitch touchmove.bootstrapSwitch": (function(_this) {
-            return function(e) {
-              var difference;
-              if (_this._dragStart == null) {
-                return;
-              }
-              e.preventDefault();
-              difference = (e.pageX || e.originalEvent.touches[0].pageX) - _this._dragStart;
-              if (difference < -_this._handleWidth || difference > 0) {
-                return;
-              }
-              _this._dragEnd = difference;
-              return _this.$container.css("margin-left", "" + _this._dragEnd + "px");
-            };
-          })(this),
-          "mouseup.bootstrapSwitch touchend.bootstrapSwitch": (function(_this) {
-            return function(e) {
-              var state;
-              if (!_this._dragStart) {
-                return;
-              }
-              e.preventDefault();
-              if (_this.options.animate) {
-                _this.$wrapper.addClass("" + _this.options.baseClass + "-animate");
-              }
-              if (_this._dragEnd) {
-                state = _this._dragEnd > -(_this._handleWidth / 2);
-                _this._dragEnd = false;
-                _this.state(_this.options.inverse ? !state : state);
-              } else {
-                _this.state(!_this.options.state);
-              }
-              return _this._dragStart = false;
-            };
-          })(this),
-          "mouseleave.bootstrapSwitch": (function(_this) {
-            return function(e) {
-              return _this.$label.trigger("mouseup.bootstrapSwitch");
-            };
-          })(this)
-        });
-      };
-
-      BootstrapSwitch.prototype._externalLabelHandler = function() {
-        var $externalLabel;
-        $externalLabel = this.$element.closest("label");
-        return $externalLabel.on("click", (function(_this) {
-          return function(event) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            if (event.target === $externalLabel[0]) {
-              return _this.toggleState();
-            }
-          };
-        })(this));
-      };
-
-      BootstrapSwitch.prototype._formHandler = function() {
-        var $form;
-        $form = this.$element.closest("form");
-        if ($form.data("bootstrap-switch")) {
-          return;
-        }
-        return $form.on("reset.bootstrapSwitch", function() {
-          return window.setTimeout(function() {
-            return $form.find("input").filter(function() {
-              return $(this).data("bootstrap-switch");
-            }).each(function() {
-              return $(this).bootstrapSwitch("state", this.checked);
-            });
-          }, 1);
-        }).data("bootstrap-switch", true);
-      };
-
-      BootstrapSwitch.prototype._getClasses = function(classes) {
-        var c, cls, _i, _len;
-        if (!$.isArray(classes)) {
-          return ["" + this.options.baseClass + "-" + classes];
-        }
-        cls = [];
-        for (_i = 0, _len = classes.length; _i < _len; _i++) {
-          c = classes[_i];
-          cls.push("" + this.options.baseClass + "-" + c);
-        }
-        return cls;
-      };
-
-      return BootstrapSwitch;
-
-    })();
-    $.fn.bootstrapSwitch = function() {
-      var args, option, ret;
-      option = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-      ret = this;
-      this.each(function() {
-        var $this, data;
-        $this = $(this);
-        data = $this.data("bootstrap-switch");
-        if (!data) {
-          $this.data("bootstrap-switch", data = new BootstrapSwitch(this, option));
-        }
-        if (typeof option === "string") {
-          return ret = data[option].apply(data, args);
-        }
-      });
-      return ret;
-    };
-    $.fn.bootstrapSwitch.Constructor = BootstrapSwitch;
-    return $.fn.bootstrapSwitch.defaults = {
-      state: true,
-      size: null,
-      animate: true,
-      disabled: false,
-      readonly: false,
-      indeterminate: false,
-      inverse: false,
-      radioAllOff: false,
-      onColor: "primary",
-      offColor: "default",
-      onText: "ON",
-      offText: "OFF",
-      labelText: "&nbsp;",
-      handleWidth: "auto",
-      labelWidth: "auto",
-      baseClass: "bootstrap-switch",
-      wrapperClass: "wrapper",
-      onInit: function() {},
-      onSwitchChange: function() {}
-    };
-  })(window.jQuery, window);
-
-}).call(this);
-
-/*! nanoScrollerJS - v0.8.7 - 2015
-* http://jamesflorentino.github.com/nanoScrollerJS/
-* Copyright (c) 2015 James Florentino; Licensed MIT */
-(function(factory) {
-  if (typeof define === 'function' && define.amd) {
-    return define(['jquery'], function($) {
-      return factory($, window, document);
-    });
-  } else if (typeof exports === 'object') {
-    return module.exports = factory(require('jquery'), window, document);
-  } else {
-    return factory(jQuery, window, document);
-  }
-})(function($, window, document) {
-  "use strict";
-  var BROWSER_IS_IE7, BROWSER_SCROLLBAR_WIDTH, DOMSCROLL, DOWN, DRAG, ENTER, KEYDOWN, KEYUP, MOUSEDOWN, MOUSEENTER, MOUSEMOVE, MOUSEUP, MOUSEWHEEL, NanoScroll, PANEDOWN, RESIZE, SCROLL, SCROLLBAR, TOUCHMOVE, UP, WHEEL, cAF, defaults, getBrowserScrollbarWidth, hasTransform, isFFWithBuggyScrollbar, rAF, transform, _elementStyle, _prefixStyle, _vendor;
-  defaults = {
-
-    /**
-      a classname for the pane element.
-      @property paneClass
-      @type String
-      @default 'nano-pane'
-     */
-    paneClass: 'nano-pane',
-
-    /**
-      a classname for the slider element.
-      @property sliderClass
-      @type String
-      @default 'nano-slider'
-     */
-    sliderClass: 'nano-slider',
-
-    /**
-      a classname for the content element.
-      @property contentClass
-      @type String
-      @default 'nano-content'
-     */
-    contentClass: 'nano-content',
-
-    /**
-      a setting to enable native scrolling in iOS devices.
-      @property iOSNativeScrolling
-      @type Boolean
-      @default false
-     */
-    iOSNativeScrolling: false,
-
-    /**
-      a setting to prevent the rest of the page being
-      scrolled when user scrolls the `.content` element.
-      @property preventPageScrolling
-      @type Boolean
-      @default false
-     */
-    preventPageScrolling: false,
-
-    /**
-      a setting to disable binding to the resize event.
-      @property disableResize
-      @type Boolean
-      @default false
-     */
-    disableResize: false,
-
-    /**
-      a setting to make the scrollbar always visible.
-      @property alwaysVisible
-      @type Boolean
-      @default false
-     */
-    alwaysVisible: false,
-
-    /**
-      a default timeout for the `flash()` method.
-      @property flashDelay
-      @type Number
-      @default 1500
-     */
-    flashDelay: 1500,
-
-    /**
-      a minimum height for the `.slider` element.
-      @property sliderMinHeight
-      @type Number
-      @default 20
-     */
-    sliderMinHeight: 20,
-
-    /**
-      a maximum height for the `.slider` element.
-      @property sliderMaxHeight
-      @type Number
-      @default null
-     */
-    sliderMaxHeight: null,
-
-    /**
-      an alternate document context.
-      @property documentContext
-      @type Document
-      @default null
-     */
-    documentContext: null,
-
-    /**
-      an alternate window context.
-      @property windowContext
-      @type Window
-      @default null
-     */
-    windowContext: null
-  };
-
-  /**
-    @property SCROLLBAR
-    @type String
-    @static
-    @final
-    @private
-   */
-  SCROLLBAR = 'scrollbar';
-
-  /**
-    @property SCROLL
-    @type String
-    @static
-    @final
-    @private
-   */
-  SCROLL = 'scroll';
-
-  /**
-    @property MOUSEDOWN
-    @type String
-    @final
-    @private
-   */
-  MOUSEDOWN = 'mousedown';
-
-  /**
-    @property MOUSEENTER
-    @type String
-    @final
-    @private
-   */
-  MOUSEENTER = 'mouseenter';
-
-  /**
-    @property MOUSEMOVE
-    @type String
-    @static
-    @final
-    @private
-   */
-  MOUSEMOVE = 'mousemove';
-
-  /**
-    @property MOUSEWHEEL
-    @type String
-    @final
-    @private
-   */
-  MOUSEWHEEL = 'mousewheel';
-
-  /**
-    @property MOUSEUP
-    @type String
-    @static
-    @final
-    @private
-   */
-  MOUSEUP = 'mouseup';
-
-  /**
-    @property RESIZE
-    @type String
-    @final
-    @private
-   */
-  RESIZE = 'resize';
-
-  /**
-    @property DRAG
-    @type String
-    @static
-    @final
-    @private
-   */
-  DRAG = 'drag';
-
-  /**
-    @property ENTER
-    @type String
-    @static
-    @final
-    @private
-   */
-  ENTER = 'enter';
-
-  /**
-    @property UP
-    @type String
-    @static
-    @final
-    @private
-   */
-  UP = 'up';
-
-  /**
-    @property PANEDOWN
-    @type String
-    @static
-    @final
-    @private
-   */
-  PANEDOWN = 'panedown';
-
-  /**
-    @property DOMSCROLL
-    @type String
-    @static
-    @final
-    @private
-   */
-  DOMSCROLL = 'DOMMouseScroll';
-
-  /**
-    @property DOWN
-    @type String
-    @static
-    @final
-    @private
-   */
-  DOWN = 'down';
-
-  /**
-    @property WHEEL
-    @type String
-    @static
-    @final
-    @private
-   */
-  WHEEL = 'wheel';
-
-  /**
-    @property KEYDOWN
-    @type String
-    @static
-    @final
-    @private
-   */
-  KEYDOWN = 'keydown';
-
-  /**
-    @property KEYUP
-    @type String
-    @static
-    @final
-    @private
-   */
-  KEYUP = 'keyup';
-
-  /**
-    @property TOUCHMOVE
-    @type String
-    @static
-    @final
-    @private
-   */
-  TOUCHMOVE = 'touchmove';
-
-  /**
-    @property BROWSER_IS_IE7
-    @type Boolean
-    @static
-    @final
-    @private
-   */
-  BROWSER_IS_IE7 = window.navigator.appName === 'Microsoft Internet Explorer' && /msie 7./i.test(window.navigator.appVersion) && window.ActiveXObject;
-
-  /**
-    @property BROWSER_SCROLLBAR_WIDTH
-    @type Number
-    @static
-    @default null
-    @private
-   */
-  BROWSER_SCROLLBAR_WIDTH = null;
-  rAF = window.requestAnimationFrame;
-  cAF = window.cancelAnimationFrame;
-  _elementStyle = document.createElement('div').style;
-  _vendor = (function() {
-    var i, transform, vendor, vendors, _i, _len;
-    vendors = ['t', 'webkitT', 'MozT', 'msT', 'OT'];
-    for (i = _i = 0, _len = vendors.length; _i < _len; i = ++_i) {
-      vendor = vendors[i];
-      transform = vendors[i] + 'ransform';
-      if (transform in _elementStyle) {
-        return vendors[i].substr(0, vendors[i].length - 1);
-      }
-    }
-    return false;
-  })();
-  _prefixStyle = function(style) {
-    if (_vendor === false) {
-      return false;
-    }
-    if (_vendor === '') {
-      return style;
-    }
-    return _vendor + style.charAt(0).toUpperCase() + style.substr(1);
-  };
-  transform = _prefixStyle('transform');
-  hasTransform = transform !== false;
-
-  /**
-    Returns browser's native scrollbar width
-    @method getBrowserScrollbarWidth
-    @return {Number} the scrollbar width in pixels
-    @static
-    @private
-   */
-  getBrowserScrollbarWidth = function() {
-    var outer, outerStyle, scrollbarWidth;
-    outer = document.createElement('div');
-    outerStyle = outer.style;
-    outerStyle.position = 'absolute';
-    outerStyle.width = '100px';
-    outerStyle.height = '100px';
-    outerStyle.overflow = SCROLL;
-    outerStyle.top = '-9999px';
-    document.body.appendChild(outer);
-    scrollbarWidth = outer.offsetWidth - outer.clientWidth;
-    document.body.removeChild(outer);
-    return scrollbarWidth;
-  };
-  isFFWithBuggyScrollbar = function() {
-    var isOSXFF, ua, version;
-    ua = window.navigator.userAgent;
-    isOSXFF = /(?=.+Mac OS X)(?=.+Firefox)/.test(ua);
-    if (!isOSXFF) {
-      return false;
-    }
-    version = /Firefox\/\d{2}\./.exec(ua);
-    if (version) {
-      version = version[0].replace(/\D+/g, '');
-    }
-    return isOSXFF && +version > 23;
-  };
-
-  /**
-    @class NanoScroll
-    @param element {HTMLElement|Node} the main element
-    @param options {Object} nanoScroller's options
-    @constructor
-   */
-  NanoScroll = (function() {
-    function NanoScroll(el, options) {
-      this.el = el;
-      this.options = options;
-      BROWSER_SCROLLBAR_WIDTH || (BROWSER_SCROLLBAR_WIDTH = getBrowserScrollbarWidth());
-      this.$el = $(this.el);
-      this.doc = $(this.options.documentContext || document);
-      this.win = $(this.options.windowContext || window);
-      this.body = this.doc.find('body');
-      this.$content = this.$el.children("." + this.options.contentClass);
-      this.$content.attr('tabindex', this.options.tabIndex || 0);
-      this.content = this.$content[0];
-      this.previousPosition = 0;
-      if (this.options.iOSNativeScrolling && (this.el.style.WebkitOverflowScrolling != null)) {
-        this.nativeScrolling();
-      } else {
-        this.generate();
-      }
-      this.createEvents();
-      this.addEvents();
-      this.reset();
-    }
-
-
-    /**
-      Prevents the rest of the page being scrolled
-      when user scrolls the `.nano-content` element.
-      @method preventScrolling
-      @param event {Event}
-      @param direction {String} Scroll direction (up or down)
-      @private
-     */
-
-    NanoScroll.prototype.preventScrolling = function(e, direction) {
-      if (!this.isActive) {
-        return;
-      }
-      if (e.type === DOMSCROLL) {
-        if (direction === DOWN && e.originalEvent.detail > 0 || direction === UP && e.originalEvent.detail < 0) {
-          e.preventDefault();
-        }
-      } else if (e.type === MOUSEWHEEL) {
-        if (!e.originalEvent || !e.originalEvent.wheelDelta) {
-          return;
-        }
-        if (direction === DOWN && e.originalEvent.wheelDelta < 0 || direction === UP && e.originalEvent.wheelDelta > 0) {
-          e.preventDefault();
-        }
-      }
-    };
-
-
-    /**
-      Enable iOS native scrolling
-      @method nativeScrolling
-      @private
-     */
-
-    NanoScroll.prototype.nativeScrolling = function() {
-      this.$content.css({
-        WebkitOverflowScrolling: 'touch'
-      });
-      this.iOSNativeScrolling = true;
-      this.isActive = true;
-    };
-
-
-    /**
-      Updates those nanoScroller properties that
-      are related to current scrollbar position.
-      @method updateScrollValues
-      @private
-     */
-
-    NanoScroll.prototype.updateScrollValues = function() {
-      var content, direction;
-      content = this.content;
-      this.maxScrollTop = content.scrollHeight - content.clientHeight;
-      this.prevScrollTop = this.contentScrollTop || 0;
-      this.contentScrollTop = content.scrollTop;
-      direction = this.contentScrollTop > this.previousPosition ? "down" : this.contentScrollTop < this.previousPosition ? "up" : "same";
-      this.previousPosition = this.contentScrollTop;
-      if (direction !== "same") {
-        this.$el.trigger('update', {
-          position: this.contentScrollTop,
-          maximum: this.maxScrollTop,
-          direction: direction
-        });
-      }
-      if (!this.iOSNativeScrolling) {
-        this.maxSliderTop = this.paneHeight - this.sliderHeight;
-        this.sliderTop = this.maxScrollTop === 0 ? 0 : this.contentScrollTop * this.maxSliderTop / this.maxScrollTop;
-      }
-    };
-
-
-    /**
-      Updates CSS styles for current scroll position.
-      Uses CSS 2d transfroms and `window.requestAnimationFrame` if available.
-      @method setOnScrollStyles
-      @private
-     */
-
-    NanoScroll.prototype.setOnScrollStyles = function() {
-      var cssValue;
-      if (hasTransform) {
-        cssValue = {};
-        cssValue[transform] = "translate(0, " + this.sliderTop + "px)";
-      } else {
-        cssValue = {
-          top: this.sliderTop
-        };
-      }
-      if (rAF) {
-        if (cAF && this.scrollRAF) {
-          cAF(this.scrollRAF);
-        }
-        this.scrollRAF = rAF((function(_this) {
-          return function() {
-            _this.scrollRAF = null;
-            return _this.slider.css(cssValue);
-          };
-        })(this));
-      } else {
-        this.slider.css(cssValue);
-      }
-    };
-
-
-    /**
-      Creates event related methods
-      @method createEvents
-      @private
-     */
-
-    NanoScroll.prototype.createEvents = function() {
-      this.events = {
-        down: (function(_this) {
-          return function(e) {
-            _this.isBeingDragged = true;
-            _this.offsetY = e.pageY - _this.slider.offset().top;
-            if (!_this.slider.is(e.target)) {
-              _this.offsetY = 0;
-            }
-            _this.pane.addClass('active');
-            _this.doc.bind(MOUSEMOVE, _this.events[DRAG]).bind(MOUSEUP, _this.events[UP]);
-            _this.body.bind(MOUSEENTER, _this.events[ENTER]);
-            return false;
-          };
-        })(this),
-        drag: (function(_this) {
-          return function(e) {
-            _this.sliderY = e.pageY - _this.$el.offset().top - _this.paneTop - (_this.offsetY || _this.sliderHeight * 0.5);
-            _this.scroll();
-            if (_this.contentScrollTop >= _this.maxScrollTop && _this.prevScrollTop !== _this.maxScrollTop) {
-              _this.$el.trigger('scrollend');
-            } else if (_this.contentScrollTop === 0 && _this.prevScrollTop !== 0) {
-              _this.$el.trigger('scrolltop');
-            }
-            return false;
-          };
-        })(this),
-        up: (function(_this) {
-          return function(e) {
-            _this.isBeingDragged = false;
-            _this.pane.removeClass('active');
-            _this.doc.unbind(MOUSEMOVE, _this.events[DRAG]).unbind(MOUSEUP, _this.events[UP]);
-            _this.body.unbind(MOUSEENTER, _this.events[ENTER]);
-            return false;
-          };
-        })(this),
-        resize: (function(_this) {
-          return function(e) {
-            _this.reset();
-          };
-        })(this),
-        panedown: (function(_this) {
-          return function(e) {
-            _this.sliderY = (e.offsetY || e.originalEvent.layerY) - (_this.sliderHeight * 0.5);
-            _this.scroll();
-            _this.events.down(e);
-            return false;
-          };
-        })(this),
-        scroll: (function(_this) {
-          return function(e) {
-            _this.updateScrollValues();
-            if (_this.isBeingDragged) {
-              return;
-            }
-            if (!_this.iOSNativeScrolling) {
-              _this.sliderY = _this.sliderTop;
-              _this.setOnScrollStyles();
-            }
-            if (e == null) {
-              return;
-            }
-            if (_this.contentScrollTop >= _this.maxScrollTop) {
-              if (_this.options.preventPageScrolling) {
-                _this.preventScrolling(e, DOWN);
-              }
-              if (_this.prevScrollTop !== _this.maxScrollTop) {
-                _this.$el.trigger('scrollend');
-              }
-            } else if (_this.contentScrollTop === 0) {
-              if (_this.options.preventPageScrolling) {
-                _this.preventScrolling(e, UP);
-              }
-              if (_this.prevScrollTop !== 0) {
-                _this.$el.trigger('scrolltop');
-              }
-            }
-          };
-        })(this),
-        wheel: (function(_this) {
-          return function(e) {
-            var delta;
-            if (e == null) {
-              return;
-            }
-            delta = e.delta || e.wheelDelta || (e.originalEvent && e.originalEvent.wheelDelta) || -e.detail || (e.originalEvent && -e.originalEvent.detail);
-            if (delta) {
-              _this.sliderY += -delta / 3;
-            }
-            _this.scroll();
-            return false;
-          };
-        })(this),
-        enter: (function(_this) {
-          return function(e) {
-            var _ref;
-            if (!_this.isBeingDragged) {
-              return;
-            }
-            if ((e.buttons || e.which) !== 1) {
-              return (_ref = _this.events)[UP].apply(_ref, arguments);
-            }
-          };
-        })(this)
-      };
-    };
-
-
-    /**
-      Adds event listeners with jQuery.
-      @method addEvents
-      @private
-     */
-
-    NanoScroll.prototype.addEvents = function() {
-      var events;
-      this.removeEvents();
-      events = this.events;
-      if (!this.options.disableResize) {
-        this.win.bind(RESIZE, events[RESIZE]);
-      }
-      if (!this.iOSNativeScrolling) {
-        this.slider.bind(MOUSEDOWN, events[DOWN]);
-        this.pane.bind(MOUSEDOWN, events[PANEDOWN]).bind("" + MOUSEWHEEL + " " + DOMSCROLL, events[WHEEL]);
-      }
-      this.$content.bind("" + SCROLL + " " + MOUSEWHEEL + " " + DOMSCROLL + " " + TOUCHMOVE, events[SCROLL]);
-    };
-
-
-    /**
-      Removes event listeners with jQuery.
-      @method removeEvents
-      @private
-     */
-
-    NanoScroll.prototype.removeEvents = function() {
-      var events;
-      events = this.events;
-      this.win.unbind(RESIZE, events[RESIZE]);
-      if (!this.iOSNativeScrolling) {
-        this.slider.unbind();
-        this.pane.unbind();
-      }
-      this.$content.unbind("" + SCROLL + " " + MOUSEWHEEL + " " + DOMSCROLL + " " + TOUCHMOVE, events[SCROLL]);
-    };
-
-
-    /**
-      Generates nanoScroller's scrollbar and elements for it.
-      @method generate
-      @chainable
-      @private
-     */
-
-    NanoScroll.prototype.generate = function() {
-      var contentClass, cssRule, currentPadding, options, pane, paneClass, sliderClass;
-      options = this.options;
-      paneClass = options.paneClass, sliderClass = options.sliderClass, contentClass = options.contentClass;
-      if (!(pane = this.$el.children("." + paneClass)).length && !pane.children("." + sliderClass).length) {
-        this.$el.append("<div class=\"" + paneClass + "\"><div class=\"" + sliderClass + "\" /></div>");
-      }
-      this.pane = this.$el.children("." + paneClass);
-      this.slider = this.pane.find("." + sliderClass);
-      if (BROWSER_SCROLLBAR_WIDTH === 0 && isFFWithBuggyScrollbar()) {
-        currentPadding = window.getComputedStyle(this.content, null).getPropertyValue('padding-right').replace(/[^0-9.]+/g, '');
-        cssRule = {
-          right: -14,
-          paddingRight: +currentPadding + 14
-        };
-      } else if (BROWSER_SCROLLBAR_WIDTH) {
-        cssRule = {
-          right: -BROWSER_SCROLLBAR_WIDTH
-        };
-        this.$el.addClass('has-scrollbar');
-      }
-      if (cssRule != null) {
-        this.$content.css(cssRule);
-      }
-      return this;
-    };
-
-
-    /**
-      @method restore
-      @private
-     */
-
-    NanoScroll.prototype.restore = function() {
-      this.stopped = false;
-      if (!this.iOSNativeScrolling) {
-        this.pane.show();
-      }
-      this.addEvents();
-    };
-
-
-    /**
-      Resets nanoScroller's scrollbar.
-      @method reset
-      @chainable
-      @example
-          $(".nano").nanoScroller();
-     */
-
-    NanoScroll.prototype.reset = function() {
-      var content, contentHeight, contentPosition, contentStyle, contentStyleOverflowY, paneBottom, paneHeight, paneOuterHeight, paneTop, parentMaxHeight, right, sliderHeight;
-      if (this.iOSNativeScrolling) {
-        this.contentHeight = this.content.scrollHeight;
-        return;
-      }
-      if (!this.$el.find("." + this.options.paneClass).length) {
-        this.generate().stop();
-      }
-      if (this.stopped) {
-        this.restore();
-      }
-      content = this.content;
-      contentStyle = content.style;
-      contentStyleOverflowY = contentStyle.overflowY;
-      if (BROWSER_IS_IE7) {
-        this.$content.css({
-          height: this.$content.height()
-        });
-      }
-      contentHeight = content.scrollHeight + BROWSER_SCROLLBAR_WIDTH;
-      parentMaxHeight = parseInt(this.$el.css("max-height"), 10);
-      if (parentMaxHeight > 0) {
-        this.$el.height("");
-        this.$el.height(content.scrollHeight > parentMaxHeight ? parentMaxHeight : content.scrollHeight);
-      }
-      paneHeight = this.pane.outerHeight(false);
-      paneTop = parseInt(this.pane.css('top'), 10);
-      paneBottom = parseInt(this.pane.css('bottom'), 10);
-      paneOuterHeight = paneHeight + paneTop + paneBottom;
-      sliderHeight = Math.round(paneOuterHeight / contentHeight * paneHeight);
-      if (sliderHeight < this.options.sliderMinHeight) {
-        sliderHeight = this.options.sliderMinHeight;
-      } else if ((this.options.sliderMaxHeight != null) && sliderHeight > this.options.sliderMaxHeight) {
-        sliderHeight = this.options.sliderMaxHeight;
-      }
-      if (contentStyleOverflowY === SCROLL && contentStyle.overflowX !== SCROLL) {
-        sliderHeight += BROWSER_SCROLLBAR_WIDTH;
-      }
-      this.maxSliderTop = paneOuterHeight - sliderHeight;
-      this.contentHeight = contentHeight;
-      this.paneHeight = paneHeight;
-      this.paneOuterHeight = paneOuterHeight;
-      this.sliderHeight = sliderHeight;
-      this.paneTop = paneTop;
-      this.slider.height(sliderHeight);
-      this.events.scroll();
-      this.pane.show();
-      this.isActive = true;
-      if ((content.scrollHeight === content.clientHeight) || (this.pane.outerHeight(true) >= content.scrollHeight && contentStyleOverflowY !== SCROLL)) {
-        this.pane.hide();
-        this.isActive = false;
-      } else if (this.el.clientHeight === content.scrollHeight && contentStyleOverflowY === SCROLL) {
-        this.slider.hide();
-      } else {
-        this.slider.show();
-      }
-      this.pane.css({
-        opacity: (this.options.alwaysVisible ? 1 : ''),
-        visibility: (this.options.alwaysVisible ? 'visible' : '')
-      });
-      contentPosition = this.$content.css('position');
-      if (contentPosition === 'static' || contentPosition === 'relative') {
-        right = parseInt(this.$content.css('right'), 10);
-        if (right) {
-          this.$content.css({
-            right: '',
-            marginRight: right
-          });
-        }
-      }
-      return this;
-    };
-
-
-    /**
-      @method scroll
-      @private
-      @example
-          $(".nano").nanoScroller({ scroll: 'top' });
-     */
-
-    NanoScroll.prototype.scroll = function() {
-      if (!this.isActive) {
-        return;
-      }
-      this.sliderY = Math.max(0, this.sliderY);
-      this.sliderY = Math.min(this.maxSliderTop, this.sliderY);
-      this.$content.scrollTop(this.maxScrollTop * this.sliderY / this.maxSliderTop);
-      if (!this.iOSNativeScrolling) {
-        this.updateScrollValues();
-        this.setOnScrollStyles();
-      }
-      return this;
-    };
-
-
-    /**
-      Scroll at the bottom with an offset value
-      @method scrollBottom
-      @param offsetY {Number}
-      @chainable
-      @example
-          $(".nano").nanoScroller({ scrollBottom: value });
-     */
-
-    NanoScroll.prototype.scrollBottom = function(offsetY) {
-      if (!this.isActive) {
-        return;
-      }
-      this.$content.scrollTop(this.contentHeight - this.$content.height() - offsetY).trigger(MOUSEWHEEL);
-      this.stop().restore();
-      return this;
-    };
-
-
-    /**
-      Scroll at the top with an offset value
-      @method scrollTop
-      @param offsetY {Number}
-      @chainable
-      @example
-          $(".nano").nanoScroller({ scrollTop: value });
-     */
-
-    NanoScroll.prototype.scrollTop = function(offsetY) {
-      if (!this.isActive) {
-        return;
-      }
-      this.$content.scrollTop(+offsetY).trigger(MOUSEWHEEL);
-      this.stop().restore();
-      return this;
-    };
-
-
-    /**
-      Scroll to an element
-      @method scrollTo
-      @param node {Node} A node to scroll to.
-      @chainable
-      @example
-          $(".nano").nanoScroller({ scrollTo: $('#a_node') });
-     */
-
-    NanoScroll.prototype.scrollTo = function(node) {
-      if (!this.isActive) {
-        return;
-      }
-      this.scrollTop(this.$el.find(node).get(0).offsetTop);
-      return this;
-    };
-
-
-    /**
-      To stop the operation.
-      This option will tell the plugin to disable all event bindings and hide the gadget scrollbar from the UI.
-      @method stop
-      @chainable
-      @example
-          $(".nano").nanoScroller({ stop: true });
-     */
-
-    NanoScroll.prototype.stop = function() {
-      if (cAF && this.scrollRAF) {
-        cAF(this.scrollRAF);
-        this.scrollRAF = null;
-      }
-      this.stopped = true;
-      this.removeEvents();
-      if (!this.iOSNativeScrolling) {
-        this.pane.hide();
-      }
-      return this;
-    };
-
-
-    /**
-      Destroys nanoScroller and restores browser's native scrollbar.
-      @method destroy
-      @chainable
-      @example
-          $(".nano").nanoScroller({ destroy: true });
-     */
-
-    NanoScroll.prototype.destroy = function() {
-      if (!this.stopped) {
-        this.stop();
-      }
-      if (!this.iOSNativeScrolling && this.pane.length) {
-        this.pane.remove();
-      }
-      if (BROWSER_IS_IE7) {
-        this.$content.height('');
-      }
-      this.$content.removeAttr('tabindex');
-      if (this.$el.hasClass('has-scrollbar')) {
-        this.$el.removeClass('has-scrollbar');
-        this.$content.css({
-          right: ''
-        });
-      }
-      return this;
-    };
-
-
-    /**
-      To flash the scrollbar gadget for an amount of time defined in plugin settings (defaults to 1,5s).
-      Useful if you want to show the user (e.g. on pageload) that there is more content waiting for him.
-      @method flash
-      @chainable
-      @example
-          $(".nano").nanoScroller({ flash: true });
-     */
-
-    NanoScroll.prototype.flash = function() {
-      if (this.iOSNativeScrolling) {
-        return;
-      }
-      if (!this.isActive) {
-        return;
-      }
-      this.reset();
-      this.pane.addClass('flashed');
-      setTimeout((function(_this) {
-        return function() {
-          _this.pane.removeClass('flashed');
-        };
-      })(this), this.options.flashDelay);
-      return this;
-    };
-
-    return NanoScroll;
-
-  })();
-  $.fn.nanoScroller = function(settings) {
-    return this.each(function() {
-      var options, scrollbar;
-      if (!(scrollbar = this.nanoscroller)) {
-        options = $.extend({}, defaults, settings);
-        this.nanoscroller = scrollbar = new NanoScroll(this, options);
-      }
-      if (settings && typeof settings === "object") {
-        $.extend(scrollbar.options, settings);
-        if (settings.scrollBottom != null) {
-          return scrollbar.scrollBottom(settings.scrollBottom);
-        }
-        if (settings.scrollTop != null) {
-          return scrollbar.scrollTop(settings.scrollTop);
-        }
-        if (settings.scrollTo) {
-          return scrollbar.scrollTo(settings.scrollTo);
-        }
-        if (settings.scroll === 'bottom') {
-          return scrollbar.scrollBottom(0);
-        }
-        if (settings.scroll === 'top') {
-          return scrollbar.scrollTop(0);
-        }
-        if (settings.scroll && settings.scroll instanceof $) {
-          return scrollbar.scrollTo(settings.scroll);
-        }
-        if (settings.stop) {
-          return scrollbar.stop();
-        }
-        if (settings.destroy) {
-          return scrollbar.destroy();
-        }
-        if (settings.flash) {
-          return scrollbar.flash();
-        }
-      }
-      return scrollbar.reset();
-    });
-  };
-  $.fn.nanoScroller.Constructor = NanoScroll;
-});
-
-//# sourceMappingURL=jquery.nanoscroller.js.map
 
 //# sourceMappingURL=vendor.js.map

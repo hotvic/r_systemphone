@@ -27,12 +27,11 @@ elixir(function(mix) {
         .scripts([
             './bower_components/underscore/underscore.js',
             './bower_components/jquery/dist/jquery.js',
+            './bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js',
             './bower_components/ekko-lightbox/dist/ekko-lightbox.js',
             './bower_components/Chart.js/dist/Chart.js',
             './bower_components/bootstrap/dist/js/bootstrap.js',
-            './bower_components/bs-confirmation/bootstrap-confirmation.js',
-            './bower_components/bootstrap-switch/dist/js/bootstrap-switch.js',
-            './bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js'
+            './bower_components/bs-confirmation/bootstrap-confirmation.js'
         ], 'public/js/vendor.js')
         .copy('./bower_components/bootstrap/dist/fonts', 'public/fonts')
         .copy('./bower_components/font-awesome/fonts', 'public/fonts')

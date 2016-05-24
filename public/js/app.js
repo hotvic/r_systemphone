@@ -332,7 +332,6 @@
             return chuteScroll.scroller();
           }
         });
-        $('#content').scrollLock('on', 'div');
       }
       rescale = function() {
         if ($(window).width() < 1281) {
