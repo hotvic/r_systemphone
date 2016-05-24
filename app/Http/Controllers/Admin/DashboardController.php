@@ -17,24 +17,15 @@ class DashboardController extends Controller
 
     public function users(Request $request)
     {
-        $users = \App\User::orderBy('id', 'asc')
-            ->skip(15 * $request->input('page', 0))
-            ->take(15);
+        $users = \App\User::orderBy('id', 'asc');
 
         if ($request->has('s')) {
             $users->where('name', 'LIKE', '%' . $request->input('s') . '%')
                 ->orWhere('email', 'LIKE', '%' . $request->input('s') . '%');
         }
 
-        $users = $users->get();
-
-        $data = array(
-            'users' => $users->all(),
-            'cur_page' => $request->input('page', 0) + 1,
-            'num_pages' => $users->count(),
-        );
-
-        return view('admin.users', $data);
+        return view('admin.users')
+            ->with('clients', $users->paginate(15));
     }
 
     public function updateUser($id)

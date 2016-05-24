@@ -29,3 +29,10 @@ function is_profile()
 
     if ($is) return class_active();
 }
+
+function is_users()
+{
+    $is = Request::is('admin/users*');
+
+    if ($is) return class_active();
+}

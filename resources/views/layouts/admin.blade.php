@@ -115,6 +115,18 @@
                             </li> --}}
                         </ul>
                     </li>
+                    <li{!! is_users() !!}>
+                        <a class="accordion-toggle" href="#">
+                            <span class="sidebar-title">Usuários</span>
+                            <span class="caret"></span>
+                            <span class="sb-menu-icon fa fa-users"></span>
+                        </a>
+                        <ul class="nav sub-nav">
+                            <li{!! Request::is('admin/users') ? class_active() : '' !!}>
+                                <a href="{{ route('admin::users') }}">Usuários</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li{!! is_profile() !!}>
                         <a href="{{ route('user::profile') }}">
                             <span class="sidebar-title">Perfil</span>

@@ -1,21 +1,22 @@
 @extends('layouts.admin')
 
-@section('title', 'Editar Usuário - ')
+@section('title', 'Editar Usuário')
 
 @section('breadcrumb')
-    <a href="{{ route('admin::users') }}" class="tip-bottom"><i class="glyphicon glyphicon-user"></i> Usuários</a>
-    <a class="tip-bottom">Editar Usuário</a>
+    <li class="breadcrumb-link">
+        <a href="{{ route('admin::users') }}">Usuários</a>
+    </li>
+    <li class="breadcrumb-current-item">Editar Usuário</li>
 @endsection
 
 @section('content')
-    <div class="row-fluid">
-        <div class="widget-box">
-            <div class="widget-title">
-                <span class="icon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-
-                <h5>Editanto: {{ $usr->name }} &lt;{{ $usr->email }}&gt;</h5>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-icon glyphicon glyphicon-user"></span>
+                <span class="panel-title">Editanto: {{ $usr->name }} &lt;{{ $usr->email }}&gt;</span>
             </div>
-            <div class="widget-content">
+            <div class="panel-body">
                 <div class="row">
                     <form action="{{ route('admin::update_user', ['id' => $usr->id]) }}" method="POST">
                         {!! csrf_field() !!}
@@ -61,11 +62,11 @@
                         </div>
 
                         <div class="col-md-12">
-                            <input type="checkbox" id="active" name="active" data-toggle="switch"{{ $usr->active == true ? ' checked' : '' }}>
+                            <input type="checkbox" id="active" name="active" {{ $usr->active == true ? ' checked' : '' }}>
                             <label for="active">Ativo</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="checkbox" id="confirmed" name="confirmed" data-toggle="switch"{{ $usr->confirmed == true ? ' checked' : '' }}>
+                            <input type="checkbox" id="confirmed" name="confirmed" {{ $usr->confirmed == true ? ' checked' : '' }}>
                             <label for="confirmed">Confirmado</label>
                         </div>
 
