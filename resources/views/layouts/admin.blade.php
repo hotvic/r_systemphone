@@ -129,10 +129,10 @@
                 <div class="topbar-left">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-icon">
-                            <a href="index-2.html"><span class="fa fa-home"></span></a>
+                            <a href="{{ url('/admin') }}"><span class="fa fa-home"></span></a>
                         </li>
                         <li class="breadcrumb-link">
-                            <a href="{{ url('/user') }}">Início</a>
+                            <a href="{{ url('/admin') }}">Início</a>
                         </li>
                         @yield('breadcrumb')
                     </ol>
