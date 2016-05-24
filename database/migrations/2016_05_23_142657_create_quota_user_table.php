@@ -18,7 +18,7 @@ class CreateQuotaUserTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('quota_id')->references('id')->on('quota')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('quota_id')->references('id')->on('quotas')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
