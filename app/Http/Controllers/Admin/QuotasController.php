@@ -55,6 +55,37 @@ class QuotasController extends Controller
         return redirect()->route('admin.finance.quotas.index');
     }
 
+    public function attach(Request $request)
+    {
+        $this->validate($request, [
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $client = \App\User::find($request->input('user_id'));
+
+        return view('admin.finances.quotas.attach')
+            ->with('client', $client)
+            ->with('quotas', \App\Quota::all());
+    }
+
+    public function postAttach(Request $request)
+    {
+        $this->validate($request, [
+            'client_id' => 'required|exists:users,id',
+            'howmuch' => 'required|integer',
+            'quota' => 'required|exists:quotas,id'
+        ]);
+
+        $user = \App\User::find($request->input('client_id'));
+
+        for ($i = 0; $i < $request->input('howmuch'); $i++)
+        {
+            $user->quotas()->attach($request->input('quota'));
+        }
+
+        return redirect()->route('admin::users');
+    }
+
     /**
      * Display the specified resource.
      *
