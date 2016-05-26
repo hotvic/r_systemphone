@@ -21,7 +21,7 @@ class DashboardController extends Controller
 
         if ($request->has('s')) {
             $users->where('username', 'LIKE', '%' . $request->input('s') . '%')
-                ->where('name', 'LIKE', '%' . $request->input('s') . '%')
+                ->orWhere('name', 'LIKE', '%' . $request->input('s') . '%')
                 ->orWhere('email', 'LIKE', '%' . $request->input('s') . '%');
         }
 
