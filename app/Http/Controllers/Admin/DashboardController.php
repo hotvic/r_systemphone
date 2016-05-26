@@ -20,7 +20,8 @@ class DashboardController extends Controller
         $users = \App\User::orderBy('id', 'asc');
 
         if ($request->has('s')) {
-            $users->where('name', 'LIKE', '%' . $request->input('s') . '%')
+            $users->where('username', 'LIKE', '%' . $request->input('s') . '%')
+                ->where('name', 'LIKE', '%' . $request->input('s') . '%')
                 ->orWhere('email', 'LIKE', '%' . $request->input('s') . '%');
         }
 
