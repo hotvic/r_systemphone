@@ -22,7 +22,7 @@
     <link rel="shortcut icon" href="/favicon.png">
 </head>
 
-<body class="boxed-layout">
+<body>
     <div id="main">
         <header class="navbar navbar-fixed-top">
             <div class="navbar-logo-wrapper dark bg-dark">
