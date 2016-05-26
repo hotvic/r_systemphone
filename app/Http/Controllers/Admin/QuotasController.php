@@ -83,6 +83,8 @@ class QuotasController extends Controller
             $user->quotas()->attach($request->input('quota'));
         }
 
+        $user->payBonusToReferrer(\App\Quota::find($request->input('quota')), $request->input('howmuch'));
+
         return redirect()->route('admin::users');
     }
 
