@@ -104,6 +104,9 @@
                             <li{!! Request::is('admin/finance/quotas/create') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.quotas.create') }}">Criar Cota</a>
                             </li>
+                            <li{!! Request::is('admin/finance/qrequests') ? class_active() : '' !!}>
+                                <a href="{{ route('admin.finance.qrequests.index') }}">Pedidos de Cota</a>
+                            </li>
                             <li{!! Request::is('admin/finance/earnings') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.earnings.index') }}">Ganhos</a>
                             </li>
