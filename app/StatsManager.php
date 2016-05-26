@@ -26,15 +26,16 @@ class StatsManager
 
     public static function getTotalQuotas()
     {
-        $quotas = Quota::all()->count();
-        $pquotas = QuotaRequest::where('status', 0)->count();
+        return Quota::all()->count();
+        //$quotas = Quota::all()->count();
+        //$pquotas = QuotaRequest::where('status', 0)->count();
 
-        return $quotas + $pquotas;
+        //return $quotas + $pquotas;
     }
 
     public static function getActiveQuotas()
     {
-        return Quota::all()->count();
+        return DB::table('quota_user')->count();
     }
 
     public static function getTotalEarnings()
