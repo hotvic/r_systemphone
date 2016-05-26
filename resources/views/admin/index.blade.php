@@ -114,7 +114,7 @@
                                 <li>
                                     <div class="right">
                                         <strong>{{ $stats->get('total.quotas') }}</strong>
-                                        Investimentos
+                                        Cotas
                                     </div>
                                 </li>
                                 <li>
