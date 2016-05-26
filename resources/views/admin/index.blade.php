@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="info-block-stat">
-                                    <span>Disponivel para Saque</span>
+                                    <span>Saldo Líquido</span>
                                     <span>{{ $stats->get('balance.withdrawable') }}</span>
                                 </div>
                             </div>
