@@ -18,6 +18,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     /* Finance Routes */
     Route::group(['prefix' => 'finance'], function () {
         Route::resource('quotas', 'QuotasController');
+        Route::resource('quotavalues', 'QuotaValuesController');
         Route::resource('earnings', 'FinancesEarningsController');
         Route::resource('withdrawals', 'FinancesWithdrawalsController');
 

@@ -56,9 +56,9 @@ class QuotaRequestsController extends Controller
             for ($i = 0; $i < $qrequest->howmuch; $i++)
             {
                 $qrequest->user->quotas()->attach($qrequest->quota->id);
-
-                $qrequest->user->payBonusToReferrer($qrequest->quota);
             }
+
+            $qrequest->user->payBonusToReferrer($qrequest->quota, $qrequest->howmuch);
         }
 
         $qrequest->save();

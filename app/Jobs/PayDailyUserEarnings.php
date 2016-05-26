@@ -38,6 +38,7 @@ class PayDailyUserEarnings extends Job implements ShouldQueue
             $amount     = $num_quotas * $this->quotaValue;
 
             $user->earnings()->create([
+                'type' => 'quotavalue',
                 'amount' => $amount,
                 'description' => sprintf('Ganho Por Cota; Cotas: %d', $num_quotas),
             ]);

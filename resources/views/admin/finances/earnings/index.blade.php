@@ -52,7 +52,7 @@
                                 <td>{{ format_money($earning->amount) }}</td>
                                 <td>{{ $earning->created_at }}</td>
                                 <td>
-                                    <form method="POST" action="{{ route('admin.earnings.destroy', ['id' => $earning->id]) }}" class="form-horizontal" style="display: inline;">
+                                    <form method="POST" action="{{ route('admin.finance.earnings.destroy', ['id' => $earning->id]) }}" class="form-horizontal" style="display: inline;">
                                         {!! csrf_field() !!}
 
                                         <input type="hidden" name="_method" value="DELETE">

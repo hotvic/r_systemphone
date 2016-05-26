@@ -47,6 +47,55 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="birthday">Data Nascimento</label>
+                                <input type="text" name="birthday" value="{{ $usr->birthday }}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone_number">Número Celular</label>
+                                <input type="text" name="phone_number" value="{{ $usr->phone_number }}" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="bank">Banco</label>
+                                <input type="text" name="bank" value="{{ $usr->bank }}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="agency">Agência</label>
+                                <input type="text" name="agency" value="{{ $usr->agency }}" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account">Conta</label>
+                                <input type="text" name="account" value="{{ $usr->account }}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account_type">Agência</label>
+                                <select name="account_type" class="form-control">
+                                    <option value="0"{{ $usr->account_type == '0' ? ' selected' : '' }}>Corrente</option>
+                                    <option value="1"{{ $usr->account_type == '1' ? ' selected' : '' }}>Poupança</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="holder">Titular</label>
+                                <input type="text" name="holder" value="{{ $usr->holder }}" class="form-control">
+                            </div>
+                        </div>
+
                         <div class="col-md-6{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password">Senha</label>
                             <input type="password" name="password" class="form-control">

@@ -74,16 +74,18 @@ class User extends Authenticatable
         return $this->earnings()->sum('amount') - $this->withdrawals()->sum('amount');
     }
 
-    public function payBonusToReferrer($quota)
+    public function payBonusToReferrer($quota, $num_quotas)
     {
-        if ($this->username === 'system') return;
+        $referrer = $this->referrer();
 
-        $value = ($quota->amount * .10);
+        if ($referrer->username === 'system') return;
 
-        $this->referrer()->earnings()->create([
+        $value = ($quota->amount * .10) * $num_quotas;
+
+        $referrer->earnings()->create([
             'type' => 'bydirectbonus',
             'amount' => $value,
-            'description' => 'Indicado Direto Comprou Cota',
+            'description' => sprintf('Indicado Direto Comprou Cotas: %d', $num_quotas),
         ]);
     }
 

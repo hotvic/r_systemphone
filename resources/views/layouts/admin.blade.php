@@ -107,6 +107,12 @@
                             <li{!! Request::is('admin/finance/qrequests') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.qrequests.index') }}">Pedidos de Cota</a>
                             </li>
+                            <li{!! Request::is('admin/finance/quotavalues/create') ? class_active() : '' !!}>
+                                <a href="{{ route('admin.finance.quotavalues.create') }}">Inserir Valor de Cota</a>
+                            </li>
+                            <li{!! Request::is('admin/finance/quotavalues') ? class_active() : '' !!}>
+                                <a href="{{ route('admin.finance.quotavalues.index') }}">Valores de Cota</a>
+                            </li>
                             <li{!! Request::is('admin/finance/earnings') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.earnings.index') }}">Ganhos</a>
                             </li>
