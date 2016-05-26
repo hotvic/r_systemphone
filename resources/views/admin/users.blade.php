@@ -56,8 +56,8 @@
                                     <a data-href="{{ route('admin::delete_user', ['id' => $usr->id]) }}" class="delete-confirmation">Apagar</a>
                                     <br>
                                     <span>Novo:</span>
-                                    <a href="{{ route('admin.finance.quotas.create', ['user_id' => $usr->id]) }}">Cota</a>
-                                    |
+                                    {{-- <a href="{{ route('admin.finance.quotas.create', ['user_id' => $usr->id]) }}">Cota</a>
+                                    | --}}
                                     <a href="{{ route('admin.finance.earnings.create', ['user_id' => $usr->id]) }}">Ganho</a>
                                     |
                                     <a href="{{ route('admin.finance.withdrawals.create', ['user_id' => $usr->id]) }}">Saque</a>

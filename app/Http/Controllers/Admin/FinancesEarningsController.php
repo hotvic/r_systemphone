@@ -54,6 +54,7 @@ class FinancesEarningsController extends Controller
         $user = \App\User::where('email', '=', $request->input('email'))->first();
 
         $user->earnings()->create([
+            'type' => 'manual',
             'amount' => $request->input('amount') / 100,
             'description' => $request->input('description')
         ]);

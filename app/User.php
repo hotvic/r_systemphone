@@ -81,6 +81,7 @@ class User extends Authenticatable
         $value = ($quota->amount * .10);
 
         $this->referrer()->earnings()->create([
+            'type' => 'bydirectbonus',
             'amount' => $value,
             'description' => 'Indicado Direto Comprou Cota',
         ]);
