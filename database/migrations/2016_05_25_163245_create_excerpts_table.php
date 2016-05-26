@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEarningsTable extends Migration
+class CreateExcerptsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateEarningsTable extends Migration
      */
     public function up()
     {
-        Schema::create('earnings', function (Blueprint $table) {
+        Schema::create('excerpts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('type');
-            $table->string('description');
             $table->double('amount');
+            $table->string('description');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateEarningsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('earnings');
+        Schema::drop('excerpts');
     }
 }

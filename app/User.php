@@ -59,9 +59,9 @@ class User extends Authenticatable
         return $this->hasMany('\App\WithdrawalRequest');
     }
 
-    public function last_earnings()
+    public function excerpts()
     {
-        return $this->hasMany('\App\LastEarning');
+        return $this->hasMany('\App\Excerpt');
     }
 
     public function referrer()
@@ -83,6 +83,72 @@ class User extends Authenticatable
         $this->referrer()->earnings()->create([
             'amount' => $value,
             'description' => 'Indicado Direto Comprou Cota',
+        ]);
+    }
+
+    /**
+     * Calculate percentage between earnings and quotas amounts.
+     *
+     * @return int
+     */
+    protected function earningsQuotasPercentage()
+    {
+        $quotas_amount   = $this->quotas()->sum('amount');
+        $earnings_amount = $this->earnings()->where('type', '<>', 'oldbalance')->sum('amount');
+
+        return (100 * $earnings_amount) / $quotas_amount;
+    }
+
+    public function expiredQuotas()
+    {
+        if ($this->earningsQuotasPercentage() < 200) return;
+
+        $oldBalance = $this->getBalance();
+
+        // Move to excerpts the expired quotas
+        foreach ($this->quotas as $quota)
+        {
+            $this->excerpts()->create([
+                'type' => 'quota',
+                'amount' => $quota->amount,
+                'description' => $quota->text,
+                'created_at' => $quota->created_at
+            ]);
+
+            $this->quotas()->detach($quota);
+        }
+
+        // Move to excerpts the old earnings
+        foreach ($this->earnings() as $earning)
+        {
+            $this->excerpts()->create([
+                'type' => 'earning',
+                'amount' => $earning->amount,
+                'description' => $earning->description,
+                'created_at' => $earning->created_at
+            ]);
+
+            $earning->delete();
+        }
+
+        // Move to excerpts the old withdrawals
+        foreach ($this->withdrawals() as $withdrawal)
+        {
+            $this->excerpts()->create([
+                'type' => 'withdrawal',
+                'amount' => $withdrawal->amount,
+                'description' => $withdrawal->description,
+                'created_at' => $withdrawal->created_at
+            ]);
+
+            $withdrawal->delete();
+        }
+
+        // Add balance back to account
+        $user->earnings()->create([
+            'type' => 'oldbalance',
+            'amount' => $oldBalance,
+            'description' => 'Saldo Antigo'
         ]);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Earning extends Model
 {
-    protected $fillable = array('amount', 'description');
+    protected $fillable = array('type', 'amount', 'description');
 
     public function user()
     {
