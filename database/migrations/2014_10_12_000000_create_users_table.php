@@ -17,7 +17,15 @@ class CreateUsersTable extends Migration
             $table->string('username');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('cpf')->unique()->nullable();
             $table->string('password');
+            $table->date('birthday')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('agency')->nullable();
+            $table->string('account')->nullable();
+            $table->string('account_type')->nullable();
+            $table->string('holder')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('confirmed')->default(false);
             $table->string('confirmation_code')->nullable();
