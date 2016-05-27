@@ -33,7 +33,12 @@ class DashboardController extends Controller
         $user = \Auth::user();
 
         $user->name     = $request->input('name');
-        $user->password = bcrypt($request->input('password'));
+
+        if ($request->input('password') != '')
+        {
+            $user->password = bcrypt($request->input('password'));
+        }
+
         $user->save();
 
         return redirect()->route('user::profile');
