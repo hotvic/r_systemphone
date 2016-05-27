@@ -99,6 +99,8 @@ class User extends Authenticatable
         $quotas_amount   = $this->quotas()->sum('amount');
         $earnings_amount = $this->earnings()->where('type', '<>', 'oldbalance')->sum('amount');
 
+        if ($quotas_amount == 0 or $earnings_amount == 0) return 0;
+
         return (100 * $earnings_amount) / $quotas_amount;
     }
 
