@@ -81,10 +81,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="account_type">Agência</label>
+                                <label for="account_type">Tipo de Conta</label>
                                 <select name="account_type" class="form-control">
-                                    <option value="0"{{ $usr->account_type == '0' ? ' selected' : '' }}>Corrente</option>
-                                    <option value="1"{{ $usr->account_type == '1' ? ' selected' : '' }}>Poupança</option>
+                                    <option value="0"{{ $usr->account_type == '0' ? ' selected=selected' : '' }}>Corrente</option>
+                                    <option value="1"{{ $usr->account_type == '1' ? ' selected=selected' : '' }}>Poupança</option>
                                 </select>
                             </div>
                         </div>
