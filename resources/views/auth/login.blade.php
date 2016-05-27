@@ -19,16 +19,16 @@
 
                         <div class="panel-body pn mv10">
 
-                            <div class="section{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="field prepend-icon">
-                                    <input type="email" name="email" id="email" class="gui-input" placeholder="E-Mail" value="{{ old('email') }}">
+                            <div class="section{{ $errors->has('username') ? ' has-error' : '' }}">
+                                <label for="username" class="field prepend-icon">
+                                    <input type="text" name="username" id="username" class="gui-input" placeholder="Nome de Usuário" value="{{ old('username') }}">
                                     <span class="field-icon">
                                         <i class="fa fa-user"></i>
                                     </span>
                                 </label>
-                            @if ($errors->has('email'))
+                            @if ($errors->has('username'))
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
+                                    <strong>{{ $errors->first('username') }}</strong>
                                 </span>
                             @endif
                             </div>
