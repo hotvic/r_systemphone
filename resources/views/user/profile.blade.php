@@ -31,35 +31,41 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">Nome</label>
-                                <input type="text" name="name" value="{{ $user->name }}" class="form-control">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Nome</label>
+                                    <input type="text" name="name" value="{{ $user->name }}" class="form-control">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="referred_by">Referência</label>
-                                <p class="form-control-static">{{ $user->referred_by }}</p>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="referred_by">Referência</label>
+                                    <p class="form-control-static">{{ $user->referred_by }}</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-md-6{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password">Senha</label>
-                            <input type="password" name="password" class="form-control">
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
+                        <div class="row">
+                            <div class="col-md-6{{ $errors->has('password') ? ' has-error' : '' }}">
+                                <label for="password">Senha</label>
+                                <input type="password" name="password" class="form-control">
+                            @if ($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                            </div>
+                            <div class="col-md-6">
+                                <label for="password_confirmation">Confirmar Senha</label>
+                                <input type="password" name="password_confirmation" class="form-control">
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="password_confirmation">Confirmar Senha</label>
-                            <input type="password" name="password_confirmation" class="form-control">
-                        </div>
+
+                        <div class="col-md-12" style="height: 15px;"></div>
 
                         <div class="col-md-8 col-md-offset-2">
-                            <button type="submit" class="form-control btn btn-success btn-block">Salvar</button>
+                                <button type="submit" class="form-control btn btn-success btn-block">Salvar</button>
                         </div>
                     </form>
                 </div>
