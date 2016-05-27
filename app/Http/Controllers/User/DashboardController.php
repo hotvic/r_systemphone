@@ -27,11 +27,13 @@ class DashboardController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'password' => 'confirmed',
         ]);
 
         $user = \Auth::user();
 
-        $user->name = $request->input('name');
+        $user->name     = $request->input('name');
+        $user->password = bcrypt($request->input('password'));
         $user->save();
 
         return redirect()->route('user::profile');
