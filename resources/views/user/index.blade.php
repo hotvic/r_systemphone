@@ -73,7 +73,7 @@
             <div class="panel">
                 <div class="panel-heading">
                     <span class="panel-icon glyphicon glyphicon-tasks"></span>
-                    <span class="panel-title">Estatísticas do Usuário</span>
+                    <span class="panel-title">Estatísticas do Usuário <span class="pull-right"><a href="{{ url('/register/' . $user->username) }}">{{ url('/register/' . $user->username) }}</a></span>
                 </div>
                 <div class="panel-body">
                     <canvas width="400" height="400"></canvas>

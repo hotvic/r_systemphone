@@ -16,6 +16,10 @@
                     <form class="clearfix centerform"  role="form" method="POST" action="{{ url('/register') }}">
                         {!! csrf_field() !!}
 
+                    @if ($referrer !== null)
+                        <input type="hidden" name="referred_by" value="{{ $referrer->username }}">
+                    @endif
+
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username" class="field prepend-icon">
                                 <input type="text" class="gui-input" name="username" value="{{ old('username') }}" placeholder="Nome de Usuário">
@@ -91,6 +95,12 @@
                         @endif
                         </div>
 
+                    @if ($referrer !== null)
+                        <div class="form-group">
+                            <label for="referred_by">Indicado Por</label>
+                            <p class="form-control-static" id="referred_by">{{ $referrer->username }}</p>
+                        </div>
+                    @else
                         <div class="form-group{{ $errors->has('referred_by') ? ' has-error' : '' }}">
                             <label for="referred_by" class="field prepend-icon">
                                 <input type="text" class="gui-input" name="referred_by" value="{{ old('referred_by') }}" placeholder="Indicado">
@@ -105,6 +115,7 @@
                             </span>
                         @endif
                         </div>
+                    @endif
 
                         <div class="form-group inline-align">
                             <div class="inline-align-left"></div>

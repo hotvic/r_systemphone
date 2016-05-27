@@ -63,6 +63,24 @@ class AuthController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm($referrer=null)
+    {
+        $referrer_user = null;
+
+        if ($referrer !== null)
+        {
+            $referrer_user = \App\User::where('username', $referrer)->first();
+        }
+
+        return view('auth.register')
+            ->with('referrer', $referrer_user);
+    }
+
+    /**
      * Handle a registration request for the application.
      *
      * @param  \Illuminate\Http\Request  $request

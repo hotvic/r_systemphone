@@ -11,7 +11,19 @@
 |
 */
 
-Route::auth();
+// Authentication Routes...
+Route::get('login', 'Auth\AuthController@showLoginForm');
+Route::post('login', 'Auth\AuthController@login')->name('auth.login');
+Route::get('logout', 'Auth\AuthController@logout')->name('auth.logout');
+
+// Registration Routes...
+Route::get('register/{referrer?}', 'Auth\AuthController@showRegistrationForm');
+Route::post('register', 'Auth\AuthController@register')->name('auth.register');
+
+// Password Reset Routes...
+Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+Route::post('password/reset', 'Auth\PasswordController@reset');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
 
