@@ -11494,6 +11494,7 @@ ol.timeline-list li.timeline-item .timeline-date {
   border: 1px solid #fff; }
 
 .info-block h2,
+.info-block h3,
 .info-block h6 {
   color: #fff;
   font-weight: 400; }
@@ -11502,6 +11503,11 @@ ol.timeline-list li.timeline-item .timeline-date {
   margin-top: 3px;
   margin-bottom: 0;
   font-size: 60px; }
+
+.info-block h3 {
+  margin-top: 3px;
+  margin-bottom: 0;
+  font-size: 45px; }
 
 .info-block h6 {
   font-size: 16px;
