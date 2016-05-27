@@ -150,7 +150,7 @@ class User extends Authenticatable
         }
 
         // Add balance back to account
-        $user->earnings()->create([
+        $this->earnings()->create([
             'type' => 'oldbalance',
             'amount' => $oldBalance,
             'description' => 'Saldo Antigo'
