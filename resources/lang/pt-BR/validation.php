@@ -122,4 +122,5 @@ return [
     ],
 
     'balance' => 'Você não tem saldo suficiente.',
+    'cpf' => 'CPF Inválido',
 ];

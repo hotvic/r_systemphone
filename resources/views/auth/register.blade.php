@@ -65,6 +65,21 @@
                         @endif
                         </div>
 
+                        <div class="form-group{{ $errors->has('cpf') ? ' has-error' : '' }}">
+                            <label for="cpf" class="field prepend-icon">
+                                <input type="text" class="gui-input" name="cpf" value="{{ old('cpf') }}" data-mask="999.999.999-99" placeholder="Comprovante Pessoa Física">
+                                <span class="field-icon">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </span>
+                            </label>
+
+                        @if ($errors->has('cpf'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('cpf') }}</strong>
+                            </span>
+                        @endif
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="field prepend-icon">
                                 <input type="password" class="gui-input" name="password" placeholder="Senha">

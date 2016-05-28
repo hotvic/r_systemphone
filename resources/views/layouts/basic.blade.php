@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
 
+    <script type="text/javascript" src="{{ asset('js/vendor.js') }}"></script>
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon.png">
 </head>

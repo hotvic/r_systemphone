@@ -27,6 +27,7 @@
     "ekko-lightbox": "^4.0.1",
     "animate.css": "^3.5.1",
     "underscore": "^1.8.3",
-    "nanoscroller": "^0.8.7"
+    "nanoscroller": "^0.8.7",
+    "jasny-bootstrap": "^3.1.3"
   }
 }
