@@ -74,7 +74,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth']
         Route::resource('earnings', 'FinancesEarningsController');
         Route::resource('withdrawals', 'FinancesWithdrawalsController');
         Route::resource('qrequests', 'QuotaRequestsController');
-        Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
+        Route::resource('wrequests', 'WithdrawalRequestsController');
     });
 });
 

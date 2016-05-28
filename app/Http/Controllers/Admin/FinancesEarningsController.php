@@ -20,7 +20,7 @@ class FinancesEarningsController extends Controller
         $earnings = \App\Earning::orderBy('id', 'ASC');
 
         if ($request->has('s'))
-            $earnings->where('description', 'LIKE', psp($request->input('s')));
+            $earnings = \App\User::where('username', 'LIKE', psp($request->input('s')))->first()->earnings();
 
         return view('admin.finances.earnings.index')
             ->with('earnings', $earnings->paginate(15));
