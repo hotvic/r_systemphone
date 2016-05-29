@@ -27,6 +27,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['balance'];
+
     public static function admin()
     {
         return self::whereHas('roles', function ($query) {
@@ -72,6 +79,11 @@ class User extends Authenticatable
     public function getBalance()
     {
         return $this->earnings()->sum('amount') - $this->withdrawals()->sum('amount');
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->getBalance();
     }
 
     public function payBonusToReferrer($quota, $num_quotas)
