@@ -1,56 +1,73 @@
 @extends('layouts.user')
 
-@section('title', 'Pendentes - Saques - Global Bet Brasil')
+@section('title', 'Pendentes - Saques')
 
 @section('breadcrumb')
-    <a href="{{ route('user.irequests.index') }}" class="tip-bottom"><i class="glyphicon glyphicon-usd"></i> Finanças</a>
-    <a class="tip-bottom"><i class="glyphicon glyphicon-minus"></i>  Saques Pendentes</a>
+    <li class="breadcrumb-link">
+        <a href="{{ route('user.finance.qrequests.index') }}">Finanças</a>
+    </li>
+    <li class="breadcrumb-link">
+        <a href="{{ route('user.finance.withdrawals.index') }}">Saques</a>
+    </li>
+    <li class="breadcrumb-current-item">Pendentes</li>
 @endsection
 
 @section('content')
     <div class="row">
-    @include('partials.user.sidebar')
-        <div class="col-md-9">
-            <div class="widget-box">
-                <div class="widget-title">
-                    <span class="icon"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></span>
-
-                    <h5>Saques Pendentes</h5>
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-icon glyphicon glyphicon-minus"></span>
+                <span class="panel-title">Saques Pendentes</span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Quantiade</th>
+                                <th>Conta</th>
+                                <th>Requerido Em</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($requests as $request)
+                            <tr data-wrequest="{{ $request->toJson() }}" class="row-data">
+                                <td>{{ $request->id }}</td>
+                                <td>{{ format_money($request->amount) }}</td>
+                                <td><button class="btn btn-link account-popover">Conta</button></td>
+                                <td>{{ $request->created_at }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <div class="widget-content">
-                    <div class="row-fluid">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Quantiade</th>
-                                    <th>Requerido Em</th>
-                                    <th>Para</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($requests as $request)
-                                <tr>
-                                    <td>{{ $request->id }}</td>
-                                    <td>{{ format_money($request->amount) }}</td>
-                                    <td>{{ $request->created_at }}</td>
-                                    <td>{{ $request->to }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="clearfix">
-                            <div class="pull-right">
-                                <nav>
-                                    {!! $requests->links(); !!}
-                                </nav>
-                            </div>
+                <div class="row">
+                    <div class="clearfix">
+                        <div class="pull-right">
+                            <nav>
+                                {!! $requests->links(); !!}
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $('.account-popover').popover({
+            container: 'body',
+            content: function () {
+                var data = $(this).closest('.row-data').data('wrequest');
+
+                $ta = $('<textarea/>').attr('rows', 10).attr('cols', 50).prop('disabled', true).text(data.account_info);
+
+                return $ta;
+            },
+            html: true,
+            placement: 'top',
+            trigger: 'hover',
+            template: '<div class="popover" style="max-width: 100%;" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+        });
+    </script>
 @endsection

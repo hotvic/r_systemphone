@@ -104,18 +104,21 @@
                             <li{!! Request::is('user/finance/qrequests') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.qrequests.create') }}">Cotas Pendentes</a>
                             </li>
-                            <li>
+                            <li{!! Request::is('user/finance/quotas') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.quotas.index') }}">Cotas</a>
                             </li>
-                            <li>
+                            <li{!! Request::is('user/finance/earnings') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.earnings.index') }}">Ganhos</a>
                             </li>
-                            {{-- <li>
-                                <a href="{{ route('user.wrequests.create') }}">Fazer Saque</a>
+                            <li{!! Request::is('user/finance/wrequests/create') ? class_active() : '' !!}>
+                                <a href="{{ route('user.finance.wrequests.create') }}">Fazer Saque</a>
                             </li>
-                            <li>
-                                <a href="{{ route('user.withdrawals.index') }}">Saques</a>
-                            </li> --}}
+                            <li{!! Request::is('user/finance/withdrawals') ? class_active() : '' !!}>
+                                <a href="{{ route('user.finance.withdrawals.index') }}">Saques</a>
+                            </li>
+                            <li{!! Request::is('user/finance/wrequests') ? class_active() : '' !!}>
+                                <a href="{{ route('user.finance.wrequests.index') }}">Saques Pendentes</a>
+                            </li>
                         </ul>
                     </li>
                     <li{!! is_profile() !!}>

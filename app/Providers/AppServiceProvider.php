@@ -63,6 +63,10 @@ class AppServiceProvider extends ServiceProvider
             return ($value / 100) <= \Auth::user()->getBalance();
         });
 
+        Validator::extend('balance10', function($attribute, $value, $parameters, $validator) {
+            return (($value / 100) + (($value / 100) * 0.10)) <= \Auth::user()->getBalance();
+        });
+
         Validator::extend('withdrawal_value', function($attribute, $value, $parameters, $validator) {
             return ($value / 100) >= 200 and ($value / 100) <= 5000;
         });

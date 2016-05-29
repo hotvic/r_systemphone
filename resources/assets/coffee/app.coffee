@@ -237,6 +237,11 @@ Core = (options) ->
         )
     )
 
+    $('.sidebar-menu li a.accordion-toggle').each(() ->
+      if $(this).parent().hasClass('active')
+        $(this).trigger('click')
+    )
+
   # Footer Functions
   runFooter = () ->
 

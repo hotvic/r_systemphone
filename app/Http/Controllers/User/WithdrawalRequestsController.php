@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class FinancesWithdrawalRequestsController extends Controller
+class WithdrawalRequestsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class FinancesWithdrawalRequestsController extends Controller
      */
     public function create()
     {
-        $description = sprintf('Saque %s', \Auth::user()->withdrawals->count() + 1);
+        $description = sprintf('Saque %s; + Taxa 10%%', \Auth::user()->withdrawals->count() + 1);
         $balance = \Auth::user()->earnings()->sum('amount') - \Auth::user()->withdrawals()->sum('amount');
 
         return view('user.finances.wrequests.create')
@@ -47,17 +47,35 @@ class FinancesWithdrawalRequestsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'to' => 'required|email',
-            'amount' => 'required|digits_between:3,15|balance'
+            'account' => 'required|integer|in:0,1',
+            'accountInfo' => 'required_if:account,1',
+            'amount' => 'required|digits_between:3,15|balance10|withdrawal_value'
         ]);
 
+        $accountInfo = $request->input('accountInfo');
+        $amount      = $request->input('amount') / 100;
+
+        if ($request->input('account') == 0)
+        {
+            $user = \Auth::user();
+
+            $accountInfo = sprintf("Titular: %s\n", $user->holder);
+            $accountInfo .= sprintf("Banco: %s\n", $user->bank);
+            $accountInfo .= sprintf("Agência: %s\n", $user->agency);
+            $accountInfo .= sprintf("Conta: %s\n", $user->account);
+            $accountInfo .= sprintf("Tipo: %s\n", $user->account_type == 0 ? 'Corrente' : 'Poupança');
+        }
+
+        $accountInfo .= sprintf("\n\nValor Requerido: %s", format_money($amount));
+
         \Auth::user()->withdrawal_requests()->create([
-            'to' => $request->input('to'),
-            'amount' => $request->input('amount') / 100,
+            'account' => $request->input('account'),
+            'account_info' => $accountInfo,
+            'amount' => $amount + ($amount * 0.10),
             'description' => $request->input('description')
         ]);
 
-        return redirect()->route('user.wrequests.index');
+        return redirect()->route('user.finance.wrequests.index');
     }
 
     /**

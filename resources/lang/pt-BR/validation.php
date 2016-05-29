@@ -62,7 +62,7 @@ return [
     'present'              => 'The :attribute field must be present.',
     'regex'                => 'The :attribute format is invalid.',
     'required'             => 'O campo :attribute é obrigatório.',
-    'required_if'          => 'The :attribute field is required when :other is :value.',
+    'required_if'          => 'O campo :attribute é obrigatório quando :other é :value.',
     'required_unless'      => 'The :attribute field is required unless :other is in :values.',
     'required_with'        => 'The :attribute field is required when :values is present.',
     'required_with_all'    => 'The :attribute field is required when :values is present.',
@@ -119,8 +119,12 @@ return [
         'referred_by' => 'Indicado',
         'howmuch' => 'Quantidade',
         'text' => 'Texto',
+        'account' => 'Conta',
+        'accountInfo' => 'Informações da Conta',
     ],
 
     'balance' => 'Você não tem saldo suficiente.',
+    'balance10' => 'Você não tem saldo suficiente.',
     'cpf' => 'CPF Inválido',
+    'withdrawal_value' => 'Valor de Saque mínimo é $ 200.00 e máximo é $ 5,000.00',
 ];

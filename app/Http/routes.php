@@ -72,7 +72,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth']
         // Route::post('quotas/re', 'FinancesInvestmentsController@postRe');
         Route::resource('quotas', 'QuotasController');
         Route::resource('earnings', 'FinancesEarningsController');
-        Route::resource('withdrawals', 'FinancesWithdrawalsController');
+        Route::resource('withdrawals', 'WithdrawalsController');
         Route::resource('qrequests', 'QuotaRequestsController');
         Route::resource('wrequests', 'WithdrawalRequestsController');
     });

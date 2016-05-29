@@ -139,7 +139,7 @@
         }
         return $('.menu-widget').toggleClass('menu-widget-open').slideToggle('fast');
       });
-      return $('.sidebar-menu li a.accordion-toggle').on('click', function(e) {
+      $('.sidebar-menu li a.accordion-toggle').on('click', function(e) {
         var activeMenu, siblingMenu;
         e.preventDefault();
         if ($('body').hasClass('sb-l-m') && !$(this).parents('ul.sub-nav').length) {
@@ -168,6 +168,11 @@
           return $(this).next('ul').slideToggle('fast', 'swing', function() {
             return $(this).attr('style', '').prev().toggleClass('menu-open');
           });
+        }
+      });
+      return $('.sidebar-menu li a.accordion-toggle').each(function() {
+        if ($(this).parent().hasClass('active')) {
+          return $(this).trigger('click');
         }
       });
     };
