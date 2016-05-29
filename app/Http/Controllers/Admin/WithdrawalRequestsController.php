@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class FinancesWithdrawalRequestsController extends Controller
+class WithdrawalRequestsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,28 +21,6 @@ class FinancesWithdrawalRequestsController extends Controller
 
         return view('admin.finances.wrequests.index')
             ->with('requests', $requests);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        // TODO: Admin Creation ?
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // TODO: Admin Creation ?
     }
 
     public function accept($id)
@@ -72,8 +50,8 @@ class FinancesWithdrawalRequestsController extends Controller
         {
             $withdrawal = $wrequest->user->withdrawals()->create([
                 'description' => 'Requisição de Saque',
-                'amount' => $wrequest->amount,
-                'to' => $wrequest->to,
+                'account_info' => $wrequest->account_info,
+                'amount' => $wrequest->amount
             ]);
 
             $wrequest->withdrawal_id = $withdrawal->id;
@@ -82,40 +60,6 @@ class FinancesWithdrawalRequestsController extends Controller
         $wrequest->save();
 
         return response()->json(['success' => true]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -128,6 +72,6 @@ class FinancesWithdrawalRequestsController extends Controller
     {
         \App\WithdrawalRequest::destroy($id);
 
-        return redirect()->route('admin.wrequests.index');
+        return redirect()->route('admin.finance.wrequests.index');
     }
 }

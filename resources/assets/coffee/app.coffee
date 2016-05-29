@@ -637,6 +637,8 @@ Core = (options) ->
 
           document.addEventListener('serverResponse', () ->
             lightbox.close()
+
+            location.reload()
           )
       })
     )

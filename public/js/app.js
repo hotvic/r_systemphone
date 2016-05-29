@@ -515,7 +515,8 @@
             var lightbox;
             lightbox = this;
             return document.addEventListener('serverResponse', function() {
-              return lightbox.close();
+              lightbox.close();
+              return location.reload();
             });
           }
         });

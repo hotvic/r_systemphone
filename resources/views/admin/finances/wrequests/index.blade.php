@@ -27,7 +27,7 @@
                                 <th>#</th>
                                 <th>Nome</th>
                                 <th>E-Mail</th>
-                                <th>Para (E-Mail)</th>
+                                <th>Conta</th>
                                 <th>Quantiade</th>
                                 <th>Pedido Em</th>
                                 <th>Status</th>
@@ -36,26 +36,32 @@
                         </thead>
                         <tbody>
                         @foreach ($requests as $request)
-                            <tr>
+                            <tr data-wrequest="{{ $request->toJson() }}" class="row-data">
                                 <td>{{ $request->id }}</td>
                                 <td>{{ $request->user->name }}</td>
                                 <td>{{ $request->user->email }}</td>
-                                <td>{{ $request->to }}</td>
+                                <td>
+                                    <button class="btn btn-link account-popover">Conta</button>
+                                </td>
                                 <td>{{ format_money($request->amount) }}</td>
                                 <td>{{ $request->created_at }}</td>
                                 <td>{{ $request->status == 0 ? 'Pendente' : ($request->status == 1 ? 'Aprovado' : 'Rejeitado') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.wrequests.accept', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Aceitar">Aceitar</a>
-                                    |
-                                    <a href="{{ route('admin.wrequests.reject', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Rejeitar">Rejeitar</a>
-                                    |
-                                    <form method="POST" action="{{ route('admin.wrequests.destroy', ['id' => $request->id]) }}" class="form-horizontal" style="display: inline;">
-                                        {!! csrf_field() !!}
+                                    <div class="col-md-12">
+                                        <a href="{{ route('admin.finance.wrequests.accept', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Aceitar">Aceitar</a>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <a href="{{ route('admin.finance.wrequests.reject', ['id' => $request->id]) }}" data-toggle="lightbox" data-title="Rejeitar">Rejeitar</a>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <form method="POST" action="{{ route('admin.finance.wrequests.destroy', ['id' => $request->id]) }}" class="form-horizontal" style="display: inline;">
+                                            {!! csrf_field() !!}
 
-                                        <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_method" value="DELETE">
 
-                                        <button type="submit" class="delete-form-confirmation nopadding btn btn-link">Apagar</button>
-                                    </form>
+                                            <button type="submit" class="delete-form-confirmation nopadding btn btn-link">Apagar</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -83,6 +89,21 @@
             onConfirm: function (event, elem) {
                 $(elem).parent().submit();
             }
+        });
+
+        $('.account-popover').popover({
+            container: 'body',
+            content: function () {
+                var data = $(this).closest('.row-data').data('wrequest');
+
+                $ta = $('<textarea/>').attr('rows', 10).attr('cols', 50).prop('disabled', true).text(data.account_info);
+
+                return $ta;
+            },
+            html: true,
+            placement: 'top',
+            trigger: 'hover',
+            template: '<div class="popover" style="max-width: 100%;" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
     </script>
 @endsection

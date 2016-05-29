@@ -38,7 +38,7 @@
                                 <th>#</th>
                                 <th>Nome</th>
                                 <th>E-Mail</th>
-                                <th>Para (E-Mail Neteller)</th>
+                                <th>Conta</th>
                                 <th>Quantiade</th>
                                 <th>Descrição</th>
                                 <th>Sacado Em</th>
@@ -47,16 +47,18 @@
                         </thead>
                         <tbody>
                         @foreach ($withdrawals as $withdrawal)
-                            <tr>
+                            <tr data-withdrawal="{{ $withdrawal->toJson() }}" class="row-data">
                                 <td>{{ $withdrawal->id }}</td>
                                 <td>{{ $withdrawal->user->name }}</td>
                                 <td>{{ $withdrawal->user->email }}</td>
-                                <td>{{ $withdrawal->to }}</td>
+                                <td>
+                                    <button class="btn btn-link account-popover">Conta</button>
+                                </td>
                                 <td>{{ format_money($withdrawal->amount) }}</td>
                                 <td>{{ $withdrawal->description }}</td>
                                 <td>{{ $withdrawal->created_at }}</td>
                                 <td>
-                                    <form method="POST" action="{{ route('admin.withdrawals.destroy', ['id' => $withdrawal->id]) }}" class="form-horizontal" style="display: inline;">
+                                    <form method="POST" action="{{ route('admin.finance.withdrawals.destroy', ['id' => $withdrawal->id]) }}" class="form-horizontal" style="display: inline;">
                                         {!! csrf_field() !!}
 
                                         <input type="hidden" name="_method" value="DELETE">
@@ -92,6 +94,21 @@
                     $(elem).parent().submit();
                 }
             });
+
+            $('.account-popover').popover({
+            container: 'body',
+            content: function () {
+                var data = $(this).closest('.row-data').data('withdrawal');
+
+                $ta = $('<textarea/>').attr('rows', 10).attr('cols', 50).prop('disabled', true).text(data.account_info);
+
+                return $ta;
+            },
+            html: true,
+            placement: 'top',
+            trigger: 'hover',
+            template: '<div class="popover" style="max-width: 100%;" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+        });
         </script>
     </div>
 @endsection

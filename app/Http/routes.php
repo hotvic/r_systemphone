@@ -34,17 +34,17 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
         Route::resource('quotas', 'QuotasController');
         Route::resource('quotavalues', 'QuotaValuesController');
         Route::resource('earnings', 'FinancesEarningsController');
-        Route::resource('withdrawals', 'FinancesWithdrawalsController');
+        Route::resource('withdrawals', 'WithdrawalsController');
 
         Route::get('qrequests/accept/{id}', 'QuotaRequestsController@accept')->name('admin.finance.qrequests.accept');
         Route::get('qrequests/reject/{id}', 'QuotaRequestsController@reject')->name('admin.finance.qrequests.reject');
         Route::post('qrequests/accept/{id}', 'QuotaRequestsController@postStatus')->name('admin.finance.qrequests.setstatus');
         Route::resource('qrequests', 'QuotaRequestsController');
 
-        Route::get('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@accept')->name('admin.wrequests.accept');
-        Route::get('wrequests/reject/{id}', 'FinancesWithdrawalRequestsController@reject')->name('admin.wrequests.reject');
-        Route::post('wrequests/accept/{id}', 'FinancesWithdrawalRequestsController@postStatus')->name('admin.wrequests.setstatus');
-        Route::resource('wrequests', 'FinancesWithdrawalRequestsController');
+        Route::get('wrequests/accept/{id}', 'WithdrawalRequestsController@accept')->name('admin.finance.wrequests.accept');
+        Route::get('wrequests/reject/{id}', 'WithdrawalRequestsController@reject')->name('admin.finance.wrequests.reject');
+        Route::post('wrequests/accept/{id}', 'WithdrawalRequestsController@postStatus')->name('admin.finance.wrequests.setstatus');
+        Route::resource('wrequests', 'WithdrawalRequestsController');
     });
 });
 
