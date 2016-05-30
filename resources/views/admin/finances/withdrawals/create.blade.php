@@ -24,22 +24,45 @@
                     <form action="{{ route('admin.finance.withdrawals.store') }}" method="POST">
                         {!! csrf_field() !!}
 
+                        <input type="hidden" name="client_id" value="{{ $client->id }}">
+
                         <div class="col-md-6">
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="email">E-Mail</label>
-                                <input type="email" name="email" value="{{ $client != null ? $client->email : '' }}" class="form-control" placeholder="E-Mail do Cliente">
+                                <p class="form-control-static" id="email">{{ $client->email }}</p>
                             </div>
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </span>
-                        @endif
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description">Descrição</label>
+                                <input type="text" name="description" class="form-control" placeholder="Descrição do Saque" value="{{ old('description') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account">Conta</label>
+                                <div id="account">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="account" value="0" checked>
+                                            Usar Conta do Perfil
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="account" value="1">
+                                            Usar Campo Abaixo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
                                 <label for="email">Quantidade</label>
                                 <div class="input-group">
-                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="Valor incluindo centavos">
+                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="Valor incluindo centavos" value="{{ old('amount') }}">
                                     <span class="input-group-addon" id="amount-display">$ 0,00</span>
                                 </div>
                             </div>
@@ -49,21 +72,27 @@
                             </span>
                         @endif
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group{{ $errors->has('to') ? ' has-error' : '' }}">
-                                <label for="to">E-Mail de Saque (Neteller)</label>
-                                <input type="email" name="to" value="{{ $client != null ? $client->email : '' }}" class="form-control" placeholder="E-Mail do Neteller">
-                            </div>
-                        @if ($errors->has('to'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('to') }}</strong>
-                            </span>
-                        @endif
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="description">Descrição</label>
-                                <input type="text" name="description" class="form-control" placeholder="Descrição do Saque">
+
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('accountInfo') ? ' has-error' : '' }}">
+                                <label for="accountInfo">Informações da Conta</label>
+                                <textarea class="form-control" rows="11" id="accountInfo" name="accountInfo" disabled>
+Titular:
+Banco:
+Agência:
+Conta:
+Tipo: Poupança / Corrente
+--------------------------------- Ou ---------------------------------
+Banco/Site:
+E-Mail:
+--------------------------------- Ou ---------------------------------
+BitCoin Wallet:
+                                </textarea>
+                            @if ($errors->has('accountInfo'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('accountInfo') }}</strong>
+                                </span>
+                            @endif
                             </div>
                         </div>
 
@@ -88,5 +117,21 @@
             $('#amount-display').text($this.val().length < 2 ? '$ 0.00' : '$ ' + (typeof val[1] != "null" ? val[1] : 0 ) + '.' + val[2]);
         });
         $('#amount').trigger('input');
+
+        $('input:radio[name=account]').on('change', function() {
+            var $this = $(this);
+
+            if ($this.is(':checked'))
+            {
+                if ($this.val() == '0')
+                {
+                    $('#accountInfo').prop('disabled', true);
+                }
+                else
+                {
+                    $('#accountInfo').prop('disabled', false);
+                }
+            }
+        });
     </script>
 @endsection

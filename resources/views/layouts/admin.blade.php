@@ -122,9 +122,6 @@
                             <li{!! Request::is('admin/finance/withdrawals') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.withdrawals.index') }}">Saques</a>
                             </li>
-                            <li{!! Request::is('admin/finance/withdrawals/create') ? class_active() : '' !!}>
-                                <a href="{{ route('admin.finance.withdrawals.create') }}">Criar Saque</a>
-                            </li>
                             <li{!! Request::is('admin/finance/wrequests') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.wrequests.index') }}">Saques Pendentes</a>
                             </li>
