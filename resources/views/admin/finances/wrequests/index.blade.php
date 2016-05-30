@@ -96,7 +96,16 @@
             content: function () {
                 var data = $(this).closest('.row-data').data('wrequest');
 
-                $ta = $('<textarea/>').attr('rows', 13).attr('cols', 55).prop('disabled', true).text(data.account_info);
+                $ta = $('<textarea/>').attr('cols', 55).prop('disabled', true).text(data.account_info);
+
+                var lc = 0;
+                $.each(data.account_info.split("\n"), function (index, line) {
+                    var rbl = Math.ceil(line.length / 55);
+
+                    lc += rbl == 0 ? 1 : rbl;
+                });
+
+                $ta.attr('rows', lc);
 
                 return $ta;
             },
