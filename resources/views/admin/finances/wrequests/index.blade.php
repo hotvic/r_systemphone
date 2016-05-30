@@ -96,7 +96,7 @@
             content: function () {
                 var data = $(this).closest('.row-data').data('wrequest');
 
-                $ta = $('<textarea/>').attr('rows', 10).attr('cols', 50).prop('disabled', true).text(data.account_info);
+                $ta = $('<textarea/>').attr('rows', 13).attr('cols', 55).prop('disabled', true).text(data.account_info);
 
                 return $ta;
             },
