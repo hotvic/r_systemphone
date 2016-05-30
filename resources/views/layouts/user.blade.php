@@ -122,10 +122,25 @@
                         </ul>
                     </li>
                     <li{!! is_profile() !!}>
-                        <a href="{{ route('user::profile') }}">
-                            <span class="sidebar-title">Perfil</span>
-                            <span class="sb-menu-icon glyphicon glyphicon-user"></span>
+                        <a class="accordion-toggle" href="#">
+                            <span class="sidebar-title">Usuário</span>
+                            <span class="caret"></span>
+                            <span class="sb-menu-icon fa fa-user"></span>
                         </a>
+                        <ul class="nav sub-nav">
+                            <li{!! Request::is('user/profile') ? class_active() : '' !!}>
+                                <a href="{{ route('user::profile') }}">
+                                    <span class="sidebar-title">Perfil</span>
+                                    <span class="sb-menu-icon glyphicon glyphicon-user"></span>
+                                </a>
+                            </li>
+                            <li{!! Request::is('user/profile/references') ? class_active() : '' !!}>
+                                <a href="{{ route('user::profile.references') }}">
+                                    <span class="sidebar-title">Indicados</span>
+                                    <span class="sb-menu-icon fa fa-users"></span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

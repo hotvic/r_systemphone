@@ -81,8 +81,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth']
 Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth', 'as' => 'user::'], function () {
     Route::get('/', 'DashboardController@index')->name('index');
     Route::get('/profile', 'DashboardController@profile')->name('profile');
-    Route::get('/users/update/{id}', 'DashboardController@updateUser')->name('update_user');
-    Route::get('/users/delete/{id}', 'DashboardController@deleteUser')->name('delete_user');
+    Route::get('/profile/references', 'DashboardController@references')->name('profile.references');
 
     Route::group(['prefix' => 'finances', 'as' => 'finances::'], function () {
         Route::get('/', 'FinancesController@index')->name('index');

@@ -58,4 +58,12 @@ class DashboardController extends Controller
 
         return redirect()->route('user::profile');
     }
+
+    public function references()
+    {
+        $references = \App\User::where('referred_by', \Auth::user()->username)->paginate(15);
+
+        return view('user.references')
+            ->with('references', $references);
+    }
 }
