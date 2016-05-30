@@ -116,9 +116,6 @@
                             <li{!! Request::is('admin/finance/earnings') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.earnings.index') }}">Ganhos</a>
                             </li>
-                            <li{!! Request::is('admin/finance/earnings/create') ? class_active() : '' !!}>
-                                <a href="{{ route('admin.finance.earnings.create') }}">Criar Ganhos</a>
-                            </li>
                             <li{!! Request::is('admin/finance/withdrawals') ? class_active() : '' !!}>
                                 <a href="{{ route('admin.finance.withdrawals.index') }}">Saques</a>
                             </li>
