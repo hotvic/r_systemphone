@@ -28,12 +28,26 @@ class DashboardController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'birthday' => 'required',
+            'phone_number' => 'present',
+            'bank' => 'required|in:001,237,104,341,033',
+            'agency' => 'present',
+            'account' => 'present',
+            'account_type' => 'present',
+            'holder' => 'present',
             'password' => 'confirmed',
         ]);
 
         $user = \Auth::user();
 
-        $user->name     = $request->input('name');
+        $user->name         = $request->input('name');
+        $user->birthday     = $request->input('birthday');
+        $user->phone_number = $request->input('phone_number');
+        $user->bank         = $request->input('bank');
+        $user->agency       = $request->input('agency');
+        $user->account      = $request->input('account');
+        $user->account_type = $request->input('account_type');
+        $user->holder       = $request->input('holder');
 
         if ($request->input('password') != '')
         {

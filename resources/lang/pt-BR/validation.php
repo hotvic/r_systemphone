@@ -121,6 +121,7 @@ return [
         'text' => 'Texto',
         'account' => 'Conta',
         'accountInfo' => 'Informações da Conta',
+        'birthday' => 'Data de Nascimento',
     ],
 
     'balance' => 'Você não tem saldo suficiente.',
