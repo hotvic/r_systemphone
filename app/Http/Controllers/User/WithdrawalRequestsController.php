@@ -75,6 +75,8 @@ class WithdrawalRequestsController extends Controller
             'description' => $request->input('description')
         ]);
 
+        $request->session()->flash('success', true);
+
         return redirect()->route('user.finance.wrequests.index');
     }
 

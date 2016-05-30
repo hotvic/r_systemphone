@@ -13,6 +13,14 @@
 @endsection
 
 @section('content')
+@if (session()->has('success'))
+    <div class="row">
+        <div class="alert alert-success" role="alert">
+            <strong>Sucesso!</strong> Requisição Saque Realizada com sucesso!
+        </div>
+    </div>
+@endif
+
     <div class="row">
         <div class="panel">
             <div class="panel-heading">
