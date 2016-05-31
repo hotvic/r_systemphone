@@ -206,4 +206,9 @@ return [
 
     ],
 
+    /* Site Settings */
+    'site' => [
+        'withdrawal_enabled' => env('APP_SITE_WITHDRAWAL_ENABLED', true),
+    ]
+
 ];

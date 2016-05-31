@@ -110,9 +110,11 @@
                             <li{!! Request::is('user/finance/earnings') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.earnings.index') }}">Ganhos</a>
                             </li>
+                        @if (config('app.site.withdrawal_enabled'))
                             <li{!! Request::is('user/finance/wrequests/create') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.wrequests.create') }}">Fazer Saque</a>
                             </li>
+                        @endif
                             <li{!! Request::is('user/finance/withdrawals') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.withdrawals.index') }}">Saques</a>
                             </li>
