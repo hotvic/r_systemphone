@@ -15,8 +15,27 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <form action="{{ route('user::profile') }}" method="POST">
+                    <form action="{{ route('user::profile') }}" method="POST" enctype="multipart/form-data">
                         {!! csrf_field() !!}
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="profile-picture-holder">
+                                    <img src="{{ $user->profile_picture_url }}" class="profile-picture" alt="avatar">
+                                </span>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-group{{ $errors->has('profile_picture') ? ' has-error' : '' }}">
+                                    <label for="profile-picture">Alterar Foto de Perfil (<2MB; .jpeg ou .png)</label>
+                                    <input type="file" id="profile-picture" name="profile_picture">
+                                @if ($errors->has('profile_picture'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('profile_picture') }}</strong>
+                                    </span>
+                                @endif
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-md-6">
                             <div class="form-group">

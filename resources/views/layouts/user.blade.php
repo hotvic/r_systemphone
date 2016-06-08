@@ -46,7 +46,7 @@
                         <span class="hidden-xs hidden-sm"><span class="name">{{ $user->name }}</span></span>
                         <span class="fa fa-caret-down hidden-xs hidden-sm"></span>
                         <span class="profile-online">
-                            <img src="/images/avatars/profile_avatar.jpg" alt="avatar">
+                            <img src="{{ $user->profile_picture_url }}" alt="avatar">
                         </span>
                     </a>
                     <ul class="dropdown-menu list-group keep-dropdown w190" role="menu">
@@ -74,7 +74,7 @@
                     <div class="sidebar-widget author-widget">
                         <div class="media">
                             <a class="media-left profile-online" href="#">
-                                <img src="/images/avatars/profile_avatar.jpg" class="img-responsive" alt="">
+                                <img src="{{ $user->profile_picture_url }}" class="img-responsive" alt="">
                             </a>
 
                             <div class="media-body">

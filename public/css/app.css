@@ -23441,4 +23441,9 @@ body.basic-timeline .panel-clone {
   .stat-boxes :last-child {
     border-bottom: none; }
 
+.profile-picture {
+  max-width: 74px;
+  border: 0;
+  border-radius: 50%; }
+
 /*# sourceMappingURL=app.css.map */

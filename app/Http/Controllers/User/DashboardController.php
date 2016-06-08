@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class DashboardController extends Controller
@@ -36,6 +37,7 @@ class DashboardController extends Controller
             'account_type' => 'present',
             'holder' => 'present',
             'password' => 'confirmed',
+            'profile_picture' => 'image',
         ]);
 
         $user = \Auth::user();
@@ -54,9 +56,30 @@ class DashboardController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
 
+        if ($request->hasFile('profile_picture')) 
+        {
+            \Storage::makeDirectory('pictures/profile');
+
+            $file = $request->file('profile_picture');
+
+            $fileName = sprintf("%s.%s", $user->username, $file->guessExtension());
+
+            $file->move(pictures_path('profile'), $fileName);
+
+            $user->profile_picture_path = $fileName;
+        }
+
         $user->save();
 
         return redirect()->route('user::profile');
+    }
+
+    public function getProfilePicture($fileName)
+    {
+        $file = new File(pictures_path('profile/' . $fileName));
+
+        return response($file->openFile()->fread($file->getSize()))
+            ->header('Content-Type', $file->getMimeType());
     }
 
     public function references()

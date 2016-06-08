@@ -32,7 +32,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['balance'];
+    protected $appends = ['balance', 'profile_picture_url'];
 
     public static function admin()
     {
@@ -167,5 +167,15 @@ class User extends Authenticatable
             'amount' => $oldBalance,
             'description' => 'Saldo Antigo'
         ]);
+    }
+
+    public function getProfilePictureUrlAttribute()
+    {
+        if ($this->profile_picture_path)
+        {
+            return url('/pictures/profile/' . $this->profile_picture_path);
+        }
+
+        return url('/images/avatars/profile_avatar.jpg');
     }
 }

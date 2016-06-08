@@ -10,6 +10,13 @@ function format_money($value)
     return sprintf('$ %s', number_format($value, 2, '.', ''));
 }
 
+function pictures_path($trail=null)
+{
+    if ($trail !== null) $trail = '/' . $trail;
+
+    return storage_path('app/pictures' . $trail);
+}
+
 /* Navigation helpers */
 function class_active()
 {
