@@ -101,5 +101,14 @@
         }, function () {
             $(this).popover('hide');
         });
+
+        $('.delete-confirmation').confirmation({
+            btnOkLabel: 'Apagar',
+            btnCancelClass: 'Cancelar',
+            singleton: true,
+            popout: true,
+            title: 'Você tem Certeza?',
+            placement: 'top'
+        });
     </script>
 @endsection
