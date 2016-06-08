@@ -5,7 +5,7 @@
 @section('content')
     <div class="chute chute-center">
         <div class="row">
-            <div class="col-sm-4 col-xl-3">
+            <div class="col-sm-4 col-xl-4">
                 <div class="panel panel-tile info-block info-block-bg-success">
                     <div class="panel-body">
                         <div class="row">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-xl-3">
+            <div class="col-sm-4 col-xl-4">
                 <div class="panel panel-tile info-block info-block-bg-info">
                     <div class="panel-body">
                         <div class="row">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-xl-3">
+            <div class="col-sm-4 col-xl-4">
                 <div class="panel panel-tile info-block info-block-bg-warning">
                     <div class="panel-body">
                         <div class="row">
