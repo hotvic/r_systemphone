@@ -35,7 +35,7 @@
                             <tr>
                                 <td>{{ $request->id }}</td>
                                 <td>{{ $request->howmuch }}</td>
-                                <td>{{ $request->created_at }}</td>
+                                <td>{{ $request->created_at->format('d/m/Y G:i') }}</td>
                                 <td>
                                     <a href="{{ route('user.finance.qrequests.show', ['id' => $request->id]) }}#ext=.png" data-toggle="lightbox" data-title="Comprovante">Comprovante</a>
                                 </td>

@@ -40,7 +40,7 @@
                                 <td><button class="btn btn-link account-popover">Conta</button></td>
                                 <td>{{ format_money($withdrawal->amount) }}</td>
                                 <td>{{ $withdrawal->description }}</td>
-                                <td>{{ $withdrawal->created_at }}</td>
+                                <td>{{ $withdrawal->created_at->format('d/m/Y G:i') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

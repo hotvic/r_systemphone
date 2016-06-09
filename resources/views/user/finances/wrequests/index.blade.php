@@ -44,7 +44,7 @@
                                 <td>{{ $request->id }}</td>
                                 <td>{{ format_money($request->amount) }}</td>
                                 <td><button class="btn btn-link account-popover">Conta</button></td>
-                                <td>{{ $request->created_at }}</td>
+                                <td>{{ $request->created_at->format('d/m/Y G:i') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

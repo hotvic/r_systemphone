@@ -33,7 +33,7 @@
                                 <td>{{ $quota->id }}</td>
                                 <td>{{ $quota->text }}</td>
                                 <td>{{ format_money($quota->amount) }}</td>
-                                <td>{{ $quota->created_at }}</td>
+                                <td>{{ $quota->created_at->format('d/m/Y G:i') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

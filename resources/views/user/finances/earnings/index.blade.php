@@ -33,7 +33,7 @@
                                 <td>{{ $earning->id }}</td>
                                 <td>{{ $earning->description }}</td>
                                 <td>{{ format_money($earning->amount) }}</td>
-                                <td>{{ $earning->created_at }}</td>
+                                <td>{{ $earning->created_at->format('d/m/Y G:i') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
