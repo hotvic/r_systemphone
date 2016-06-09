@@ -32,7 +32,7 @@ class PayDailyUserEarnings extends Job implements ShouldQueue
     {
         $users = \App\User::where('active', true)->where('username', '<>', 'system')->get();
 
-        foreach ($users as $user)
+        foreach ($users as $key => $user)
         {
             $num_quotas = $user->quotas()->count();
             $amount     = $num_quotas * $this->quotaValue;
@@ -45,6 +45,8 @@ class PayDailyUserEarnings extends Job implements ShouldQueue
 
             // Check if earnings was expired
             $user->expiredQuotas();
+
+            $users->forget($key);
         }
     }
 }
