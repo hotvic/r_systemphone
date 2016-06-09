@@ -35,6 +35,13 @@ class PayDailyUserEarnings extends Job implements ShouldQueue
         foreach ($users as $key => $user)
         {
             $num_quotas = $user->quotas()->count();
+
+            if ($num_quotas == 0)
+            {
+                $users->forget($key);
+                continue;
+            }
+
             $amount     = $num_quotas * $this->quotaValue;
 
             $user->earnings()->create([
