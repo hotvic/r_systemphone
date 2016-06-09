@@ -120,6 +120,8 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
             'active' => false,
             'confirmation_code' => str_random(30),
+            'active' => true,
+            'confirmed' => true,
             'referred_by' => $data['referred_by']
         ]);
     }
