@@ -29,7 +29,7 @@
                             <tr>
                                 <td>{{ $value->id }}</td>
                                 <td>{{ format_money($value->amount) }}</td>
-                                <td>{{ $value->created_at }}</td>
+                                <td>{{ $value->created_at->format('d/m/Y G:i') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

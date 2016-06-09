@@ -48,7 +48,7 @@
                                 <td>{{ $usr->username }}</td>
                                 <td>{{ $usr->name }}</td>
                                 <td>{{ $usr->email }}</td>
-                                <td>{{ $usr->created_at }}</td>
+                                <td>{{ $usr->created_at->format('d/m/Y G:i') }}</td>
                                 <td>{{ $usr->quotas()->count() }}</td>
                                 <td>
                                     <a href="{{ route('admin::update_user', ['id' => $usr->id]) }}">Editar</a>

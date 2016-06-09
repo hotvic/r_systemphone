@@ -50,7 +50,7 @@
                                 <td>{{ $earning->user->name }}</td>
                                 <td>{{ $earning->user->email }}</td>
                                 <td>{{ format_money($earning->amount) }}</td>
-                                <td>{{ $earning->created_at }}</td>
+                                <td>{{ $earning->created_at->format('d/m/Y G:i') }}</td>
                                 <td>
                                     <form method="POST" action="{{ route('admin.finance.earnings.destroy', ['id' => $earning->id]) }}" class="form-horizontal" style="display: inline;">
                                         {!! csrf_field() !!}

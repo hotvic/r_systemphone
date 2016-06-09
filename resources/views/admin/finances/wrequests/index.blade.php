@@ -44,7 +44,7 @@
                                     <button class="btn btn-link account-popover">Conta</button>
                                 </td>
                                 <td>{{ format_money($request->amount) }}</td>
-                                <td>{{ $request->created_at }}</td>
+                                <td>{{ $request->created_at->format('d/m/Y G:i') }}</td>
                                 <td>{{ $request->status == 0 ? 'Pendente' : ($request->status == 1 ? 'Aprovado' : 'Rejeitado') }}</td>
                                 <td>
                                     <div class="col-md-12">

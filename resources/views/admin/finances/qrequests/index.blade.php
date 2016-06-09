@@ -38,7 +38,7 @@
                                 <td>{{ $request->user->name }}</td>
                                 <td>{{ $request->user->email }}</td>
                                 <td>{{ $request->howmuch }}</td>
-                                <td>{{ $request->created_at }}</td>
+                                <td>{{ $request->created_at->format('d/m/Y G:i') }}</td>
                                 <td>{{ $request->status == 0 ? 'Pendente' : ($request->status == 1 ? 'Aprovado' : 'Rejeitado') }}</td>
                                 <td>
                                     <a href="{{ route('admin.finance.qrequests.show', ['id' => $request->id]) }}#ext=.png" data-toggle="lightbox" data-title="Comprovante">Comprovante</a>

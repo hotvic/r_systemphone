@@ -56,7 +56,7 @@
                                 </td>
                                 <td>{{ format_money($withdrawal->amount) }}</td>
                                 <td>{{ $withdrawal->description }}</td>
-                                <td>{{ $withdrawal->created_at }}</td>
+                                <td>{{ $withdrawal->created_at->format('d/m/Y G:i') }}</td>
                                 <td>
                                     <form method="POST" action="{{ route('admin.finance.withdrawals.destroy', ['id' => $withdrawal->id]) }}" class="form-horizontal" style="display: inline;">
                                         {!! csrf_field() !!}
