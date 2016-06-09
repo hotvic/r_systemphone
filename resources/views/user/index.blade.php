@@ -76,7 +76,61 @@
                     <span class="panel-title">Estatísticas do Usuário <span class="pull-right"><a href="{{ url('/register/' . $user->username) }}">{{ url('/register/' . $user->username) }}</a></span>
                 </div>
                 <div class="panel-body">
-                    <canvas width="400" height="400"></canvas>
+                    <div class="col-md-7">
+                        <canvas width="400" height="250" id="statCanvas"></canvas>
+                        <script type="text/javascript">
+                            var $ctx = jQuery('#statCanvas');
+
+                            var chart = new Chart($ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Saldo', 'Total de Saques', 'Saldo na Loja', 'Saldo VOIP'],
+                                    datasets: [
+                                        {
+                                            label: 'Estatisticas do Usuário',
+                                            backgroundColor: 'rgba(255,99,132,0.2)',
+                                            borderColor: 'rgba(255,99,132,1)',
+                                            borderWidth: 1,
+                                            hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                                            hoverBorderColor: 'rgba(255,99,132,1)', 
+                                            data: [{{ $stats->get('balance.total') }}, {{ $stats->get('total.withdrawals') }}, 0, 0]
+                                        }
+                                    ]
+                                }
+                            });
+                        </script>
+                    </div>
+                    <div class="col-md-5">
+                        <ul class="stat-boxes">
+                            <li>
+                                <div class="left">
+                                    <i class="fa fa-2x fa-shopping-cart"></i>
+                                </div>
+                                <div class="right">
+                                    <strong>{{ format_money(0) }}</strong>
+                                    Saldo na Loja
+                                </div>
+                            </li>
+                            <li>
+                                <div class="left">
+                                    <i class="fa fa-2x fa-phone"></i>
+                                </div>
+                                <div class="right">
+                                    <strong>{{ format_money(0) }}</strong>
+                                    Saldo VOIP
+                                </div>
+                            </li>
+                            <li>
+                                <div class="left">
+                                    <i class="fa fa-2x fa-money"></i>
+                                </div>
+                                <div class="right">
+                                    <strong>{{ format_money($stats->get('total.pending.withdrawal_amount')) }}</strong>
+                                    Valor de Saque Pendente
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

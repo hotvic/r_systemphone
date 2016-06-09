@@ -106,24 +106,28 @@
                         <div class="col-md-4">
                             <ul class="stat-boxes">
                                 <li>
+                                    <div class="left"></div>
                                     <div class="right">
                                         <strong>{{ $stats->get('total.users') }}</strong>
                                         Usuários
                                     </div>
                                 </li>
                                 <li>
+                                    <div class="left"></div>
                                     <div class="right">
                                         <strong>{{ $stats->get('total.quotas') }}</strong>
                                         Cotas
                                     </div>
                                 </li>
                                 <li>
+                                    <div class="left"></div>
                                     <div class="right">
                                         <strong>{{ $stats->get('total.withdrawals') }}</strong>
                                         Saques
                                     </div>
                                 </li>
                                 <li>
+                                    <div class="left"></div>
                                     <div class="right">
                                         <strong>{{ $stats->get('total.earnings') }}</strong>
                                         Pagamentos

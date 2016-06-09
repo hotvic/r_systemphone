@@ -30,24 +30,35 @@
     border: 1px solid #d4d5d1;
     list-style: none;
     padding: 0;
+    display: block;
 
     > li {
-        height: 75px;
-        border-bottom: 1px solid #d4d5d1;
+        display: flex;
         width: 100%;
+        flex-direction: row;
+        border-bottom: 1px solid #d4d5d1;
+
+        > div.left {
+            width: 75px;
+            height: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid #d4d5d1;
+        }
 
         > div.right {
-            position: relative;
             height: 75px;
-            left: 75px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
             padding: 5px;
-            border-left: 1px solid #d4d5d1;
-            line-height: 65px; /* height (75px) - top padding (5px) - bottom padding (5px) */
-        }
-    }
 
-    :last-child {
-        border-bottom: none;
+            > strong {
+                flex-basis: 100%;
+                font-size: 25px;
+            }
+        }
     }
 }
 

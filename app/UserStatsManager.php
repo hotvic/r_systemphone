@@ -64,6 +64,11 @@ class UserStatsManager
         return $this->user->getBalance();
     }
 
+    public function getPendingWithdrawalsAmount()
+    {
+        return $this->user->withdrawal_requests()->where('status', 0)->sum('amount');
+    }
+
     public function getStatsBag()
     {
         $bag = new ParameterBag();
@@ -72,6 +77,7 @@ class UserStatsManager
         $bag->set('total.quotas', $this->getTotalQuotas());
         $bag->set('total.earnings', $this->getTotalEarnings());
         $bag->set('total.withdrawals', $this->getTotalWithdrawals());
+        $bag->set('total.pending.withdrawal_amount', $this->getPendingWithdrawalsAmount());
 
         $bag->set('active.references', $this->getActiveReferences());
         $bag->set('active.quotas', $this->getActiveQuotas());

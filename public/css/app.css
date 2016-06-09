@@ -23425,21 +23425,38 @@ body.basic-timeline .panel-clone {
   width: 100%;
   border: 1px solid #d4d5d1;
   list-style: none;
-  padding: 0; }
+  padding: 0;
+  display: block; }
   .stat-boxes > li {
-    height: 75px;
-    border-bottom: 1px solid #d4d5d1;
-    width: 100%; }
-    .stat-boxes > li > div.right {
-      position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    border-bottom: 1px solid #d4d5d1; }
+    .stat-boxes > li > div.left {
+      width: 75px;
       height: 75px;
-      left: 75px;
-      padding: 5px;
-      border-left: 1px solid #d4d5d1;
-      line-height: 65px;
-      /* height (75px) - top padding (5px) - bottom padding (5px) */ }
-  .stat-boxes :last-child {
-    border-bottom: none; }
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -ms-flex-align: center;
+      align-items: center;
+      border-right: 1px solid #d4d5d1; }
+    .stat-boxes > li > div.right {
+      height: 75px;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+      align-items: center;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      padding: 5px; }
+      .stat-boxes > li > div.right > strong {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        font-size: 25px; }
 
 .profile-picture {
   max-width: 74px;
