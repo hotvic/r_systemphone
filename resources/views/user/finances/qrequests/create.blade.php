@@ -37,7 +37,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel">
+                {{-- <div class="panel">
                     <div class="panel-heading" role="tab" id="headingPayza">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapsePayza" aria-expanded="true" aria-controls="collapsePayza">Payza</a>
@@ -48,7 +48,7 @@
                             <li class="list-group-item"><strong>E-Mail:</strong> hamiltoncjunior72@gmail.com</li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="panel">
                     <div class="panel-heading" role="tab" id="headingPayer">
                         <span class="panel-title">
