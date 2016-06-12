@@ -55,7 +55,7 @@
                             <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapseOkPay" aria-expanded="true" aria-controls="collapsePayza">OkPay</a>
                         </span>
                     </div>
-                    <div id="collapsePayza" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPayza">
+                    <div id="collapseOkPay" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOkPay">
                         <ul class="list-group">
                             <li class="list-group-item"><strong>E-Mail:</strong> hamiltoncjunior72@gmail.com</li>
                         </ul>
