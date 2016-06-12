@@ -50,6 +50,18 @@
                     </div>
                 </div> --}}
                 <div class="panel">
+                    <div class="panel-heading" role="tab" id="headingOkPay">
+                        <span class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapseOkPay" aria-expanded="true" aria-controls="collapsePayza">OkPay</a>
+                        </span>
+                    </div>
+                    <div id="collapsePayza" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPayza">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>E-Mail:</strong> hamiltoncjunior72@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel">
                     <div class="panel-heading" role="tab" id="headingPayer">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapsePayer" aria-expanded="true" aria-controls="collapsePayer">Payer</a>
