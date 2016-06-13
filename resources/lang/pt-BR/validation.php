@@ -128,4 +128,5 @@ return [
     'balance10' => 'Você não tem saldo suficiente.',
     'cpf' => 'CPF Inválido',
     'withdrawal_value' => 'Valor de Saque mínimo é $ 200.00 e máximo é $ 5,000.00',
+    'withdrawal_limit' => 'Limite de saques por dia (01) atingido, aguarde o próximo dia!',
 ];

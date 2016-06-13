@@ -49,7 +49,7 @@ class WithdrawalRequestsController extends Controller
         $this->validate($request, [
             'account' => 'required|integer|in:0,1',
             'accountInfo' => 'required_if:account,1',
-            'amount' => 'required|digits_between:3,15|balance10|withdrawal_value'
+            'amount' => 'required|digits_between:3,15|balance10|withdrawal_value|withdrawal_limit'
         ]);
 
         $accountInfo = $request->input('accountInfo');

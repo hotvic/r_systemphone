@@ -70,6 +70,21 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('withdrawal_value', function($attribute, $value, $parameters, $validator) {
             return ($value / 100) >= 200 and ($value / 100) <= 5000;
         });
+
+        /* Limit to one withdrawal by day */
+        Validator::extend('withdrawal_limit', function($attribute, $value, $parameters, $validator) {
+            $last_withdrawal_date = \Auth::user()->withdrawal_requests()->orderBy('id', 'desc')->first();
+
+            if ($last_withdrawal_date === null) return true;
+
+            $last_withdrawal_date = $last_withdrawal_date->created_at->format('d/m/Y');
+
+            $now_date = (new \DateTime())->format('d/m/Y');
+
+            if ($last_withdrawal_date != $now_date) return true;
+
+            return false;
+        });
     }
 
     /**
