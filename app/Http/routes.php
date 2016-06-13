@@ -94,7 +94,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth',
     Route::post('/profile', 'DashboardController@postProfile');
 });
 
-Route::get('/', function () { return redirect('/admin'); });
+Route::get('/', 'HomeController@home');
 Route::get('/thankyou/{username}', 'HomeController@thankyou')->name('thankyou');
 Route::get('/register/confirm/{code}', 'Auth\AuthController@confirm')->name('register.confirm');
 
