@@ -7599,10 +7599,13 @@ select[multiple] .input-group-sm > .input-group-btn > .btn {
 
 .navbar-logo-image {
   display: block;
-  margin: 22px 0 0 40px; }
+  margin: 0px 0 0 20px; }
 
 .navbar-logo-image .sb-l-m-logo {
   display: none; }
+
+.navbar-logo-image .sb-l-o-logo {
+  width: 80%; }
 
 body.sb-l-m .navbar-logo-image {
   margin: 0; }

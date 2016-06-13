@@ -93,9 +93,9 @@
                             <div class="row">
                                 <div class="tw-element waves-heading center col-md-12" style="">
                                     <div class="heading-container">
-                                        <h3 class="heading-title">Sobre a SystemaPhone</h3>
+                                        <h3 class="heading-title">Sobre a SystemPhone</h3>
                                         <p>
-                                             A SystemaPhone é uma empresa que usa o Marketing para impulsionar suas vendas e conquistar novos clientes e parceiros por todo o mundo.<br/>
+                                             A SystemPhone é uma empresa que usa o Marketing para impulsionar suas vendas e conquistar novos clientes e parceiros por todo o mundo.<br/>
                                             O grande diferencial da <span>SystemPhone</span> é que ela pensa em seus parceiros. Com seu agressivo plano de negócio ela divide para seus parceiros 80% do seu faturamento todos os dias.
                                         </p>
                                     </div>
@@ -221,7 +221,7 @@
                                             <i class="tw-font-icon fa fa-book " style="border-style: solid;font-style:normal;text-align:center;font-size:44px;width:46px;line-height:46px;padding:5px;color:#dddddd;background-color:transparent;border-color:#000;border-width:0px;border-radius:0px;-webkit-border-radius:0px;-moz-border-radius:0px;"></i>
                                         </div>
                                         <div class="tw-service-content desc_unstyle" style="margin-left:79px;">
-                                            <h3>CUESOS ONLINE</h3>
+                                            <h3>CURSOS ONLINE</h3>
                                             <div class="service-title-sep">
                                             </div>
                                             <p>
@@ -240,7 +240,7 @@
                                             <div class="service-title-sep">
                                             </div>
                                             <p>
-                                                Ecommerce online com cobertura internacional com diversos tipos de produtos como eletrônicos e vestuário.
+                                                Ecommerce online com cobertura internacional e diversos tipos de produtos como eletrônicos e vestuário.
                                             </p>
                                         </div>
                                     </div>
