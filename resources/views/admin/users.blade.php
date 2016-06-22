@@ -88,7 +88,8 @@
                 $ul = $('<ul/>').addClass('list-group');
 
                 $ul.append($('<li/>').addClass('list-group-item').html('<strong>CPF:</strong> ' + data.cpf));
-                $ul.append($('<li/>').addClass('list-group-item').html('<strong>Saldo:</strong> $ ' + data.balance.toFixed(2)));
+                $ul.append($('<li/>').addClass('list-group-item').html('<strong>Saldo:</strong> $ ' + parseFloat(data.balance).toFixed(2)));
+                $ul.append($('<li/>').addClass('list-group-item').html('<strong>Saldo VOIP/E-Commerce:</strong> $ ' + parseFloat(data.ev_funds).toFixed(2)));
 
                 return $ul;
             },

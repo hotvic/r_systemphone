@@ -85,6 +85,20 @@ class AppServiceProvider extends ServiceProvider
 
             return false;
         });
+
+        /* Remove from user balance 20% of each earning to VOIP and E-Commerce Servie */
+        \App\Earning::created(function ($earning) {
+            $amount = $earning->amount * 0.2;
+
+            $earning->user->withdrawals()->create([
+                'account_info' => '20% do Ganho reservado aos Sistemas de VOIP e E-Commerce',
+                'description' => '20% do Ganho reservado aos Sistemas de VOIP e E-Commerce',
+                'amount' => $amount,
+            ]);
+
+            $earning->user->ev_funds += $amount;
+            $earning->user->save();
+        });
     }
 
     /**
