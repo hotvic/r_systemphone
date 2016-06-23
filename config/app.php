@@ -209,6 +209,7 @@ return [
     /* Site Settings */
     'site' => [
         'withdrawal_enabled' => env('APP_SITE_WITHDRAWAL_ENABLED', true),
+        'quota_price' => env('APP_SITE_QUOTA_PRICE', 100.0),
     ]
 
 ];
