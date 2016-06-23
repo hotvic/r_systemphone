@@ -82,6 +82,8 @@ class QuotaRequestsController extends Controller
     {
         $qrequest = \App\QuotaRequest::find($id);
 
+        if (!$qrequest) abort(404);
+
         return response(file_get_contents($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)))
             ->header('Content-Type', mime_content_type($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)));
     }
