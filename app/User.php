@@ -32,7 +32,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['balance', 'profile_picture_url'];
+    protected $appends = ['profile_picture_url'];
 
     public static function admin()
     {
@@ -79,11 +79,6 @@ class User extends Authenticatable
     public function getBalance()
     {
         return $this->earnings()->sum('amount') - $this->withdrawals()->sum('amount');
-    }
-
-    public function getBalanceAttribute()
-    {
-        return $this->getBalance();
     }
 
     public function payBonusToReferrer($quota, $num_quotas)
