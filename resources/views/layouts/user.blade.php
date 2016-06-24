@@ -104,9 +104,6 @@
                             <li{!! Request::is('user/finance/qrequests') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.qrequests.index') }}">Cotas Pendentes</a>
                             </li>
-                            <li{!! Request::is('user/finance/quotas') ? class_active() : '' !!}>
-                                <a href="{{ route('user.finance.quotas.index') }}">Cotas</a>
-                            </li>
                             <li{!! Request::is('user/finance/earnings') ? class_active() : '' !!}>
                                 <a href="{{ route('user.finance.earnings.index') }}">Ganhos</a>
                             </li>

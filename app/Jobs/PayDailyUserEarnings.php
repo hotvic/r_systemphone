@@ -34,24 +34,19 @@ class PayDailyUserEarnings extends Job implements ShouldQueue
 
         foreach ($users as $key => $user)
         {
-            $num_quotas = $user->quotas()->count();
-
-            if ($num_quotas == 0)
+            if ($user->num_quotas == 0)
             {
                 $users->forget($key);
                 continue;
             }
 
-            $amount     = $num_quotas * $this->quotaValue;
+            $amount = $user->num_quotas * $this->quotaValue;
 
             $user->earnings()->create([
                 'type' => 'quotavalue',
                 'amount' => $amount,
-                'description' => sprintf('Ganho Por Cota; Cotas: %d', $num_quotas),
+                'description' => sprintf('Ganho Por Cota (%s); Cotas: %d', format_money($this->quotaValue), $user->num_quotas),
             ]);
-
-            // Check if earnings was expired
-            $user->expiredQuotas();
 
             $users->forget($key);
         }

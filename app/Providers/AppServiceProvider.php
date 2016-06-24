@@ -60,11 +60,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('balance', function($attribute, $value, $parameters, $validator) {
-            return ($value / 100) <= \Auth::user()->getBalance();
+            return ($value / 100) <= \Auth::user()->balance;
         });
 
         Validator::extend('balance10', function($attribute, $value, $parameters, $validator) {
-            return (($value / 100) + (($value / 100) * 0.10)) <= \Auth::user()->getBalance();
+            return (($value / 100) + (($value / 100) * 0.10)) <= \Auth::user()->balance;
         });
 
         Validator::extend('withdrawal_value', function($attribute, $value, $parameters, $validator) {
@@ -86,7 +86,13 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
 
-        /* Remove from user balance 20% of each earning to VOIP and E-Commerce Servie */
+        /* Update user `balance` field according */
+        \App\Earning::created(function ($earning) {
+            $earning->user->balance += $earning->amount;
+            $earning->user->save();
+        });
+
+        /* Remove from user balance 20% of each earning to E-Commerce Servie */
         \App\Earning::created(function ($earning) {
             $amount = $earning->amount * 0.2;
 
@@ -98,6 +104,17 @@ class AppServiceProvider extends ServiceProvider
 
             $earning->user->e_funds += $amount;
             $earning->user->save();
+        });
+
+        /* Update user `balance` field according */
+        \App\Withdrawal::created(function ($withdrawal) {
+            $withdrawal->user->balance -= $withdrawal->amount;
+            $withdrawal->user->save();
+        });
+
+        /* 200% earning limit */
+        \App\User::updated(function ($user) {
+            $user->expiredQuotas();
         });
     }
 

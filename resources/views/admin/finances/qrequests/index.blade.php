@@ -4,9 +4,6 @@
     <li class="breadcrumb-link">
         <a href="{{ route('admin::finances::index') }}">Finanças</a>
     </li>
-    <li class="breadcrumb-link">
-        <a href="{{ route('admin.finance.quotas.index') }}">Cotas</a>
-    </li>
     <li class="breadcrumb-current-item">Pedidos de Cota</li>
 @endsection
 

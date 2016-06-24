@@ -41,8 +41,7 @@ class QuotaRequestsController extends Controller
     public function create()
     {
         return view('user.finances.qrequests.create')
-            ->with('user', \Auth::user())
-            ->with('quotas', \App\Quota::all());
+            ->with('user', \Auth::user());
     }
 
     /**
@@ -54,7 +53,6 @@ class QuotaRequestsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'quota' => 'required|exists:quotas,id',
             'receipt' => 'required|image',
             'howmuch'  => 'required|integer'
         ]);
@@ -64,7 +62,6 @@ class QuotaRequestsController extends Controller
         $new_receipt = $request->file('receipt')->move($this->get_receipt_dir(), sprintf("%d.%s", time(), $request->file('receipt')->getClientOriginalExtension()));
 
         \Auth::user()->quota_requests()->create([
-            'quota_id' => $request->input('quota'),
             'howmuch' => $request->input('howmuch'),
             'receipt_path' => \Auth::user()->username . '/' . $new_receipt->getBasename(),
         ]);
@@ -86,39 +83,5 @@ class QuotaRequestsController extends Controller
 
         return response(file_get_contents($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)))
             ->header('Content-Type', mime_content_type($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

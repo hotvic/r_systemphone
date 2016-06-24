@@ -6,10 +6,7 @@
     <li class="breadcrumb-link">
         <a href="{{ route('user.finance.qrequests.index') }}">Finanças</a>
     </li>
-    <li class="breadcrumb-link">
-        <a href="{{ route('user.finance.quotas.index') }}">Cotas</a>
-    </li>
-    <li class="breadcrumb-current-item">Pendentes</li>
+    <li class="breadcrumb-current-item">Cotas Pendentes</li>
 @endsection
 
 @section('content')

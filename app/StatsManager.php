@@ -26,16 +26,12 @@ class StatsManager
 
     public static function getTotalQuotas()
     {
-        return Quota::all()->count();
-        //$quotas = Quota::all()->count();
-        //$pquotas = QuotaRequest::where('status', 0)->count();
-
-        //return $quotas + $pquotas;
+        return User::sum('num_quotas');
     }
 
     public static function getActiveQuotas()
     {
-        return DB::table('quota_user')->count();
+        return User::sum('num_quotas');
     }
 
     public static function getTotalEarnings()
@@ -50,14 +46,14 @@ class StatsManager
 
     public static function getTotalBalance()
     {
-        return DB::table('quota_user')->join('quotas', 'quota_user.quota_id', '=', 'quotas.id')->sum('amount');
+        return User::sum('num_quotas') * config('app.site.quota_price');
     }
 
     public static function getWithdrawableBalance()
     {
         $total = self::getTotalBalance();
 
-        return $total - Earning::sum('amount');
+        return $total - User::sum('balance');
     }
 
     public static function getStatsBag()

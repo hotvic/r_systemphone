@@ -33,7 +33,7 @@ class UserStatsManager
 
     public function getTotalQuotas()
     {
-        $quotas = $this->user->quotas->count();
+        $quotas = $this->user->num_quotas;
         $pquotas = $this->user->quota_requests()->where('status', 0)->count();
 
         return $quotas + $pquotas;
@@ -41,7 +41,7 @@ class UserStatsManager
 
     public function getActiveQuotas()
     {
-        return $this->user->quotas->count();
+        return $this->user->num_quotas;
     }
 
     public function getTotalEarnings()
@@ -56,12 +56,12 @@ class UserStatsManager
 
     public function getTotalBalance()
     {
-        return $this->user->getBalance();
+        return $this->user->balance + $this->user->e_funds;
     }
 
     public function getWithdrawableBalance()
     {
-        return $this->user->getBalance();
+        return $this->user->balance;
     }
 
     public function getPendingWithdrawalsAmount()

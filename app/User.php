@@ -41,11 +41,6 @@ class User extends Authenticatable
         })->first();
     }
 
-    public function quotas()
-    {
-        return $this->belongsToMany('\App\Quota');
-    }
-
     public function quota_requests()
     {
         return $this->hasMany('\App\QuotaRequest');
@@ -81,13 +76,13 @@ class User extends Authenticatable
         return $this->earnings()->sum('amount') - $this->withdrawals()->sum('amount');
     }
 
-    public function payBonusToReferrer($quota, $num_quotas)
+    public function payBonusToReferrer($num_quotas)
     {
         $referrer = $this->referrer();
 
         if ($referrer->username === 'system') return;
 
-        $value = ($quota->amount * .10) * $num_quotas;
+        $value = (config('app.site.quota_price') * .10) * $num_quotas;
 
         $referrer->earnings()->create([
             'type' => 'bydirectbonus',
@@ -103,8 +98,8 @@ class User extends Authenticatable
      */
     protected function earningsQuotasPercentage()
     {
-        $quotas_amount   = $this->quotas()->sum('amount');
-        $earnings_amount = $this->earnings()->where('type', '<>', 'oldbalance')->sum('amount');
+        $quotas_amount   = $this->num_quotas * config('app.site.quota_price');
+        $earnings_amount = $this->earnings()->sum('amount');
 
         if ($quotas_amount == 0 or $earnings_amount == 0) return 0;
 
@@ -115,23 +110,16 @@ class User extends Authenticatable
     {
         if ($this->earningsQuotasPercentage() < 200) return;
 
-        $oldBalance = $this->getBalance();
-
         // Move to excerpts the expired quotas
-        foreach ($this->quotas as $quota)
-        {
-            $this->excerpts()->create([
-                'type' => 'quota',
-                'amount' => $quota->amount,
-                'description' => $quota->text,
-                'created_at' => $quota->created_at
-            ]);
-
-            $this->quotas()->detach($quota);
-        }
+        $this->excerpts()->create([
+            'type' => 'quotas',
+            'amount' => $this->num_quotas,
+            'description' => 'Quantidade de cotas antigas antes de atingir os 200%'
+        ]);
+        $this->num_quotas = 0;
 
         // Move to excerpts the old earnings
-        foreach ($this->earnings() as $earning)
+        foreach ($this->earnings as $earning)
         {
             $this->excerpts()->create([
                 'type' => 'earning',
@@ -140,11 +128,11 @@ class User extends Authenticatable
                 'created_at' => $earning->created_at
             ]);
 
-            $earning->delete();
+            \App\Earning::destroy($earning->id);
         }
 
         // Move to excerpts the old withdrawals
-        foreach ($this->withdrawals() as $withdrawal)
+        foreach ($this->withdrawals as $withdrawal)
         {
             $this->excerpts()->create([
                 'type' => 'withdrawal',
@@ -153,15 +141,10 @@ class User extends Authenticatable
                 'created_at' => $withdrawal->created_at
             ]);
 
-            $withdrawal->delete();
+            \App\Withdrawal::destroy($withdrawal->id);
         }
 
-        // Add balance back to account
-        $this->earnings()->create([
-            'type' => 'oldbalance',
-            'amount' => $oldBalance,
-            'description' => 'Saldo Antigo'
-        ]);
+        $this->save();
     }
 
     public function getProfilePictureUrlAttribute()

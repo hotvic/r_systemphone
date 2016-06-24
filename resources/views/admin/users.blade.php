@@ -49,15 +49,13 @@
                                 <td>{{ $usr->name }}</td>
                                 <td>{{ $usr->email }}</td>
                                 <td>{{ $usr->created_at->format('d/m/Y G:i') }}</td>
-                                <td>{{ $usr->quotas()->count() }}</td>
+                                <td>{{ $usr->num_quotas }}</td>
                                 <td>
                                     <a href="{{ route('admin::update_user', ['id' => $usr->id]) }}">Editar</a>
                                     |
                                     <a data-href="{{ route('admin::delete_user', ['id' => $usr->id]) }}" class="delete-confirmation">Apagar</a>
                                     <br>
                                     <span>Novo:</span>
-                                    <a href="{{ route('admin.finance.quotas.attach', ['user_id' => $usr->id]) }}">Attach Quota</a>
-                                    |
                                     <a href="{{ route('admin.finance.earnings.create', ['user_id' => $usr->id]) }}">Ganho</a>
                                     |
                                     <a href="{{ route('admin.finance.withdrawals.create', ['user_id' => $usr->id]) }}">Saque</a>

@@ -53,39 +53,16 @@ class QuotaRequestsController extends Controller
 
         if ($request->input('status') == 1)
         {
-            for ($i = 0; $i < $qrequest->howmuch; $i++)
-            {
-                $qrequest->user->quotas()->attach($qrequest->quota->id);
-            }
+            $qrequest->user->num_quotas = $qrequest->howmuch;
 
-            $qrequest->user->payBonusToReferrer($qrequest->quota, $qrequest->howmuch);
+            $qrequest->user->payBonusToReferrer($qrequest->howmuch);
+
+            $qrequest->user->save();
         }
 
         $qrequest->save();
 
         return response()->json(['success' => true]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        // TODO: Admin Creation ?
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // TODO: Admin Creation ?
     }
 
     /**
@@ -98,31 +75,10 @@ class QuotaRequestsController extends Controller
     {
         $qrequest = \App\QuotaRequest::find($id);
 
+        if (!$qrequest) abort(404);
+
         return response(file_get_contents($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)))
             ->header('Content-Type', mime_content_type($this->get_receipt_path($qrequest->user, $qrequest->receipt_path)));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**

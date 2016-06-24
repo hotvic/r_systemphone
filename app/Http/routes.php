@@ -32,9 +32,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
 
     /* Finance Routes */
     Route::group(['prefix' => 'finance'], function () {
-        Route::get('quotas/attach', 'QuotasController@attach');
-        Route::post('quotas/attach', 'QuotasController@postAttach')->name('admin.finance.quotas.attach');
-        Route::resource('quotas', 'QuotasController');
         Route::resource('quotavalues', 'QuotaValuesController');
         Route::resource('earnings', 'FinancesEarningsController');
         Route::resource('withdrawals', 'WithdrawalsController');
@@ -62,7 +59,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
         Route::get('/', 'FinancesController@index')->name('index');
     });
 
-
     Route::post('/users/update/{id}', 'DashboardController@postUpdateUser');
 });
 
@@ -71,9 +67,6 @@ Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth']
 
     /* Finance Routes */
     Route::group(['prefix' => 'finance'], function () {
-        // Route::get('quotas/re', 'FinancesInvestmentsController@re')->name('user.investments.re');
-        // Route::post('quotas/re', 'FinancesInvestmentsController@postRe');
-        Route::resource('quotas', 'QuotasController');
         Route::resource('earnings', 'FinancesEarningsController');
         Route::resource('withdrawals', 'WithdrawalsController');
         Route::resource('qrequests', 'QuotaRequestsController');

@@ -201,18 +201,11 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group{{ $errors->has('quota') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="quota">Cota</label>
-                                <select id="quota" name="quota" class="form-control">
-                                @foreach($quotas as $quota)
-                                    <option value="{{ $quota->id }}">{{ $quota->text }} ({{ format_money($quota->amount) }})</option>
-                                @endforeach
-                                </select>
-                            @if ($errors->has('quota'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('quota') }}</strong>
-                                </span>
-                            @endif
+                                <p id="quota" class="form-control-static">
+                                    Cota Única ({{ format_money(config('app.site.quota_price')) }})
+                                </p>
                             </div>
                         </div>
 

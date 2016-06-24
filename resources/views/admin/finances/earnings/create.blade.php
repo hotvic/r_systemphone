@@ -24,16 +24,15 @@
                     <form action="{{ route('admin.finance.earnings.store') }}" method="POST">
                         {!! csrf_field() !!}
 
+                        <input type="hidden" name="email" value="{{ $client->email }}">
+
                         <div class="col-md-6">
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="email">E-Mail</label>
-                                <input type="email" name="email" value="{{ $client != null ? $client->email : '' }}" class="form-control" placeholder="E-Mail do Cliente">
+                                <p>
+                                    {{ $client->email }}
+                                </p>
                             </div>
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </span>
-                        @endif
                         </div>
                         <div class="col-md-6">
                             <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
