@@ -31,13 +31,8 @@ class DashboardController extends Controller
 
     public function updateUser($id)
     {
-        $data = array(
-            'usr' => \App\User::find($id),
-        );
-
-        // TODO: WRITE!!!
-
-        return view('admin.updateuser', $data);
+        return view('admin.updateuser')
+            ->with('usr', \App\User::find($id));
     }
 
     public function deleteUser($id)
@@ -54,7 +49,10 @@ class DashboardController extends Controller
         // TODO: Validate!
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'confirmed'
+            'password' => 'confirmed',
+            'balance' => 'required|digits_between:3,15',
+            'e_funds' => 'required|digits_between:3,15',
+            'num_quotas' => 'required|integer',
         ]);
 
         $user->username    = $request->input('username');
@@ -63,6 +61,9 @@ class DashboardController extends Controller
         $user->referred_by = $request->input('referred_by');
         $user->active      = $request->has('active') ? true : false;
         $user->confirmed   = $request->has('confirmed') ? true : false;
+        $user->balance     = $request->input('balance') / 100;
+        $user->e_funds     = $request->input('e_funds') / 100;
+        $user->num_quotas  = $request->input('num_quotas');
 
         if ($request->input('password') != '')
         {

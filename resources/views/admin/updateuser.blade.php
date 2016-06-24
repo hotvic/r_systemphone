@@ -95,28 +95,58 @@
                                 <input type="text" name="holder" value="{{ $usr->holder }}" class="form-control">
                             </div>
                         </div>
-
                         <div class="col-md-6{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password">Senha</label>
-                            <input type="password" name="password" class="form-control">
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
+                            <div class="form-group">
+                                <label for="password">Senha</label>
+                                <input type="password" name="password" class="form-control">
+                            @if ($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <input type="checkbox" id="active" name="active" {{ $usr->active == true ? ' checked' : '' }}>
+                                <label for="active">Ativo</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" id="confirmed" name="confirmed" {{ $usr->confirmed == true ? ' checked' : '' }}>
+                                <label for="confirmed">Confirmado</label>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="password_confirmation">Confirmar Senha</label>
                             <input type="password" name="password_confirmation" class="form-control">
                         </div>
 
-                        <div class="col-md-12">
-                            <input type="checkbox" id="active" name="active" {{ $usr->active == true ? ' checked' : '' }}>
-                            <label for="active">Ativo</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="checkbox" id="confirmed" name="confirmed" {{ $usr->confirmed == true ? ' checked' : '' }}>
-                            <label for="confirmed">Confirmado</label>
+                        <div id="dontedit">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="balance">Saldo</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="balance" id="balance" value="{{ number_format($usr->balance, 2, '', '') }}">
+                                        <span class="input-group-addon" id="balance-display">$ 0.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="e_funds">Saldo E-Commerce</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="e_funds" id="e_funds" value="{{ number_format($usr->e_funds, 2, '', '') }}">
+                                        <span class="input-group-addon" id="e_funds-display">$ 0.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="balance">Número de Cotas</label>
+                                    <input type="text" class="form-control" name="num_quotas" value="{{ $usr->num_quotas }}">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-md-8 col-md-offset-2">
@@ -127,4 +157,25 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $('#balance').on('change input paste keyup', function () {
+            var $this = $(this);
+
+            var re = /([0-9]*)([0-9]{2})$/;
+            var val = $this.val().match(re);
+
+            $('#balance-display').text($this.val().length < 2 ? '$ 0.00' : '$ ' + (typeof val[1] != "null" ? val[1] : 0 ) + '.' + val[2]);
+        });
+        $('#balance').trigger('input');
+
+        $('#e_funds').on('change input paste keyup', function () {
+            var $this = $(this);
+
+            var re = /([0-9]*)([0-9]{2})$/;
+            var val = $this.val().match(re);
+
+            $('#e_funds-display').text($this.val().length < 2 ? '$ 0.00' : '$ ' + (typeof val[1] != "null" ? val[1] : 0 ) + '.' + val[2]);
+        });
+        $('#e_funds').trigger('input');
+    </script>
 @endsection
