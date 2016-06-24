@@ -13,6 +13,8 @@ class RemoveQuotaIdFieldFromQuotaRequestsTable extends Migration
     public function up()
     {
         Schema::table('quota_requests', function (Blueprint $table) {
+            $table->dropForeign('quota_requests_quota_id_foreign');
+
             $table->dropColumn('quota_id');
         });
     }
