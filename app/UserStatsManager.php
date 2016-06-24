@@ -69,6 +69,11 @@ class UserStatsManager
         return $this->user->withdrawal_requests()->where('status', 0)->sum('amount');
     }
 
+    public function getBalanceEcommerce()
+    {
+        return $this->user->e_funds;
+    }
+
     public function getStatsBag()
     {
         $bag = new ParameterBag();
@@ -84,6 +89,7 @@ class UserStatsManager
 
         $bag->set('balance.total', $this->getTotalBalance());
         $bag->set('balance.withdrawable', $this->getWithdrawableBalance());
+        $bag->set('balance.ecommerce', $this->getBalanceEcommerce());
 
         return $bag;
     }

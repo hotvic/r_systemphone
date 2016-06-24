@@ -93,7 +93,7 @@
                                             borderWidth: 1,
                                             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                                             hoverBorderColor: 'rgba(255,99,132,1)', 
-                                            data: [{{ $stats->get('balance.total') }}, {{ $stats->get('total.withdrawals') }}, 0, 0]
+                                            data: [{{ $stats->get('balance.total') }}, {{ $stats->get('total.withdrawals') }}, {{ $stats->get('balance.ecommerce') }}, 0]
                                         }
                                     ]
                                 }
@@ -107,7 +107,7 @@
                                     <i class="fa fa-2x fa-shopping-cart"></i>
                                 </div>
                                 <div class="right">
-                                    <strong>{{ format_money(0) }}</strong>
+                                    <strong>{{ format_money($stats->get('balance.ecommerce')) }}</strong>
                                     Saldo na Loja
                                 </div>
                             </li>
