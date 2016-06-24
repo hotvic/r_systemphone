@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title>SystemPhone</title>        
+    <title>SystemPhone</title>
 
     <link rel="stylesheet" href="{{ url('css/revslider.css') }}" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ url('css/mmenu.css') }}" type="text/css" media="all" />
@@ -37,8 +37,17 @@
                             <li class="menu-item"><a href="#team">Donos</a></li>
                             <li class="menu-item"><a href="#services">Produtos</a></li>
                             <li class="menu-item"><a href="#contact">Contato</a></li>
+                        @if (\Auth::check())
+                            @if (\Auth::user()->is('admin'))
+                                <li class="menu-item"><a href="{{ url('/admin') }}">Administrar</a></li>
+                            @else
+                                <li class="menu-item"><a href="{{ url('/user') }}">Painel do Usuário</a></li>
+                            @endif
+                            <li class="menu-item"><a href="{{ url('/logout') }}">Sair</a></li>
+                        @else
                             <li class="menu-item"><a href="{{ url('/login') }}">Login</a></li>
                             <li class="menu-item"><a href="{{ url('/register') }}">Registro</a></li>
+                        @endif
                         </ul>
                     </div>
                 </nav>
