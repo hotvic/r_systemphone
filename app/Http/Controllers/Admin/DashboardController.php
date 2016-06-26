@@ -61,13 +61,17 @@ class DashboardController extends Controller
         $user->referred_by = $request->input('referred_by');
         $user->active      = $request->has('active') ? true : false;
         $user->confirmed   = $request->has('confirmed') ? true : false;
-        $user->balance     = $request->input('balance') / 100;
-        $user->e_funds     = $request->input('e_funds') / 100;
-        $user->num_quotas  = $request->input('num_quotas');
 
         if ($request->input('password') != '')
         {
             $user->password = bcrypt($request->input('password'));
+        }
+
+        if ($request->has('critical-change'))
+        {
+            $user->balance    = $request->input('balance') / 100;
+            $user->e_funds    = $request->input('e_funds') / 100;
+            $user->num_quotas = $request->input('num_quotas');
         }
 
         $user->save();

@@ -10,6 +10,12 @@
 @endsection
 
 @section('content')
+    <style>
+        .disabled-input {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
     <div class="row">
         <div class="panel">
             <div class="panel-heading">
@@ -122,29 +128,37 @@
                             <input type="password" name="password_confirmation" class="form-control">
                         </div>
 
-                        <div id="dontedit">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="balance">Saldo</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="balance" id="balance" value="{{ number_format($usr->balance, 2, '', '') }}">
-                                        <span class="input-group-addon" id="balance-display">$ 0.0</span>
+                        <div>
+                            <div class="col-md-12">
+                                <label>
+                                    <input type="checkbox" name="critical-change" id="critical-change">
+                                    Editar informações abaixo
+                                </label>
+                            </div>
+                            <div id="dontedit" class="disabled-input">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="balance">Saldo</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="balance" id="balance" value="{{ number_format($usr->balance, 2, '', '') }}">
+                                            <span class="input-group-addon" id="balance-display">$ 0.0</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="e_funds">Saldo E-Commerce</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="e_funds" id="e_funds" value="{{ number_format($usr->e_funds, 2, '', '') }}">
-                                        <span class="input-group-addon" id="e_funds-display">$ 0.0</span>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="e_funds">Saldo E-Commerce</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="e_funds" id="e_funds" value="{{ number_format($usr->e_funds, 2, '', '') }}">
+                                            <span class="input-group-addon" id="e_funds-display">$ 0.0</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="balance">Número de Cotas</label>
-                                    <input type="text" class="form-control" name="num_quotas" value="{{ $usr->num_quotas }}">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="balance">Número de Cotas</label>
+                                        <input type="text" class="form-control" name="num_quotas" value="{{ $usr->num_quotas }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -177,5 +191,36 @@
             $('#e_funds-display').text($this.val().length < 2 ? '$ 0.00' : '$ ' + (typeof val[1] != "null" ? val[1] : 0 ) + '.' + val[2]);
         });
         $('#e_funds').trigger('input');
+
+        $('#critical-change').bsAsk({
+            placement: 'top',
+            trigger: 'manual',
+            title: 'Não modifique as informações abaixo!',
+            content: {
+                label: 'Você tem certeza que deseja modificar ?',
+            },
+            buttons: {
+                callback: function (e, button) {
+                    if (button == 'change') {
+                        $('#dontedit').removeClass('disabled-input');
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                },
+                change: {
+                    type: 'btn-danger',
+                    class: 'pull-right',
+                    text: 'Modificar',
+                }
+            }
+        });
+        $('#critical-change').on('change', function () {
+            if (this.checked) {
+                $(this).popover('show');
+            } else {
+                $('#dontedit').addClass('disabled-input');
+            }
+        });
     </script>
 @endsection

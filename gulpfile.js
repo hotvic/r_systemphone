@@ -16,6 +16,7 @@ elixir(function(mix) {
         .sass('login.scss')
         .sass('forms.scss')
         .coffee('app.coffee')
+        .coffee('jquery.bsAsk.coffee')
         .styles([
             './bower_components/font-awesome/css/font-awesome.css',
             './bower_components/animate.css/animate.css',
