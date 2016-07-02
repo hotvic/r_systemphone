@@ -39,7 +39,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => 'http://' . env('APP_DOMAIN', 'systemphonne.com'),
+    'domain' => env('APP_DOMAIN', 'systemphonne.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -155,6 +156,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ShopServiceProvider::class,
         Silber\Bouncer\BouncerServiceProvider::class,
 
     ],
@@ -203,6 +205,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Bouncer' => Silber\Bouncer\BouncerFacade::class,
+        'Shop' => App\Support\Facades\Shop::class,
 
     ],
 

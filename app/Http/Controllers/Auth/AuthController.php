@@ -140,4 +140,12 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+    public function authenticated($request, $user)
+    {
+        if ($request->has('redirectPath'))
+            return redirect($request->input('redirectPath'));
+
+        return redirect()->intended($this->redirectPath());
+    }
 }

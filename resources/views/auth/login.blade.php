@@ -17,6 +17,8 @@
                     <form method="POST" action="{{ url('/login') }}" id="form-login">
                         {!! csrf_field() !!}
 
+                        <input type="hidden" name="redirectPath" value="{{ request()->input('redirectPath') }}">
+
                         <div class="panel-body pn mv10">
 
                             <div class="section{{ $errors->has('username') ? ' has-error' : '' }}">
