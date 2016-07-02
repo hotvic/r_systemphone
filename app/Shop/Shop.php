@@ -25,9 +25,11 @@ class Shop
                 Route::get('categories/new', 'CategoriesController@showNewForm')->name('shop.admin.categories.new');
                 Route::get('products', 'ProductsController@showListPage')->name('shop.admin.products.list');
                 Route::get('products/new', 'ProductsController@showNewForm')->name('shop.admin.products.new');
+                Route::get('products/{id}', 'ProductsController@showEditForm')->name('shop.admin.products.edit');
 
-                Route::post('categories/new', 'CategoriesController@new');
-                Route::post('products/new', 'ProductsController@new');
+                Route::post('categories/new', 'CategoriesController@store');
+                Route::post('products/new', 'ProductsController@store');
+                Route::post('products/{id}', 'ProductsController@edit');
             });
         });
     }

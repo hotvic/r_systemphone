@@ -21,7 +21,7 @@ class ProductsController extends Controller
         return view('shop.admin.products.new');
     }
 
-    public function new(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'slug' => 'required|unique:categories,slug',
@@ -42,5 +42,15 @@ class ProductsController extends Controller
         $request->session()->flash('success', true);
 
         return redirect()->route('shop.admin.products.list');
+    }
+
+    public function showEditForm($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) abort(404);
+
+        return view('shop.admin.products.edit')
+            ->with('product', $product);
     }
 }

@@ -21,7 +21,7 @@ class CategoriesController extends Controller
         return view('shop.admin.categories.new');
     }
 
-    public function new(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'slug' => 'required|unique:categories,slug',
