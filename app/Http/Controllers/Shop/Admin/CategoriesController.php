@@ -10,7 +10,7 @@ use App\Shop\Category;
 
 class CategoriesController extends Controller
 {
-    public function list()
+    public function showListPage()
     {
         return view('shop.admin.categories.list')
             ->with('categories', Category::all());

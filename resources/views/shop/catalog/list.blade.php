@@ -11,15 +11,14 @@
                             <li class="span3">
                                 <a class="prdocutname" href="{{ route('shop.product', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                                 <div class="thumbnail">
-                                    <a href="#"><img alt="" src="img/product2a.jpg"></a>
+                                    <a href="#"><img alt="{{ $product->name }}" src="{{ $product->photo }}"></a>
                                     <div class="shortlinks">
-                                        <button data-original-title="Cart" class="btn btn-orange tooltip-test"><i class="icon-shopping-cart icon-white"></i></button>
+                                        <button data-original-title="Carrinho" class="btn btn-orange tooltip-test"><i class="icon-shopping-cart icon-white"></i></button>
                                         {{-- <button data-original-title="Wishlist" class="btn btn-orange btn-small tooltip-test"><i class="icon-heart icon-white"></i></button>
                                         <button data-original-title="Compare" class="btn btn-orange btn-small tooltip-test"><i class="icon-refresh icon-white"></i></button> --}}
                                     </div>
                                     <div class="price">
-                                        <div class="pricenew">$4459.00</div>
-                                        <div class="priceold">$5000.00</div>
+                                        <div class="pricenew">{{ format_money($product->price) }}</div>
                                         <div class="ratingstar">
                                             <i class="icon-star orange"></i>
                                             <i class="icon-star orange"></i>

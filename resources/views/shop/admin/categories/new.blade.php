@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form role="form" enctype="multipart/form-data" method="post" action="{{ route('shop.admin.categories.new') }}">
+                        <form role="form" method="post" action="{{ route('shop.admin.categories.new') }}">
                             {!! csrf_field() !!}
 
                             <div class="form-group{{ $errors->has('slug') ? ' has-error' : '' }}">

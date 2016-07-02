@@ -16,8 +16,9 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('name');
+            $table->string('description');
             $table->double('price');
-            $table->integer('in_stock')->unsigned();
+            $table->integer('in_stock');
             $table->timestamps();
         });
     }

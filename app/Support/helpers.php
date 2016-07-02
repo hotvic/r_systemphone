@@ -7,7 +7,7 @@ function psp($search)
 
 function format_money($value)
 {
-    return sprintf('$ %s', number_format($value, 2, '.', ''));
+    return sprintf('R$ %s', number_format($value, 2, '.', ''));
 }
 
 function pictures_path($trail=null)

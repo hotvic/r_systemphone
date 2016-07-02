@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
-    public function list($category=null)
+    public function showListPage($category=null)
     {
         $products = null;
 

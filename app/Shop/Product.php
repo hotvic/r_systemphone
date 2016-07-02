@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'slug', 'name', 'description', 'price', 'in_stock'
+    ];
+
     protected $appends = ['photo'];
 
     public function categories()
@@ -15,7 +24,7 @@ class Product extends Model
 
     public function photos()
     {
-        return $this->hasMany('App\Shop\ProductPhotos');
+        return $this->hasMany('App\Shop\ProductPhoto');
     }
 
     public function getPhotoAttribute()
