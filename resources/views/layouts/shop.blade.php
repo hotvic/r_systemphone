@@ -123,7 +123,7 @@
             <nav class="subnav">
                 <ul class="nav-pills categorymenu container">
                     <li>
-                        <a class="active home" href="index-2.html">
+                        <a class="active home" href="{{ url('/') }}">
                             <i class="icon-home icon-white font18"></i>
                             <span>Home</span>
                         </a>

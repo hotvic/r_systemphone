@@ -21,6 +21,7 @@
                                     <th>Preço</th>
                                     <th>Em Estoque</th>
                                     <th>Data Criação</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,6 +33,9 @@
                                     <td>{{ format_money($product->price) }}</td>
                                     <td>{{ $product->in_stock }}</td>
                                     <td>{{ $product->created_at }}</td>
+                                    <td>
+                                        <a href="{{ route('shop.admin.products.edit', ['id' => $product->id]) }}">Editar</a>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

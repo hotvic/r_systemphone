@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Shop\Product;
+use App\Shop\ProductPhoto;
 
 class ProductsController extends Controller
 {
@@ -52,5 +53,25 @@ class ProductsController extends Controller
 
         return view('shop.admin.products.edit')
             ->with('product', $product);
+    }
+
+    public function storePhoto(Request $request)
+    {
+        $this->validate($request, [
+            'product_id' => 'required|exists:products,id',
+            'photo' => 'required|image',
+        ]);
+
+        $product = Product::find($request->input('product_id'));
+
+        \Storage::makeDirectory('product-photos/' . $product->slug);
+
+        $new_receipt = $request->file('photo')->move(ProductPhoto::getStorageDir($product), sprintf("%d.%s", time(), $request->file('photo')->getClientOriginalExtension()));
+
+        $product->photos()->create([
+            'path' => sprintf("%s/%s", $product->slug, $new_receipt->getBasename()),
+        ]);
+
+        return response()->json(['success' => true, 'photos' => $product->photos()->get()]);
     }
 }

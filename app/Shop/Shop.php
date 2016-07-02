@@ -15,6 +15,8 @@ class Shop
         Route::group(['domain' => $domain, 'namespace' => 'Shop'], function () {
             Route::get('/', 'ProductsController@showListPage');
 
+            Route::get('pictures/{type}/{id}', 'PicturesController@show')->name('shop.picture');
+
             Route::get('/product/{slug}', 'ProductsController@show')->name('shop.product');
             Route::get('/catalog/{category?}', 'ProductsController@showListPage')->name('shop.catalog');
 
@@ -30,6 +32,7 @@ class Shop
                 Route::post('categories/new', 'CategoriesController@store');
                 Route::post('products/new', 'ProductsController@store');
                 Route::post('products/{id}', 'ProductsController@edit');
+                Route::post('products/{id}/new-photo', 'ProductsController@storePhoto')->name('shop.admin.products.new-photo');;
             });
         });
     }
