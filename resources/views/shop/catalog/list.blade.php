@@ -11,7 +11,11 @@
                             <li class="span3">
                                 <a class="prdocutname" href="{{ route('shop.product', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                                 <div class="thumbnail">
-                                    <a href="#"><img alt="{{ $product->name }}" src="{{ $product->photo->url }}"></a>
+                                    <a href="#" style="min-height: 200px;">
+                                    @if ($product->photo)
+                                        <img alt="{{ $product->name }}" src="{{ $product->photo->url }}">
+                                    @endif
+                                    </a>
                                     <div class="shortlinks">
                                         <button data-original-title="Carrinho" class="btn btn-orange tooltip-test"><i class="icon-shopping-cart icon-white"></i></button>
                                         {{-- <button data-original-title="Wishlist" class="btn btn-orange btn-small tooltip-test"><i class="icon-heart icon-white"></i></button>
