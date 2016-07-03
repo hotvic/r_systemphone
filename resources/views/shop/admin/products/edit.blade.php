@@ -12,6 +12,10 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert"><strong>Sucesso!</strong>&nbsp;Produto Salvo com Sucesso!</div>
+                    @endif
+
                         <form role="form" method="post" action="{{ route('shop.admin.products.edit', ['id' => $product->id]) }}">
                             {!! csrf_field() !!}
 
@@ -56,17 +60,29 @@
                             @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                                <label for="description">Descrição</label>
-                                <textarea class="form-control" id="description" name="description" placeholder="Descrição do Produto" rows="10">{{ $product->description }}</textarea>
-                            @if ($errors->has('description'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('description') }}</strong>
-                                </span>
-                            @endif
+                            <div class="col-md-9">
+                                <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                                    <label for="description">Descrição</label>
+                                    <textarea class="form-control" id="description" name="description" placeholder="Descrição do Produto" rows="10">{{ $product->description }}</textarea>
+                                @if ($errors->has('description'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="categories">Categorias</label>
+                                    <select class="form-control" id="categories" name="categories[]" multiple="multiple">
+                                    @foreach ($categories as $cat)
+                                        <option value="{{ $cat->id }}"{{ $product->categories->contains('id', $cat->id) ? ' selected=selected' : '' }}>{{ $cat->title }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
                             </div>
 
-                            <div style="display: flex; justify-content: space-between;">
+                            <div class="col-md-12" style="display: flex; justify-content: space-between;">
                                 <button type="submit" class="btn btn-purple waves-effect waves-light">Salvar Produto</button>
                                 <a class="btn btn-purple waves-effect waves-light" id="addPhotos" data-toggle="modal" data-target="#photosModal">Adicionar Fotos</a>
                             </div>

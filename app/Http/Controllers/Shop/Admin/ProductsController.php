@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Shop\Category;
 use App\Shop\Product;
 use App\Shop\ProductPhoto;
 
@@ -52,7 +53,26 @@ class ProductsController extends Controller
         if (!$product) abort(404);
 
         return view('shop.admin.products.edit')
-            ->with('product', $product);
+            ->with('product', $product)
+            ->with('categories', Category::all());
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $this->validate($request, [
+            'categories' => 'array'
+        ]);
+
+        ($product = Product::find($id)) or abort(404);
+
+        if ($request->has('categories'))
+            $product->categories()->sync($request->input('categories'));
+
+        $product->save();
+
+        $request->session()->flash('success', true);
+
+        return redirect()->route('shop.admin.products.edit', ['id' => $product->id]);
     }
 
     public function storePhoto(Request $request)
