@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->hasMany('\App\Excerpt');
     }
 
+    public function carts()
+    {
+        return $this->hasMany('App\Shop\Cart');
+    }
+
     public function referrer()
     {
         return self::where('username', $this->referred_by)->first();

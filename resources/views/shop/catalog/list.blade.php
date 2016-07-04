@@ -16,11 +16,6 @@
                                         <img alt="{{ $product->name }}" src="{{ $product->photo->url }}">
                                     @endif
                                     </a>
-                                    <div class="shortlinks">
-                                        <button data-original-title="Carrinho" class="btn btn-orange tooltip-test"><i class="icon-shopping-cart icon-white"></i></button>
-                                        {{-- <button data-original-title="Wishlist" class="btn btn-orange btn-small tooltip-test"><i class="icon-heart icon-white"></i></button>
-                                        <button data-original-title="Compare" class="btn btn-orange btn-small tooltip-test"><i class="icon-refresh icon-white"></i></button> --}}
-                                    </div>
                                     <div class="price">
                                         <div class="pricenew">{{ format_money($product->price) }}</div>
                                         <div class="ratingstar">
@@ -31,7 +26,7 @@
                                             <i class="icon-star orange"></i>
                                         </div>
                                     </div>
-                                    <a class="btn btn-orange btn-small addtocartbutton">Add ao Carrinho</a>
+                                    <a class="btn btn-orange btn-small addtocartbutton" onclick="Cart.add({{ $product->id }}); return false;">Add ao Carrinho</a>
                                 </div>
                             </li>
                         @endforeach

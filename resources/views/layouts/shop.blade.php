@@ -68,44 +68,22 @@
                 <div class="pull-right">
                     <ul class="nav topcart pull-left">
                         <li class="dropdown hover carticon">
-                            <a href="#" class="dropdown-toggle"><i class="icon-shopping-cart font18"></i>&nbsp;Carrinho de Compras&nbsp;<span class="label label-orange font14">1 item(s)</span> - $589.50 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle"><i class="icon-shopping-cart font18"></i>&nbsp;Carrinho de Compras&nbsp;<span class="label label-orange font14" id="cart-item-count">vazio</span> - <strong id="cart-price">R$0.00</strong> <b class="caret"></b></a>
                             <ul class="dropdown-menu topcartopen">
                                 <li>
                                     <table>
-                                        <tbody>
-                                            <tr>
-                                                <td class="image"><a href="product.html"><img width="50" height="50" src="img/prodcut-40x40.jpg" alt="product" title="product"></a></td>
-                                                <td class="name"><a href="product.html">MacBook</a></td>
-                                                <td class="quantity">x&nbsp;1</td>
-                                                <td class="total">$589.50</td>
-                                                <td class="remove"><i class="icon-remove"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="image"><a href="product.html"><img width="50" height="50" src="img/prodcut-40x40.jpg" alt="product" title="product"></a></td>
-                                                <td class="name"><a href="product.html">MacBook</a></td>
-                                                <td class="quantity">x&nbsp;1</td>
-                                                <td class="total">$589.50</td>
-                                                <td class="remove"><i class="icon-remove "></i></td>
-                                            </tr>
+                                        <tbody id="cart-items">
                                         </tbody>
                                     </table>
                                     <table>
                                         <tbody>
                                             <tr>
                                                 <td class="textright"><b>Sub-Total:</b></td>
-                                                <td class="textright">$500.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="textright"><b>Eco Tax (-2.00):</b></td>
-                                                <td class="textright">$2.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="textright"><b>VAT (17.5%):</b></td>
-                                                <td class="textright">$87.50</td>
+                                                <td class="textright" id="cart-subtotal">R$0.00</td>
                                             </tr>
                                             <tr>
                                                 <td class="textright"><b>Total:</b></td>
-                                                <td class="textright">$589.50</td>
+                                                <td class="textright" id="cart-total">R$0.00</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -221,5 +199,103 @@
     <script src="{{ url('shop/js/jquery.gmap.js') }}" type="text/javascript"></script>
     <script src="{{ url('shop/js/jquery.countdown.js') }}" type="text/javascript"></script>
     <script src="{{ url('shop/js/custom.js') }}" type="text/javascript" defer></script>
+    <script type="text/javascript">
+        window.Auth = {};
+
+        window.Auth.logged = {{ Auth::check() ? 'true' : 'false' }};
+        window.Auth.user = {!! Auth::user()->toJson() !!};
+
+        window.Cart = $.extend({}, {
+            itemsCount: 0,
+            items: {},
+            update: function () {
+                if (!Auth.logged) return;
+
+                $.ajax({
+                    url: '{{ route("shop.api.cart.get") }}',
+                    type: 'POST',
+                    data: {
+                        user_id: Auth.user.id,
+                    },
+                    success: function(data) {
+                        Cart.itemsCount = Object.keys(data).length;
+                        Cart.items = data;
+
+                        $(document).trigger('shop.cart.updated');
+                    }
+                });
+            },
+            add: function (product_id) {
+                if (!Auth.logged) return;
+
+                $.ajax({
+                    url: '{{ route("shop.api.cart.append") }}',
+                    type: 'POST',
+                    data: {
+                        user_id: Auth.user.id,
+                        product_id: product_id,
+                    },
+                    success: function(data) {
+                        if (data.success)
+                            alert("Item adicionado ao carrinho com sucesso!");
+
+                        Cart.update();
+                    }
+                });
+            },
+        });
+
+        $(document).on('shop.cart.updated', function () {
+            if (Cart.itemsCount == 0)
+                $('#cart-item-count').text("vazio");
+            else
+            {
+                if (Cart.itemsCount > 1)
+                    $('#cart-item-count').text(Cart.itemsCount.toString() + ' itens');
+                else
+                    $('#cart-item-count').text(Cart.itemsCount.toString() + ' item');
+            }
+
+            if (Cart.itemsCount > 0)
+            {
+                var totalPrice = 0;
+
+                $('#cart-items').empty();
+
+                for (var item in Cart.items)
+                {
+                    var item = Cart.items[item];
+
+                    $tdImage = $('<td/>').addClass('image').append(
+                        $('<a/>').attr('href', item.url).append(
+                            $('<img/>').attr('width', 50).attr('height', 50).attr('src', '{{ url("shop/img/prodcut-40x40.jpg") }}').attr('alt', 'product')
+                        )
+                    );
+                    $tdName = $('<td/>').addClass('name').append(
+                        $('<a/>').attr('href', item.url).text(item.name)
+                    );
+                    $tdQuantity = $('<td/>').addClass('quantity').html('x&nbsp;' + item.amount);
+                    $tdTotal = $('<td/>').addClass('total').text('R$' + (parseFloat(item.price) * item.amount).toFixed(2));
+                    $tdRemove = $('<td/>').addClass('remove').html('<i class="icon-remove"></i>');
+
+                    $tr = jQuery('<tr/>');
+                    $tr.append($tdImage).append($tdName).append($tdQuantity).append($tdTotal).append($tdRemove);
+
+                    $('#cart-items').append($tr);
+
+                    totalPrice += parseFloat(item.price) * item.amount;
+                }
+
+                $('#cart-price').text('R$' + totalPrice.toFixed(2));
+                $('#cart-subtotal').text('R$' + totalPrice.toFixed(2));
+                $('#cart-total').text('R$' + totalPrice.toFixed(2));
+            }
+        });
+
+        if (Auth.logged)
+        {
+            Cart.update();
+        }
+    </script>
 </body>
 </html>

@@ -20,6 +20,16 @@ class Shop
             Route::get('/product/{slug}', 'ProductsController@show')->name('shop.product');
             Route::get('/catalog/{category?}', 'ProductsController@showListPage')->name('shop.catalog');
 
+            Route::group(['prefix' => 'api', 'middleware' => 'api'], function () {
+                Route::group(['prefix' => 'cart'], function () {
+                    Route::post('get', 'CartController@get')->name('shop.api.cart.get');
+                    Route::post('append', 'CartController@append')->name('shop.api.cart.append');
+                    Route::post('set', 'CartController@set')->name('shop.api.cart.set');
+                    Route::post('remove', 'CartController@remove')->name('shop.api.cart.remove');
+                    Route::post('remove-item', 'CartController@removeItem')->name('shop.api.cart.remove-item');
+                });
+            });
+
             Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function () {
                 Route::get('/', 'HomeController@index');
 
