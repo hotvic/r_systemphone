@@ -56,17 +56,19 @@
         </div>
         <div class="container">
             <div class="headerdetails">
-                <a class="logo pull-left" href="{{ url('/') }}">
+                <a class="logo" href="{{ url('/') }}">
                     <img title="Loja SystemPhone" alt="Loja SystemPhone" src="{{ url('shop/img/logo.png') }}">
                 </a>
-                <div class="pull-left">
+                <div>
                     <form class="form-search top-search">
-                        <input type="text" class="input-medium search-query" placeholder="Pesquisar…">
-                        <button class="btn btn-orange btn-small tooltip-test" data-original-title="Pesquisar"> <i class="icon-search icon-white"></i> </button>
+                        <div class="input-append">
+                            <input type="text" class="input-medium search-query" placeholder="Pesquisar…">
+                            <button class="btn btn-orange btn-small tooltip-test" data-original-title="Pesquisar"> <i class="icon-search icon-white"></i>&nbsp;</button>
+                        </div>
                     </form>
                 </div>
-                <div class="pull-right">
-                    <ul class="nav topcart pull-left">
+                <div>
+                    <ul class="nav top-cart">
                         <li class="dropdown hover carticon">
                             <a href="#" class="dropdown-toggle"><i class="icon-shopping-cart font18"></i>&nbsp;Carrinho de Compras&nbsp;<span class="label label-orange font14" id="cart-item-count">vazio</span> - <strong id="cart-price">R$0.00</strong> <b class="caret"></b></a>
                             <ul class="dropdown-menu topcartopen">
@@ -198,18 +200,37 @@
     <script src="{{ url('shop/js/jquery.touchSwipe.min.js') }}" type="text/javascript"></script>
     <script src="{{ url('shop/js/jquery.gmap.js') }}" type="text/javascript"></script>
     <script src="{{ url('shop/js/jquery.countdown.js') }}" type="text/javascript"></script>
+    <script src="{{ url('shop/js/jquery.inputmask.bundle.js') }}" type="text/javascript"></script>
     <script src="{{ url('shop/js/custom.js') }}" type="text/javascript" defer></script>
     <script type="text/javascript">
         window.Auth = {};
 
         window.Auth.logged = {{ Auth::check() ? 'true' : 'false' }};
-        window.Auth.user = {!! Auth::user()->toJson() !!};
+        window.Auth.user = {!! Auth::check() ? Auth::user()->toJson() : '{};' !!};
+
+        var Route = $.extend({}, {
+            paths: {
+                login: '/login',
+            },
+            goTo: function (path) {
+                location.href = path;
+            },
+            goToLogin: function (back=false) {
+                if (back) {
+                    this.goTo(this.paths.login + '?redirectPath=' + encodeURIComponent(location.pathname));
+
+                    return;
+                }
+
+                this.goTo(this.paths.login);
+            },
+        });
 
         window.Cart = $.extend({}, {
             itemsCount: 0,
             items: {},
             update: function () {
-                if (!Auth.logged) return;
+                if (!Auth.logged) Route.goToLogin(true);
 
                 $.ajax({
                     url: '{{ route("shop.api.cart.get") }}',
@@ -226,7 +247,7 @@
                 });
             },
             add: function (product_id) {
-                if (!Auth.logged) return;
+                if (!Auth.logged) Route.goToLogin(true);
 
                 $.ajax({
                     url: '{{ route("shop.api.cart.append") }}',
@@ -238,6 +259,61 @@
                     success: function(data) {
                         if (data.success)
                             alert("Item adicionado ao carrinho com sucesso!");
+
+                        Cart.update();
+                    }
+                });
+            },
+            set: function (product_id, amount) {
+                if (!Auth.logged) Route.goToLogin(true);
+
+                $.ajax({
+                    url: '{{ route("shop.api.cart.set") }}',
+                    type: 'POST',
+                    data: {
+                        user_id: Auth.user.id,
+                        product_id: product_id,
+                        amount: amount,
+                    },
+                    success: function(data) {
+                        if (data.success)
+                            alert("Item atualizado com sucesso!");
+
+                        Cart.update();
+                    }
+                });
+            },
+            remove: function (product_id) {
+                if (!Auth.logged) Route.goToLogin(true);
+
+                $.ajax({
+                    url: '{{ route("shop.api.cart.remove") }}',
+                    type: 'POST',
+                    data: {
+                        user_id: Auth.user.id,
+                        product_id: product_id,
+                    },
+                    success: function(data) {
+                        if (data.success)
+                            alert("Item removido do carrinho com sucesso!");
+
+                        Cart.update();
+                    }
+                });
+            },
+            removeProduct: function (product_id) {
+                if (!Auth.logged) Route.goToLogin(true);
+
+                $.ajax({
+                    url: '{{ route("shop.api.cart.remove-product") }}',
+                    type: 'POST',
+                    data: {
+                        user_id: Auth.user.id,
+                        product_id: product_id,
+                    },
+                    success: function(data) {
+                        if (data.success)
+                            alert("Item removido do carrinho com sucesso!");
 
                         Cart.update();
                     }
@@ -260,11 +336,19 @@
             {
                 var totalPrice = 0;
 
+                var createRemoveFunc = function (item_id) {
+                    return function (e) {
+                        e.preventDefault();
+
+                        Cart.remove(item_id);
+                    }
+                }
+
                 $('#cart-items').empty();
 
-                for (var item in Cart.items)
+                for (var key in Cart.items)
                 {
-                    var item = Cart.items[item];
+                    var item = Cart.items[key];
 
                     $tdImage = $('<td/>').addClass('image').append(
                         $('<a/>').attr('href', item.url).append(
@@ -276,7 +360,10 @@
                     );
                     $tdQuantity = $('<td/>').addClass('quantity').html('x&nbsp;' + item.amount);
                     $tdTotal = $('<td/>').addClass('total').text('R$' + (parseFloat(item.price) * item.amount).toFixed(2));
-                    $tdRemove = $('<td/>').addClass('remove').html('<i class="icon-remove"></i>');
+                    $tdRemove = $('<td/>').addClass('remove').append(
+                        $('<a/>').attr('href', '#').html('<i class="icon-remove"></i>')
+                            .on('click', createRemoveFunc(item.id))
+                    );
 
                     $tr = jQuery('<tr/>');
                     $tr.append($tdImage).append($tdName).append($tdQuantity).append($tdTotal).append($tdRemove);
@@ -296,6 +383,10 @@
         {
             Cart.update();
         }
+
+        // Initialize Inputmask
+        $(":input").inputmask();
     </script>
+    @yield('shop_scripts')
 </body>
 </html>

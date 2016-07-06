@@ -66,9 +66,19 @@ class User extends Authenticatable
         return $this->hasMany('\App\Excerpt');
     }
 
+    public function addresses()
+    {
+        return $this->hasMany('App\Shop\Address');
+    }
+
     public function carts()
     {
         return $this->hasMany('App\Shop\Cart');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Shop\Order');
     }
 
     public function referrer()
