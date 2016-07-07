@@ -13,6 +13,11 @@ use App\User;
 
 class CartController extends Controller
 {
+    public function showCartPage()
+    {
+        return view('shop.cart.cart');
+    }
+
     public function showCheckoutForm()
     {
         return view('shop.checkout.checkout');
