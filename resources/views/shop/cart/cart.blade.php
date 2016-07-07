@@ -18,17 +18,6 @@
                     </tr>
                 </thead>
                 <tbody id="page-cart-items">
-                    <tr>
-                        <td class="image"><a href="#"><img title="product" alt="product" src="img/prodcut-40x40.jpg" height="50" width="50"></a></td>
-                        <td  class="name"><a href="#">Jeans</a></td>
-                        <td class="quantity"><input type="text" size="1" value="1" name="quantity[40]" class="span1">
-                        </td>
-                        <td class="total"> <a href="#" class="mr10"> <i class="tooltip-test font24 icon-refresh " data-original-title="Update"> </i> </a> 
-                            <a href="#"><i class="tooltip-test font24 icon-remove-circle" data-original-title="Remove"> </i></a>
-                        </td>
-                        <td class="price">$120.68</td>
-                        <td class="total">$120.68</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
