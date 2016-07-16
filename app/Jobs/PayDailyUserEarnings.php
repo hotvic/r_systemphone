@@ -34,19 +34,16 @@ class PayDailyUserEarnings extends Job implements ShouldQueue
 
         foreach ($users as $key => $user)
         {
-            if ($user->num_quotas == 0)
+            if ($user->num_quotas > 0)
             {
-                $users->forget($key);
-                continue;
+                $amount = $user->num_quotas * $this->quotaValue;
+
+                $user->earnings()->create([
+                    'type' => 'quotavalue',
+                    'amount' => $amount,
+                    'description' => sprintf('Ganho Por Cota (%s); Cotas: %d', format_money($this->quotaValue), $user->num_quotas),
+                ]);
             }
-
-            $amount = $user->num_quotas * $this->quotaValue;
-
-            $user->earnings()->create([
-                'type' => 'quotavalue',
-                'amount' => $amount,
-                'description' => sprintf('Ganho Por Cota (%s); Cotas: %d', format_money($this->quotaValue), $user->num_quotas),
-            ]);
 
             $users->forget($key);
         }
