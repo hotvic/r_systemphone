@@ -164,7 +164,7 @@
                         <div class="col-md-6">
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password">Senha</label>
-                                <input type="password" name="password" class="form-control">
+                                <input type="password" name="password" id="password" class="form-control">
                             @if ($errors->has('password'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('password') }}</strong>

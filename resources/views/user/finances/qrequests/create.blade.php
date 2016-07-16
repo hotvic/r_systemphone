@@ -21,11 +21,11 @@
                     </div>
                     <div id="collapseBitCoin" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBitCoin">
                         <ul class="list-group">
-                            <li class="list-group-item"><strong>Carteira:</strong> 1BMahmLfxsdEakUDxqiPb7TLM6jchhKF5E</li>
+                            <li class="list-group-item"><strong>Carteira:</strong>&nbsp;3L3rdkT9dc4gRV6KPUhL6bYa1drUDXHx8W</li>
                         </ul>
                     </div>
                 </div>
-                <div class="panel">
+                {{-- <div class="panel">
                     <div class="panel-heading" role="tab" id="headingNeteller">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapseNeteller" aria-expanded="true" aria-controls="collapseNeteller">Neteller</a>
@@ -37,7 +37,7 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="panel">
+                <div class="panel">
                     <div class="panel-heading" role="tab" id="headingPayza">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapsePayza" aria-expanded="true" aria-controls="collapsePayza">Payza</a>
@@ -48,7 +48,7 @@
                             <li class="list-group-item"><strong>E-Mail:</strong> hamiltoncjunior72@gmail.com</li>
                         </ul>
                     </div>
-                </div> --}}
+                </div>
                 <div class="panel">
                     <div class="panel-heading" role="tab" id="headingOkPay">
                         <span class="panel-title">
@@ -72,7 +72,7 @@
                             <li class="list-group-item"><strong>Conta:</strong> P36538811</li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="panel">
                     <div class="panel-heading" role="tab" id="headingBradesco">
                         <span class="panel-title">
@@ -81,10 +81,10 @@
                     </div>
                     <div id="collapseBradesco" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBradesco">
                         <ul class="list-group">
-                            <li class="list-group-item"><strong>Agência:</strong> 0356-5</li>
-                            <li class="list-group-item"><strong>Conta:</strong> 1004165-1</li>
-                            <li class="list-group-item"><strong>Tipo de Conta:</strong> Poupança</li>
-                            <li class="list-group-item"><strong>Titular:</strong> Sandro Gilberto Brinker</li>
+                            <li class="list-group-item"><strong>Agência:</strong>&nbsp;0356-5</li>
+                            <li class="list-group-item"><strong>Conta:</strong>&nbsp;0118299-4</li>
+                            <li class="list-group-item"><strong>Tipo de Conta:</strong>&nbsp;Corrente</li>
+                            <li class="list-group-item"><strong>Titular:</strong>&nbsp;Camila Cristina Flores</li>
                         </ul>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
         </div>
         <div class="col-md-6">
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel">
+                {{-- <div class="panel">
                     <div class="panel-heading" role="tab" id="headingBB">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseBB" aria-expanded="true" aria-controls="collapseBB">Banco do Brasil</a>
@@ -106,7 +106,7 @@
                             <li class="list-group-item"><strong>Titular:</strong> Sandro Gilberto Brinker</li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="panel">
                     <div class="panel-heading" role="tab" id="headingCaixa">
                         <span class="panel-title">
@@ -115,14 +115,14 @@
                     </div>
                     <div id="collapseCaixa" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingCaixa">
                         <ul class="list-group">
-                            <li class="list-group-item"><strong>Agência:</strong> 3077</li>
-                            <li class="list-group-item"><strong>Conta:</strong> 00014215-8</li>
-                            <li class="list-group-item"><strong>Tipo de Conta:</strong> 013 - Poupança</li>
-                            <li class="list-group-item"><strong>Titular:</strong> Sandro Gilberto Brinker</li>
+                            <li class="list-group-item"><strong>Agência:</strong>&nbsp;0417</li>
+                            <li class="list-group-item"><strong>Conta:</strong>&nbsp;139011-1</li>
+                            <li class="list-group-item"><strong>Tipo de Conta:</strong>&nbsp;013 - Poupança</li>
+                            <li class="list-group-item"><strong>Titular:</strong>&nbsp;Hamilton Cardoso Júnior</li>
                         </ul>
                     </div>
                 </div>
-                <div class="panel">
+                {{-- <div class="panel">
                     <div class="panel-heading" role="tab" id="headingSkyrill">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSkyrill" aria-expanded="true" aria-controls="collapseSkyrill">Skyrill</a>
@@ -157,7 +157,7 @@
                             <li class="list-group-item"><strong>Conta:</strong> 896342junior</li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
