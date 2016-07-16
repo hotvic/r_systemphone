@@ -36,7 +36,7 @@
                                     <div class="control-group">
                                         <label class="control-label">CEP<span class="red">*</span></label>
                                         <div class="controls">
-                                            <input type="text" name="postal_code" value="{{ old('postal_code') }}" data-inputmask="'mask': '99999-999'" required>
+                                            <input type="text" name="postal_code" value="{{ old('postal_code') }}" required>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -240,7 +240,7 @@
         else
             $address2.closest('.control-group').removeClass('error');
 
-        if ($postal_code.val().length != 9 || !$postal_code.val().match(/[0-9]{5}-[0-9]{3}/))
+        if ($postal_code.val().length < 5)
         {
             $postal_code.closest('.control-group').addClass('error');
             $postal_code.goTo();

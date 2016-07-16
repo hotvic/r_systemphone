@@ -36,7 +36,7 @@ class ProductsController extends Controller
 
         if (!$product) abort(404);
 
-        return view('shop.product.detail')
+        return view('shop.catalog.product')
             ->with('product', $product);
     }
 }
