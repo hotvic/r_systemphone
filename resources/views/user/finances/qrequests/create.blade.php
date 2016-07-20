@@ -25,7 +25,7 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="panel">
+                <div class="panel">
                     <div class="panel-heading" role="tab" id="headingNeteller">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapseNeteller" aria-expanded="true" aria-controls="collapseNeteller">Neteller</a>
@@ -37,7 +37,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel">
+                {{-- <div class="panel">
                     <div class="panel-heading" role="tab" id="headingPayza">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#account-group-1" href="#collapsePayza" aria-expanded="true" aria-controls="collapsePayza">Payza</a>
@@ -60,7 +60,7 @@
                             <li class="list-group-item"><strong>E-Mail:</strong> hamiltoncjunior72@gmail.com</li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="panel">
                     <div class="panel-heading" role="tab" id="headingPayer">
                         <span class="panel-title">
@@ -72,7 +72,7 @@
                             <li class="list-group-item"><strong>Conta:</strong> P36538811</li>
                         </ul>
                     </div>
-                </div> --}}
+                </div>
                 <div class="panel">
                     <div class="panel-heading" role="tab" id="headingBradesco">
                         <span class="panel-title">
@@ -122,7 +122,7 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="panel">
+                <div class="panel">
                     <div class="panel-heading" role="tab" id="headingSkyrill">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSkyrill" aria-expanded="true" aria-controls="collapseSkyrill">Skyrill</a>
@@ -134,7 +134,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel">
+                {{-- <div class="panel">
                     <div class="panel-heading" role="tab" id="heading24Dollar">
                         <span class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse24Dollar" aria-expanded="true" aria-controls="collapse24Dollar">2Pay4You (Dollar)</a>
