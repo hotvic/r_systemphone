@@ -14,6 +14,17 @@
 
 @section('content')
     <div class="row">
+        <div class="alert alert-warning">
+            <strong>OBS:</strong>
+            <p>
+                Para receber o seu pagamento é necessário que você nos envie uma foto do seu DOCUMENTO DE INDENTIFICAÇÃO PESSOAL e também do COMPROVANTE DE MORADIA, favor nos enviar no E-Mail de suporte abaixo!
+            </p>
+            <div style="display: flex; justify-content: center;">
+                <a href="malito:contato@systemphonne.com" style="color: white;">contato@systemphonne.com</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="panel">
             <div class="panel-heading">
                 <span class="panel-icon glyphicon glyphicon-plus"></span>
