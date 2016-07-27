@@ -30,12 +30,10 @@ class WithdrawalRequestsController extends Controller
     public function create()
     {
         $description = sprintf('Saque %s; + Taxa 10%%', \Auth::user()->withdrawals->count() + 1);
-        $balance = \Auth::user()->earnings()->sum('amount') - \Auth::user()->withdrawals()->sum('amount');
 
         return view('user.finances.wrequests.create')
             ->with('user', \Auth::user())
-            ->with('description', $description)
-            ->with('balance', $balance);
+            ->with('description', $description);
     }
 
     /**

@@ -31,7 +31,7 @@
                 <span class="panel-title">Novo Saque</span>
 
                 <span class="pull-right">
-                    Saldo disponível: {{ format_money($balance) }} | Sacável: {{ format_money(($balance * 10) / 11) }}
+                    Saldo disponível: {{ format_money($user->balance) }} | Sacável: {{ format_money(($user->balance * 10) / 11) }}
                 </span>
             </div>
             <div class="panel-body">
